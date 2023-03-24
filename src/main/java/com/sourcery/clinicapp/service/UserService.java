@@ -16,15 +16,13 @@ public class UserService {
     private final UserRepository userRepository;
 
     public void addPatient(User user){
-        User user1 = user.toBuilder().id(UUID.randomUUID()).build();
-        User user2 = user1.toBuilder().type("patient").build();
-        userRepository.InsertUsers(user2);
+        User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
+        userRepository.InsertUsers(newUser);
     }
 
     public void addPhysician(User user){
-        User user1 = user.toBuilder().id(UUID.randomUUID()).build();
-        User user2 = user1.toBuilder().type("physician").build();
-        userRepository.InsertUsers(user2);
+        User newUser = user.toBuilder().id(UUID.randomUUID()).type("physician").build();
+        userRepository.InsertUsers(newUser);
     }
 
     public List<User> getPatients(){
@@ -35,7 +33,9 @@ public class UserService {
         return userRepository.getPhysicians();
     }
 
-
+    public void removeUser(UUID uuid){
+        userRepository.deleteUser(uuid);
+    }
 
 
 }

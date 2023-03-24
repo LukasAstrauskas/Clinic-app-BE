@@ -1,12 +1,10 @@
 package com.sourcery.clinicapp.repository;
 
 import com.sourcery.clinicapp.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Mapper
@@ -21,5 +19,10 @@ public interface UserRepository {
 
     @Select("SELECT * FROM users WHERE type='physician'")
     List<User> getPhysicians();
+
+
+    @Delete("DELETE FROM users WHERE id=#{uuid}")
+    public void deleteUser(@Param("uuid")UUID uuid);
+
 
 }

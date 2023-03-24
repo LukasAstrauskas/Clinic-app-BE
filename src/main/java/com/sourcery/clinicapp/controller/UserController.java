@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
@@ -36,6 +37,12 @@ public class UserController {
     public void addPhysicians(@RequestBody User user)
     {
         userService.addPhysician(user);
+    }
+
+    @DeleteMapping(path = "{uuid}")
+    public void remoteUser(@PathVariable("uuid")UUID uuid)
+    {
+        userService.removeUser(uuid);
     }
 
 
