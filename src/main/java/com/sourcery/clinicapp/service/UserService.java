@@ -1,7 +1,11 @@
 package com.sourcery.clinicapp.service;
 
 
+import com.sourcery.clinicapp.dto.PhysicianDto;
+import com.sourcery.clinicapp.model.AdditionalPhysicianInfo;
+import com.sourcery.clinicapp.model.Physician;
 import com.sourcery.clinicapp.model.User;
+import com.sourcery.clinicapp.repository.AdditonalPhysicianInfoRepository;
 import com.sourcery.clinicapp.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,15 +19,24 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+//    private final OccupationRepository occupationRepository;
+    private final AdditonalPhysicianInfoRepository additonalPhysicianInfoRepository;
+
     public void addPatient(User user){
         User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
-        userRepository.InsertUsers(newUser);
+        userRepository.insertUser(newUser);
     }
 
-    public void addPhysician(User user){
-        User newUser = user.toBuilder().id(UUID.randomUUID()).type("physician").build();
-        userRepository.InsertUsers(newUser);
-    }
+//    public void addPhysician(Physician user) {
+//
+//        User newUser = user.toBuilder().id(UUID.randomUUID()).type("physician").build();
+//        userRepository.insertUsers(newUser);
+//
+//        AdditionalPhysicianInfo info = AdditionalPhysicianInfo.builder()
+//                .occupationId(user.getOccupation().getId())
+//                .userId(user.getId()).build();
+//        additonalPhysicianInfoRepository.setPhysicianInfo()
+//    }
 
     public List<User> getPatients(){
         return userRepository.getPatients();
@@ -38,4 +51,30 @@ public class UserService {
     }
 
 
+    public void createPhysician(PhysicianDto physicianDto) {
+        User user = User.builder()
+                .id(UUID.randomUUID())
+                .name(physicianDto.getName())
+                .email(physicianDto.getEmail())
+                .password(physicianDto.getPassword())
+                .type("physician")
+                .build();
+        userRepository.insertUser(user);
+
+        AdditionalPhysicianInfo info = AdditionalPhysicianInfo.builder()
+                .userId(user.getId())
+                .occupationId(physicianDto.getOccupationId())
+                .build();
+        additonalPhysicianInfoRepository.insertInfo(info);
+
+//        return userRepository.getPhysician(user.getId()).orElseThrow();
+    }
+
+    public List<Physician>getAllPhysiciansWithAdditionalInfo(){
+        return userRepository.getAllPhysicians();
+    }
+
+    public Physician getPhysicianById(UUID id){
+        return userRepository.getPhysician(id).orElseThrow();
+    }
 }

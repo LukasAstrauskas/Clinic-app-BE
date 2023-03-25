@@ -1,21 +1,19 @@
-package com.sourcery.clinicapp.model;
-
+package com.sourcery.clinicapp.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@SuperBuilder(toBuilder = true)
-public class User {
-    private UUID id;
+@Builder
+public class PhysicianDto {
     private String name;
     private String email;
     private String password;
-    private String type;
+    private UUID occupationId;
 }
