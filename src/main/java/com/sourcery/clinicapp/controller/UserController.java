@@ -36,7 +36,7 @@ public class UserController {
         return userService.getPhysicians();
     }
 
-    @PostMapping(value = "patient")
+    @PostMapping(value = "patients")
     public void addPatients(@RequestBody User user)
     {
         userService.addPatient(user);
