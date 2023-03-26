@@ -1,6 +1,7 @@
 package com.sourcery.clinicapp.controller;
 
 import com.sourcery.clinicapp.dto.PhysicianDto;
+import com.sourcery.clinicapp.model.Login;
 import com.sourcery.clinicapp.model.Occupation;
 import com.sourcery.clinicapp.model.Physician;
 import com.sourcery.clinicapp.model.User;
@@ -36,10 +37,25 @@ public class UserController {
         return userService.getPhysicians();
     }
 
+    @GetMapping
+    public List<User> getAllUsers(){
+        return userService.getAllUsers();
+    }
+
+
+
+
+
+
     @PostMapping(value = "patients")
-    public void addPatients(@RequestBody User user)
+    public void createPatient(@RequestBody User user)
     {
-        userService.addPatient(user);
+        userService.createPatient(user);
+    }
+
+    @PostMapping("logIn")
+    public UUID checkLogIn(@RequestBody Login user){
+        return userService.CheckLog(user);
     }
 
 

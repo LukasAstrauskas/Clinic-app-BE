@@ -1,9 +1,11 @@
 package com.sourcery.clinicapp.repository;
 
+import com.sourcery.clinicapp.model.Login;
 import com.sourcery.clinicapp.model.Physician;
 import com.sourcery.clinicapp.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,13 +19,20 @@ public interface UserRepository {
     @Insert("INSERT INTO users (id, name, email, password, type) VALUES (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
     void insertUser(@Param("user") User user);
 
+    @Select("SELECT * FROM users")
+    List<User> getAllUser();
 
     @Select("SELECT * FROM users WHERE type='patient'")
     List<User> getPatients();
 
     @Select("SELECT * FROM users WHERE type='physician'")
     List<User> getPhysicians();
+//
+//    @Select("SELECT email, password, IF (email=#{user.email} AND password=#{user.password} , 'TRUE', 'FALSE ') FROM users")
+//    boolean CheckLogIn(@Param("user") Login users);
 
+    @Select("SELECT * FROM users WHERE email=#{user.email} AND password=#{user.password} ")
+    UUID CheckLogIn(@Param("user") Login user);
 
     @Delete("DELETE FROM users WHERE id=#{uuid}")
     void deleteUser(@Param("uuid")UUID uuid);
@@ -52,6 +61,8 @@ public interface UserRepository {
                 WHERE type='physician'
             """)
     List<Physician> getAllPhysicians();
+
+
 
 
 
