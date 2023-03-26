@@ -18,11 +18,17 @@ VALUES
     ('b21c6d7c-05a4-11ec-9a03-0242ac130003', 'Ophthalmologist'),
     ('bfc1ef0c-05a4-11ec-9a03-0242ac130003', 'Pediatric Cardiologist');
 
-INSERT INTO additional_physician_info (user_id, occupation_id)
-    VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '6128b07b-3108-486a-890b-b52f1e227e1f');
 
 
 INSERT INTO users (id, name, email, password, type)
     VALUES ('e89e027e-cb1f-11ed-afa1-0242ac120002', 'Giedrius Jocius', 'giedriusJocius@devBridge.com',
-            'password', 'patient'
-);
+            'password', 'patient'),
+            ('387cfae8-cc10-11ed-afa1-0242ac120002','Admin ', 'Admin@gmail.com', 'password', 'admin' ),
+            ('c4d695d2-cc18-11ed-afa1-0242ac120002', 'John', 'John@gmail.com', 'password', 'physician');
+
+
+
+INSERT INTO additional_physician_info (user_id, occupation_id)
+    VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '6128b07b-3108-486a-890b-b52f1e227e1f'),
+           ('c4d695d2-cc18-11ed-afa1-0242ac120002', '9771dd68-05a4-11ec-9a03-0242ac130003');
+

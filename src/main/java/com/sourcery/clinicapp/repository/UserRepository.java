@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.repository;
 
+import com.sourcery.clinicapp.dto.LoginDto;
 import com.sourcery.clinicapp.model.Login;
 import com.sourcery.clinicapp.model.Physician;
 import com.sourcery.clinicapp.model.User;
@@ -27,6 +28,10 @@ public interface UserRepository {
 
     @Select("SELECT * FROM users WHERE type='physician'")
     List<User> getPhysicians();
+
+    @Select("SELECT * FROM users WHERE type='admin'")
+    List<User> getAdmins();
+
 //
 //    @Select("SELECT email, password, IF (email=#{user.email} AND password=#{user.password} , 'TRUE', 'FALSE ') FROM users")
 //    boolean CheckLogIn(@Param("user") Login users);
@@ -36,6 +41,9 @@ public interface UserRepository {
 
     @Delete("DELETE FROM users WHERE id=#{uuid}")
     void deleteUser(@Param("uuid")UUID uuid);
+
+    @Select("SELECT * FROM users WHERE id=#{id} ")
+    Optional<User> getUserById(@Param("id") UUID id);
 
     @ResultMap("PhysicianResultMap")
     @Select("""

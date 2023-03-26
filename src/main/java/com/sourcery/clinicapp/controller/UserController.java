@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.controller;
 
+import com.sourcery.clinicapp.dto.LoginDto;
 import com.sourcery.clinicapp.dto.PhysicianDto;
 import com.sourcery.clinicapp.model.Login;
 import com.sourcery.clinicapp.model.Occupation;
@@ -33,8 +34,13 @@ public class UserController {
     }
 
     @GetMapping(value = "physicians")
-    public List<User> getPhysicians(){
+    public List<User> getPhysician(){
         return userService.getPhysicians();
+    }
+
+    @GetMapping(value = "admins")
+    public List<User> getAdmins() {
+        return userService.getAdmins();
     }
 
     @GetMapping
@@ -43,17 +49,13 @@ public class UserController {
     }
 
 
-
-
-
-
     @PostMapping(value = "patients")
     public void createPatient(@RequestBody User user)
     {
         userService.createPatient(user);
     }
 
-    @PostMapping("logIn")
+    @PostMapping("login")
     public UUID checkLogIn(@RequestBody Login user){
         return userService.CheckLog(user);
     }
@@ -66,21 +68,9 @@ public class UserController {
     }
 
     @GetMapping("physicianInfo")
-    public List<Physician>getAllPhysicians(){
+    public List<Physician>getAllPhysiciansWithAdditionalInfo(){
         return userService.getAllPhysiciansWithAdditionalInfo();
     }
-
-//    @GetMapping(path = "#{id}")
-//    public Physician getPhysicianById(@PathVariable("id") UUID id){
-//       return   userService.getPhysicianById(id);
-//    }
-
-
-//    @PostMapping("test")
-//    public Physician createPhysician(@RequestBody PhysicianDto physician) {
-//        return userService.createPhysician(physician);
-//    }
-
 
     @PostMapping("physicianInfo")
     public void createPhysician(@RequestBody PhysicianDto physician) {
@@ -95,26 +85,15 @@ public class UserController {
     }
 
 
-    @GetMapping(path = "{id}")
-    public Physician testing (@PathVariable("id") UUID id){
+    @GetMapping(path = "physicians/{id}")
+    public Physician GetPhysicianWithAdditionalInfo (@PathVariable("id") UUID id){
         return userService.getPhysicianById(id);
     }
 
-
-
-//    @PostMapping("physician")
-//    public Physician createPhysician(CreatePhysicianDto dto) {
-//
-//    }
-
-    /*
-    {
-        id: ""
-        name: "",
-        email: "",
-        occupation: "Petras"
+    @GetMapping(path = "{id}")
+    public User getUserById(@PathVariable("id") UUID id ){
+        return userService.getUserById(id);
     }
 
-    * */
 
 }

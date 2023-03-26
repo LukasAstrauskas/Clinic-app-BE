@@ -1,6 +1,7 @@
 package com.sourcery.clinicapp.service;
 
 
+import com.sourcery.clinicapp.dto.LoginDto;
 import com.sourcery.clinicapp.dto.PhysicianDto;
 import com.sourcery.clinicapp.model.AdditionalPhysicianInfo;
 import com.sourcery.clinicapp.model.Login;
@@ -51,13 +52,18 @@ public class UserService {
         return userRepository.getPhysicians();
     }
 
+    public List<User> getAdmins(){
+        return  userRepository.getAdmins();
+    }
+
     public void removeUser(UUID uuid){
         userRepository.deleteUser(uuid);
     }
 
     public UUID CheckLog(Login user){
-      return userRepository.CheckLogIn(user);
+       return userRepository.CheckLogIn(user);
     }
+
 
     public void createPhysician(PhysicianDto physicianDto) {
         User user = User.builder()
@@ -85,4 +91,6 @@ public class UserService {
     public Physician getPhysicianById(UUID id){
         return userRepository.getPhysician(id).orElseThrow();
     }
+
+    public User getUserById(UUID id) {return userRepository.getUserById(id).orElseThrow();}
 }
