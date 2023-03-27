@@ -1,4 +1,4 @@
-package com.sourcery.clinicapp.dto;
+package com.sourcery.clinicapp.login.model;
 
 import java.util.UUID;
 
