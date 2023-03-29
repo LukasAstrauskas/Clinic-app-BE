@@ -4,7 +4,6 @@ import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.user.model.User;
 import org.apache.ibatis.annotations.*;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 @Mapper
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface UserRepository {
 
     @Select("SELECT * FROM users WHERE type='patient'")
     List<User> getPatients();
@@ -53,4 +52,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<Physician> getAllPhysicians();
 
 
+    List<User> findAll();
+
+    void deleteById(UUID uuid);
+
+    Optional<User> findById(UUID id);
+
+    void save(User newUser);
 }
