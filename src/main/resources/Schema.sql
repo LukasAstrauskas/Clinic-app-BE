@@ -3,7 +3,8 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULl UNIQUE,
     password VARCHAR(255),
-    type VARCHAR(255) NOT NULL,
+--     type VARCHAR(255) NOT NULL,
+    type ENUM('patient', 'physician', 'admin') NOT NULL,
     PRIMARY KEY (id)
 );
 

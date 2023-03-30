@@ -43,6 +43,13 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+
+    @PostMapping(value = "admins")
+    public ResponseEntity<String> createAdmin(@RequestBody User user ){
+        return userService.createAdmin(user);
+    }
+
+
     @PostMapping(value = "patients")
     public ResponseEntity<String> createPatient(@RequestBody User user) {
         return userService.createPatient(user);

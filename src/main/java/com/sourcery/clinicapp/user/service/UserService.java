@@ -30,6 +30,12 @@ public class UserService {
         return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
     }
 
+    public ResponseEntity<String> createAdmin(User user){
+        User newUser = user.toBuilder().id(UUID.randomUUID()).type("admin").build();
+        userRepository.save(newUser);
+        return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
+    }
+
     public List<User> getAllUsers() {
         return userRepository.getUsers();
     }
@@ -45,6 +51,7 @@ public class UserService {
     public List<User> getAdmins() {
         return userRepository.getAdmins();
     }
+
 
     public ResponseEntity<String> deleteUserById(UUID uuid) {
         try {
