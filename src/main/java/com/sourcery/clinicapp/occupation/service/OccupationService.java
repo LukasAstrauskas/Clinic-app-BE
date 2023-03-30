@@ -16,7 +16,7 @@ public class OccupationService {
     private final OccupationRepository occupationRepository;
 
     public List<Occupation> getAllOccupations() {
-        return occupationRepository.findAll();
+        return occupationRepository.getAllOccupations();
     }
 
     public Occupation getOccupationById(UUID id) {

@@ -17,8 +17,7 @@ import java.util.UUID;
 public interface AdditionalPhysicianInfoRepository {
     @Select("SELECT * FROM additional_physician_info WHERE user_id=#{id}")
     Optional<Occupation> getPhysicianInfo(@Param("id") UUID id);
-
-
+    
     @Insert("INSERT INTO additional_physician_info (user_id, occupation_id) VALUES (#{info.userId}, #{info.occupationId})")
     void insertInfo(@Param("info") AdditionalPhysicianInfo info);
 }

@@ -25,13 +25,13 @@ public class UserService {
     private final UserRepository userRepository;
 
     public ResponseEntity<String> createPatient(User user) {
-        User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
+            User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
         userRepository.save(newUser);
         return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.getUsers();
     }
 
     public List<User> getPatients() {
@@ -56,7 +56,7 @@ public class UserService {
         }
     }
 
-    public User getUserById(UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
+    public User getAUserById(UUID id){
+       return userRepository.findById(id);
     }
 }

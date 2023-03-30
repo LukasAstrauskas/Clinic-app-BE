@@ -52,11 +52,17 @@ public interface UserRepository {
     List<Physician> getAllPhysicians();
 
 
-    List<User> findAll();
+    @Select("SELECT * FROM users")
+    List<User> getUsers();
 
-    void deleteById(UUID uuid);
+    @Delete("DELETE FROM users WHERE id=#{uuid} AND type='patient'")
+    void deleteById(@Param("uuid")UUID uuid);
 
-    Optional<User> findById(UUID id);
+    @Select("SELECT * FROM users WHERE id=#{id}")
+    User findById(@Param("id") UUID id);
 
-    void save(User newUser);
+    @Insert("INSERT INTO users (id, name, email, password, type) VALUES (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
+    void save(@Param("user") User user);
+
+
 }

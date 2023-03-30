@@ -14,7 +14,7 @@ import java.util.UUID;
 public class PhysicianController {
     private final PhysicianService physicianService;
 
-    @GetMapping(path = "physicians/{id}")
+    @GetMapping(path = "physician/{id}")
     public Physician GetPhysicianWithAdditionalInfo(@PathVariable("id") UUID id) {
         return physicianService.getPhysicianById(id);
     }
