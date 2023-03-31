@@ -1,0 +1,13 @@
+<?xml version= "1.0" encoding= "UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sourcery.clinicapp.user.repository.UserRepository">
+    <resultMap id="PhysicianResultMap" type="com.sourcery.clinicapp.physician.model.Physician">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <association property="occupation" javaType="com.sourcery.clinicapp.occupation.model.Occupation">
+            <id property="id" column="occupation_id"/>
+            <result property="name" column="occupation_name"/>
+        </association>
+    </resultMap>
+</mapper>
