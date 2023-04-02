@@ -2,6 +2,7 @@ package com.sourcery.clinicapp.physician.controller;
 
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
+import com.sourcery.clinicapp.physician.repository.AdditionalPhysicianInfoRepository;
 import com.sourcery.clinicapp.physician.service.PhysicianService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PhysicianController {
     private final PhysicianService physicianService;
+    private final AdditionalPhysicianInfoRepository temp;
 
     @GetMapping(path = "physician/{id}")
     public Physician GetPhysicianWithAdditionalInfo(@PathVariable("id") UUID id) {
@@ -24,8 +26,15 @@ public class PhysicianController {
         physicianService.createPhysician(physician);
     }
 
+
     @GetMapping("physicianInfo")
     public List<Physician> getAllPhysiciansWithAdditionalInfo() {
         return physicianService.getAllPhysiciansWithAdditionalInfo();
+    }
+
+    @DeleteMapping(value = "physician/{id}")
+    void DeletePhysicianById(@PathVariable("id") UUID id)
+    {
+        temp.deletePhysicianById(id);
     }
 }

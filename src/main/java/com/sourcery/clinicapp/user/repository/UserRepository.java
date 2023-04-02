@@ -56,7 +56,10 @@ public interface UserRepository {
     List<User> getUsers();
 
     @Delete("DELETE FROM users WHERE id=#{uuid} AND type='patient'")
-    void deleteById(@Param("uuid")UUID uuid);
+    void deletePatientById(@Param("uuid")UUID uuid);
+
+    @Delete("DELETE FROM users WHERE id=#{uuid} AND type='admin'")
+    void deleteAdminById(@Param("uuid") UUID uuid );
 
     @Select("SELECT * FROM users WHERE id=#{id}")
     User findById(@Param("id") UUID id);

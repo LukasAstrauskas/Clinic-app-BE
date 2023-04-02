@@ -53,9 +53,9 @@ public class UserService {
     }
 
 
-    public ResponseEntity<String> deleteUserById(UUID uuid) {
+    public ResponseEntity<String> deletePatientyId(UUID uuid) {
         try {
-            userRepository.deleteById(uuid);
+            userRepository.deletePatientById(uuid);
 
             return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
@@ -63,7 +63,16 @@ public class UserService {
         }
     }
 
-    public User getAUserById(UUID id){
+
+    public ResponseEntity<String> deleteAdminById(UUID uuid) {
+        userRepository.deleteAdminById(uuid);
+        return new ResponseEntity<>("Succes", HttpStatus.OK);
+    }
+
+
+
+
+        public User getAUserById(UUID id){
        return userRepository.findById(id);
     }
 }

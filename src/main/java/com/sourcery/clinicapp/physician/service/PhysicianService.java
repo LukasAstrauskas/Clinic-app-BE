@@ -21,6 +21,8 @@ public class PhysicianService {
     private final AdditionalPhysicianInfoRepository additionalPhysicianInfoRepository;
     private final UserRepository userRepository;
 
+
+
     public void createPhysician(PhysicianDto physicianDto) {
         User user = User.builder()
                 .id(UUID.randomUUID())
@@ -45,4 +47,5 @@ public class PhysicianService {
     public Physician getPhysicianById(UUID id) {
         return userRepository.getPhysician(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
     }
+
 }
