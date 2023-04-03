@@ -64,5 +64,7 @@ public interface UserRepository {
     @Insert("INSERT INTO users (id, name, email, password, type) VALUES (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
     void save(@Param("user") User user);
 
+    @Insert("UPDATE users SET name=#{user.name}, email=#{user.email}, password=#{user.password}, type=#{user.type} WHERE id=#{uuid}")
+    void update(@Param("user") User user, @Param("uuid") UUID id);
 
 }

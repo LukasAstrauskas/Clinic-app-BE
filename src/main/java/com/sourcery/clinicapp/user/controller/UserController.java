@@ -64,4 +64,9 @@ public class UserController {
     public User getUserById(@PathVariable("id") UUID id){
         return userService.getAUserById(id);
     }
+
+    @PostMapping(value = "{uuid}")
+    public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable("uuid") UUID uuid) {
+        return userService.updateUserById(uuid, user);
+    }
 }

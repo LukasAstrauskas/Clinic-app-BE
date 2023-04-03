@@ -66,4 +66,13 @@ public class UserService {
     public User getAUserById(UUID id){
        return userRepository.findById(id);
     }
+
+    public ResponseEntity<String> updateUserById(UUID uuid, User user) {
+        try {
+            userRepository.update(user, uuid);
+            return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
+        } catch (NoSuchElementException exception) {
+            return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
+        }
+    }
 }
