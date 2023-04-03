@@ -63,16 +63,16 @@ public class UserService {
         }
     }
 
-
     public ResponseEntity<String> deleteAdminById(UUID uuid) {
         userRepository.deleteAdminById(uuid);
         return new ResponseEntity<>("Succes", HttpStatus.OK);
     }
 
-
-
-
-        public User getAUserById(UUID id){
+    public User getAUserById(UUID id){
        return userRepository.findById(id);
+    }
+
+    public String getRoleById(UUID uuid) {
+        return userRepository.getRoleById(uuid);
     }
 }

@@ -26,6 +26,9 @@ public interface UserRepository {
     @Select("SELECT * FROM users WHERE email=#{user.email} AND password=#{user.password} ")
     UUID CheckLogIn(@Param("user") Login user);
 
+    @Select("SELECT type FROM users WHERE id=#{id}")
+    String getRoleById(@Param("id") UUID id);
+
     @ResultMap("PhysicianResultMap")
     @Select("""
             SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
