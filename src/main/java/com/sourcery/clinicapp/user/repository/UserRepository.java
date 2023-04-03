@@ -24,7 +24,7 @@ public interface UserRepository {
     List<User> getAdmins();
 
     @Select("SELECT * FROM users WHERE email=#{user.email} AND password=#{user.password} ")
-    UUID CheckLogIn(@Param("user") Login user);
+    UUID checkLogIn(@Param("user") Login user);
 
     @Select("SELECT type FROM users WHERE id=#{id}")
     String getRoleById(@Param("id") UUID id);
