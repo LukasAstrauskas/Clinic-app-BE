@@ -11,6 +11,6 @@ import java.util.UUID;
 @Data
 public class LoginDto {
     private UUID id;
-    private String role;
+    private String type;
 }
 

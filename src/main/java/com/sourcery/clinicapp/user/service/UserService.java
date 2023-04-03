@@ -71,8 +71,4 @@ public class UserService {
     public User getAUserById(UUID id){
        return userRepository.findById(id);
     }
-
-    public String getRoleById(UUID uuid) {
-        return userRepository.getRoleById(uuid);
-    }
 }

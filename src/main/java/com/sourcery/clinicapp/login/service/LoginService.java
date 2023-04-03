@@ -6,7 +6,7 @@ import com.sourcery.clinicapp.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -14,11 +14,10 @@ public class LoginService {
     private final UserRepository userRepository;
 
     public LoginDto checkLog(Login user) {
-
-        UUID uuid = userRepository.checkLogIn(user);
-        String role = userRepository.getRoleById(uuid);
-
-        return new LoginDto(uuid, role);
+        if (user.getEmail() == null || user.getPassword() == null) {
+            throw new IllegalArgumentException("Email and password must not be null");
+        }
+        return userRepository.checkLogIn(user).orElseThrow(() -> new NoSuchElementException("Invalid email or password"));
     }
 
 }

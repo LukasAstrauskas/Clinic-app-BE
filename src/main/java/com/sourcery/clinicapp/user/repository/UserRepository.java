@@ -1,6 +1,7 @@
 package com.sourcery.clinicapp.user.repository;
 
 import com.sourcery.clinicapp.login.model.Login;
+import com.sourcery.clinicapp.login.model.LoginDto;
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.user.model.User;
 import org.apache.ibatis.annotations.*;
@@ -22,12 +23,8 @@ public interface UserRepository {
 
     @Select("SELECT * FROM users WHERE type='admin'")
     List<User> getAdmins();
-
-    @Select("SELECT * FROM users WHERE email=#{user.email} AND password=#{user.password} ")
-    UUID checkLogIn(@Param("user") Login user);
-
-    @Select("SELECT type FROM users WHERE id=#{id}")
-    String getRoleById(@Param("id") UUID id);
+    @Select("SELECT id, type FROM users WHERE email=#{user.email} AND password=#{user.password} ")
+    Optional<LoginDto> checkLogIn(@Param("user") Login user);
 
     @ResultMap("PhysicianResultMap")
     @Select("""
