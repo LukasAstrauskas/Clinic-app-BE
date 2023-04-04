@@ -8,12 +8,14 @@ import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.occupation.repository.OccupationRepository;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping("/user")
@@ -65,8 +67,9 @@ public class UserController {
         return userService.getAUserById(id);
     }
 
-    @PostMapping(value = "{uuid}")
+    @PostMapping(value = "/update/{uuid}")
     public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable("uuid") UUID uuid) {
+        log.debug("User with id: " + uuid + " successfully updated");
         return userService.updateUserById(uuid, user);
     }
 }
