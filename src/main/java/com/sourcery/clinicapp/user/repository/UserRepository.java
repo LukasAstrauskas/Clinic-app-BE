@@ -65,6 +65,11 @@ public interface UserRepository {
     void save(@Param("user") User user);
 
     @Insert("UPDATE users SET name=#{user.name}, email=#{user.email}, password=#{user.password}, type=#{user.type} WHERE id=#{uuid}")
-    void update(@Param("user") User user, @Param("uuid") UUID id);
+    void updateUserById(@Param("user") User user, @Param("uuid") UUID id);
 
+    @Insert("UPDATE users SET name=#{physician.name}, email=#{physician.email} WHERE id=#{uuid}")
+    void updatePhysicianById(@Param("physician") Physician physician, @Param("uuid") UUID id);
+
+    @Insert("UPDATE occupations SET name=#{physicianOccupation} WHERE id=#{physicianOccupationId}")
+    void updatePhysicianOccupationById(@Param("physicianOccupation") String physicianOccupation, @Param("physicianOccupationId") UUID physicianOccupationId);
 }

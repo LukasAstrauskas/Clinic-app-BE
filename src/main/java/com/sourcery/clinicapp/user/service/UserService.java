@@ -69,7 +69,7 @@ public class UserService {
 
     public ResponseEntity<String> updateUserById(UUID uuid, User user) {
         try {
-            userRepository.update(user, uuid);
+            userRepository.updateUserById(user, uuid);
             return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);

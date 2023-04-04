@@ -8,10 +8,12 @@ import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -20,6 +22,7 @@ public class PhysicianService {
 
     private final AdditionalPhysicianInfoRepository additionalPhysicianInfoRepository;
     private final UserRepository userRepository;
+
 
     public void createPhysician(PhysicianDto physicianDto) {
         User user = User.builder()
@@ -44,5 +47,18 @@ public class PhysicianService {
 
     public Physician getPhysicianById(UUID id) {
         return userRepository.getPhysician(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
+    }
+
+    public ResponseEntity<String> updatePhysicianById(UUID uuid, Physician physician) {
+        try {
+            userRepository.updatePhysicianById(physician, uuid);
+
+            String physicianOccupation = physician.getOccupation().getName();
+            UUID physicianOccupationId = physician.getOccupation().getId();
+            userRepository.updatePhysicianOccupationById(physicianOccupation, physicianOccupationId);
+            return new ResponseEntity<>("The physician, with id " + uuid + " was updated successfully.", HttpStatus.OK);
+        } catch (NoSuchElementException exception) {
+            return new ResponseEntity<>("The physician with the provided ID not found.", HttpStatus.NOT_FOUND);
+        }
     }
 }
