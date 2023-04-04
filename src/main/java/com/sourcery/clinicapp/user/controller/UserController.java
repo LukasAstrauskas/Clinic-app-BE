@@ -67,7 +67,7 @@ public class UserController {
         return userService.getAUserById(id);
     }
 
-    @PostMapping(value = "/update/{uuid}")
+    @PutMapping (value = "/update/{uuid}")
     public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable("uuid") UUID uuid) {
         log.debug("User with id: " + uuid + " successfully updated");
         return userService.updateUserById(uuid, user);
