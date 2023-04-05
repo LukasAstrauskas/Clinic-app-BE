@@ -25,17 +25,17 @@ public class UserController {
 
     public OccupationRepository occupationRepository;
 
-    @GetMapping(value = "patients")
+    @GetMapping("patients")
     public List<User> getPatients() {
         return userService.getPatients();
     }
 
-    @GetMapping(value = "physicians")
+    @GetMapping("physicians")
     public List<User> getPhysician() {
         return userService.getPhysicians();
     }
 
-    @GetMapping(value = "admins")
+    @GetMapping("admins")
     public List<User> getAdmins() {
         return userService.getAdmins();
     }
@@ -46,28 +46,28 @@ public class UserController {
     }
 
 
-    @PostMapping(value = "admins")
+    @PostMapping("admins")
     public ResponseEntity<String> createAdmin(@RequestBody User user ){
         return userService.createAdmin(user);
     }
 
 
-    @PostMapping(value = "patients")
+    @PostMapping("patients")
     public ResponseEntity<String> createPatient(@RequestBody User user) {
         return userService.createPatient(user);
     }
 
-    @DeleteMapping(value = "{uuid}")
+    @DeleteMapping("{uuid}")
     public ResponseEntity<String> removeUser(@PathVariable("uuid") UUID uuid) {
         return userService.deleteUserById(uuid);
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping("{id}")
     public User getUserById(@PathVariable("id") UUID id){
         return userService.getAUserById(id);
     }
 
-    @PutMapping (value = "/update/{uuid}")
+    @PutMapping ("{uuid}")
     public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable("uuid") UUID uuid) {
         log.debug("User with id: " + uuid + " successfully updated");
         return userService.updateUserById(uuid, user);

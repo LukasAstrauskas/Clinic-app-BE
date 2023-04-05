@@ -71,8 +71,4 @@ public interface UserRepository {
     @Update("UPDATE users SET name=#{user.name}, email=#{user.email}, password=#{user.password} WHERE id=#{id} ")
     void updatePhysicianDtoUserById(@Param("user") PhysicianDto user, @Param("id") UUID id);
 
-
-//    @Insert("UPDATE users SET name=#{physician.name}, email=#{physician.email} WHERE id=#{uuid}")
-//    void updatePhysicianById(@Param("physician") PhysicianDto physician, @Param("uuid") UUID id);
-
 }
