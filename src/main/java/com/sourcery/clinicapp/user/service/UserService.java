@@ -75,4 +75,12 @@ public class UserService {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
     }
+    public ResponseEntity<String> updatePhysicianDtoUserById(PhysicianDto user, UUID id) {
+        try {
+            userRepository.updatePhysicianDtoUserById(user, id);
+            return new ResponseEntity<>("The user, with id " + id + " was updated successfully.", HttpStatus.OK);
+        } catch (NoSuchElementException exception) {
+            return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
+        }
+    }
 }

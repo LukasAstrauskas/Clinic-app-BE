@@ -18,23 +18,22 @@ import java.util.UUID;
 public class PhysicianController {
     private final PhysicianService physicianService;
 
-    @GetMapping(value = "physician/{id}")
+    @GetMapping("physician/{id}")
     public Physician GetPhysicianWithAdditionalInfo(@PathVariable("id") UUID id) {
         return physicianService.getPhysicianById(id);
     }
 
-    @PostMapping(value = "physicianInfo")
+    @PostMapping("physicianInfo")
     public void createPhysician(@RequestBody PhysicianDto physician) {
         physicianService.createPhysician(physician);
     }
 
-    @GetMapping(value = "physicianInfo")
+    @GetMapping("physicianInfo")
     public List<Physician> getAllPhysiciansWithAdditionalInfo() {
         return physicianService.getAllPhysiciansWithAdditionalInfo();
     }
-    @PutMapping(value = "/physicianInfo/update/{uuid}")
-    public ResponseEntity<String> updatePhysicianById(@RequestBody Physician physician, @PathVariable("uuid") UUID uuid) {
-        log.debug("Physician with id: " + uuid + " successfully updated");
-        return physicianService.updatePhysicianById(uuid, physician);
+    @PutMapping("/physicianInfo/update/{uuid}")
+    public ResponseEntity<String> updatePhysicianById(@RequestBody PhysicianDto user, @PathVariable("uuid") UUID uuid) {
+        return physicianService.updatePhysicianById(user, uuid);
     }
 }
