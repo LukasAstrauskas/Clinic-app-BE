@@ -30,3 +30,10 @@ CREATE TABLE additional_physician_info (
 --     emergencyContact  VARCHAR(255),
 --     homeAddress VARCHAR(255),
 -- )
+
+CREATE TABLE IF NOT EXISTS timeslot (
+     physicianid UUID NOT NULL,
+     date TIMESTAMP NOT NULl,
+     patientid UUID ,
+     PRIMARY KEY (physicianid, date)
+);
