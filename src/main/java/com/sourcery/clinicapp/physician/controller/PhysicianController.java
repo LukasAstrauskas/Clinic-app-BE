@@ -15,24 +15,25 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @AllArgsConstructor
+@RequestMapping("/physicianInfo")
 public class PhysicianController {
     private final PhysicianService physicianService;
 
-    @GetMapping("physician/{id}")
+    @GetMapping("{id}")
     public Physician GetPhysicianWithAdditionalInfo(@PathVariable("id") UUID id) {
         return physicianService.getPhysicianById(id);
     }
 
-    @PostMapping("physicianInfo")
+    @PostMapping()
     public void createPhysician(@RequestBody PhysicianDto physician) {
         physicianService.createPhysician(physician);
     }
 
-    @GetMapping("physicianInfo")
+    @GetMapping()
     public List<Physician> getAllPhysiciansWithAdditionalInfo() {
         return physicianService.getAllPhysiciansWithAdditionalInfo();
     }
-    @PutMapping("/physicianInfo/update/{uuid}")
+    @PutMapping("{uuid}")
     public ResponseEntity<String> updatePhysicianById(@RequestBody PhysicianDto user, @PathVariable("uuid") UUID uuid) {
         return physicianService.updatePhysicianById(user, uuid);
     }
