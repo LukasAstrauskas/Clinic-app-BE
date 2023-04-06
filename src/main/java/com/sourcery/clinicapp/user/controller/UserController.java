@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,12 +44,10 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-
     @PostMapping(value = "admins")
-    public ResponseEntity<String> createAdmin(@RequestBody User user ){
+    public ResponseEntity<String> createAdmin(@RequestBody User user) {
         return userService.createAdmin(user);
     }
-
 
     @PostMapping(value = "patients")
     public ResponseEntity<String> createPatient(@RequestBody User user) {
@@ -61,7 +60,7 @@ public class UserController {
     }
 
     @GetMapping(value = "{id}")
-    public User getUserById(@PathVariable("id") UUID id){
+    public User getUserById(@PathVariable("id") UUID id) {
         return userService.getAUserById(id);
     }
 }
