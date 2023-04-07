@@ -1,6 +1,5 @@
 package com.sourcery.clinicapp.user.service;
 
-
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.model.AdditionalPhysicianInfo;
 import com.sourcery.clinicapp.login.model.Login;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -25,12 +25,12 @@ public class UserService {
     private final UserRepository userRepository;
 
     public ResponseEntity<String> createPatient(User user) {
-            User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
+        User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
         userRepository.save(newUser);
         return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<String> createAdmin(User user){
+    public ResponseEntity<String> createAdmin(User user) {
         User newUser = user.toBuilder().id(UUID.randomUUID()).type("admin").build();
         userRepository.save(newUser);
         return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
@@ -52,8 +52,7 @@ public class UserService {
         return userRepository.getAdmins();
     }
 
-
-    public ResponseEntity<String> deletePatientyId(UUID uuid) {
+    public ResponseEntity<String> deletePatientById(UUID uuid) {
         try {
             userRepository.deletePatientById(uuid);
 

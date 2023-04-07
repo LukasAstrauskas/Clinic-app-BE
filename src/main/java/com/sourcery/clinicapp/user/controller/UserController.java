@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping(value = "admins")
-    public ResponseEntity<String> createAdmin(@RequestBody User user ){
+    public ResponseEntity<String> createAdmin(@RequestBody User user) {
         return userService.createAdmin(user);
     }
 
@@ -55,7 +56,7 @@ public class UserController {
 
     @DeleteMapping(value = "patients/{uuid}")
     public ResponseEntity<String> removePatient(@PathVariable("uuid") UUID uuid) {
-        return userService.deletePatientyId(uuid);
+        return userService.deletePatientById(uuid);
     }
 
     @DeleteMapping(value = "admins/{uuid}")
@@ -65,7 +66,7 @@ public class UserController {
 
 
     @GetMapping(value = "{id}")
-    public User getUserById(@PathVariable("id") UUID id){
+    public User getUserById(@PathVariable("id") UUID id) {
         return userService.getAUserById(id);
     }
 }
