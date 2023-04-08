@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.physician.controller;
 import com.sourcery.clinicapp.physician.model.PhyNameOccupationDto;
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
+import com.sourcery.clinicapp.physician.repository.AdditionalPhysicianInfoRepository;
 import com.sourcery.clinicapp.physician.service.PhysicianService;
 import com.sourcery.clinicapp.user.model.User;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class PhysicianController {
 
     private final PhysicianService physicianService;
+    private final AdditionalPhysicianInfoRepository temp;
 
     @GetMapping(path = "physician/{id}")
     public Physician GetPhysicianWithAdditionalInfo(@PathVariable("id") UUID id) {
@@ -31,6 +33,12 @@ public class PhysicianController {
     @GetMapping("physicianInfo")
     public List<Physician> getAllPhysiciansWithAdditionalInfo() {
         return physicianService.getAllPhysiciansWithAdditionalInfo();
+    }
+
+    @DeleteMapping(value = "physician/{id}")
+    void DeletePhysicianById(@PathVariable("id") UUID id)
+    {
+        temp.deletePhysicianById(id);
     }
 
     @GetMapping("physicianNamesOccupations")

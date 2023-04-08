@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class PhysicianService {
 
     private final AdditionalPhysicianInfoRepository additionalPhysicianInfoRepository;
-
     private final UserRepository userRepository;
 
     public void createPhysician(PhysicianDto physicianDto) {
