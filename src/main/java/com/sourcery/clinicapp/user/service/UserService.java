@@ -52,17 +52,22 @@ public class UserService {
         return userRepository.getAdmins();
     }
 
-    public ResponseEntity<String> deleteUserById(UUID uuid) {
+    public ResponseEntity<String> deletePatientById(UUID uuid) {
         try {
-            userRepository.deleteById(uuid);
+            userRepository.deletePatientById(uuid);
+
             return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
     }
 
-    public User getAUserById(UUID id) {
-        return userRepository.findById(id);
+    public ResponseEntity<String> deleteAdminById(UUID uuid) {
+        userRepository.deleteAdminById(uuid);
+        return new ResponseEntity<>("Succes", HttpStatus.OK);
     }
 
+    public User getAUserById(UUID id){
+       return userRepository.findById(id);
+    }
 }

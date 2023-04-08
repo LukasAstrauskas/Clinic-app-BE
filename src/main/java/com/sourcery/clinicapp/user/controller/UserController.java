@@ -54,10 +54,16 @@ public class UserController {
         return userService.createPatient(user);
     }
 
-    @DeleteMapping(value = "{uuid}")
-    public ResponseEntity<String> removeUser(@PathVariable("uuid") UUID uuid) {
-        return userService.deleteUserById(uuid);
+    @DeleteMapping(value = "patients/{uuid}")
+    public ResponseEntity<String> removePatient(@PathVariable("uuid") UUID uuid) {
+        return userService.deletePatientById(uuid);
     }
+
+    @DeleteMapping(value = "admins/{uuid}")
+    public ResponseEntity<String> removeAdmin(@PathVariable("uuid") UUID uuid) {
+        return userService.deleteAdminById(uuid);
+    }
+
 
     @GetMapping(value = "{id}")
     public User getUserById(@PathVariable("id") UUID id) {
