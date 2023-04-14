@@ -67,7 +67,7 @@ public class UserService {
         return new ResponseEntity<>("Succes", HttpStatus.OK);
     }
 
-    public User getAUserById(UUID id){
-       return userRepository.findById(id);
+    public User getAUserById(UUID id) {
+        return userRepository.findById(id);
     }
 }
