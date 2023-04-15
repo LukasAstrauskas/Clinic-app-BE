@@ -2,6 +2,7 @@ package com.sourcery.clinicapp.physician.service;
 
 import com.sourcery.clinicapp.occupation.repository.OccupationRepository;
 import com.sourcery.clinicapp.physician.model.AdditionalPhysicianInfo;
+import com.sourcery.clinicapp.physician.model.PhyNameOccupationDto;
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.repository.AdditionalPhysicianInfoRepository;
@@ -14,9 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -35,7 +38,6 @@ public class PhysicianService {
                 .type("physician")
                 .build();
         userRepository.save(user);
-
         AdditionalPhysicianInfo info = AdditionalPhysicianInfo.builder()
                 .userId(user.getId())
                 .occupationId(physicianDto.getOccupationId())
@@ -60,5 +62,14 @@ public class PhysicianService {
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The physician with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
+    }
+
+    public Collection<PhyNameOccupationDto> getPhysiciansNamesOccupations() {
+        return userRepository.getAllPhysicians().stream().map(physician ->
+                        new PhyNameOccupationDto(
+                                physician.getId(),
+                                physician.getName(),
+                                physician.getOccupation().getName()))
+                .collect(Collectors.toList());
     }
 }

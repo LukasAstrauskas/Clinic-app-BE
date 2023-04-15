@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,8 +60,14 @@ public class UserController {
 
     @DeleteMapping("{uuid}")
     public ResponseEntity<String> removeUser(@PathVariable("uuid") UUID uuid) {
-        return userService.deleteUserById(uuid);
+        return userService.deletePatientById(uuid);
     }
+
+    @DeleteMapping(value = "admins/{uuid}")
+    public ResponseEntity<String> removeAdmin(@PathVariable("uuid") UUID uuid) {
+        return userService.deleteAdminById(uuid);
+    }
+
 
     @GetMapping("{id}")
     public User getUserById(@PathVariable("id") UUID id){

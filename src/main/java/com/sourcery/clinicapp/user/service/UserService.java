@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -25,12 +26,12 @@ public class UserService {
     private final UserRepository userRepository;
 
     public ResponseEntity<String> createPatient(User user) {
-            User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
+        User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
         userRepository.save(newUser);
         return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<String> createAdmin(User user){
+    public ResponseEntity<String> createAdmin(User user) {
         User newUser = user.toBuilder().id(UUID.randomUUID()).type("admin").build();
         userRepository.save(newUser);
         return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
@@ -52,10 +53,9 @@ public class UserService {
         return userRepository.getAdmins();
     }
 
-
-    public ResponseEntity<String> deleteUserById(UUID uuid) {
+    public ResponseEntity<String> deletePatientById(UUID uuid) {
         try {
-            userRepository.deleteById(uuid);
+            userRepository.deletePatientById(uuid);
 
             return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
@@ -63,8 +63,13 @@ public class UserService {
         }
     }
 
-    public User getAUserById(UUID id){
-       return userRepository.findById(id);
+    public ResponseEntity<String> deleteAdminById(UUID uuid) {
+        userRepository.deleteAdminById(uuid);
+        return new ResponseEntity<>("Succes", HttpStatus.OK);
+    }
+
+    public User getAUserById(UUID id) {
+        return userRepository.findById(id);
     }
 
     public ResponseEntity<String> updateUserById(UUID uuid, User user) {

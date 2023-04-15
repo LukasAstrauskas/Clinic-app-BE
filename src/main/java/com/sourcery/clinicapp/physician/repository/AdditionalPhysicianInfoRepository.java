@@ -6,6 +6,7 @@ import com.sourcery.clinicapp.occupation.model.Occupation;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.user.model.User;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -22,4 +23,15 @@ public interface AdditionalPhysicianInfoRepository {
 
     @Update("UPDATE additional_physician_info SET occupation_id=#{user.occupationId} WHERE  user_id=#{id}")
     void updateAdditionalInfoTable(@Param("user") PhysicianDto user, @Param("id") UUID id );
+
+    @Delete("""
+            DELETE FROM additional_physician_info WHERE user_id=#{id};
+            DELETE FROM users WHERE id=#{id};
+            """)
+    void deletePhysicianById(@Param("id") UUID id);
+
+
+
 }
+
+
