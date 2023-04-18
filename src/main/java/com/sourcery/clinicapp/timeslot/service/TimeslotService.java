@@ -62,6 +62,7 @@ public class TimeslotService {
         );
         Timeslot timeslot = optional.orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
         boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslot);
+        timeslot.setPatientId(timeslotDto.patientId());
         HttpStatus status = updated
                 ? HttpStatus.CREATED
                 : HttpStatus.NOT_MODIFIED;
