@@ -13,16 +13,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 @AllArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+
+
+    public Long getAmountOfPatients(){
+       return userRepository.getAmountOfPatients();
+    }
+    public Long getAmountOfAdmins(){
+        return userRepository.getAmountOfAdmins();
+    }
+
+    public Long getAmountOfPhysician(){
+        return userRepository.getAmountOfPhysicians();
+    }
+
+
+    public List<User> getPatientsLimited(Number limit){
+        return userRepository.GetLimitedPatients(limit);
+    }
+
+    public List<User> getAdminsLimited(Number limit){
+        return userRepository.GetLimitedAdmins(limit);
+    }
+
 
     public ResponseEntity<String> createPatient(User user) {
         User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
@@ -45,8 +64,10 @@ public class UserService {
     }
 
     public List<User> getPhysicians() {
-        return userRepository.getPhysicians();
+        return userRepository.getPhysiciansType();
     }
+
+
 
     public List<User> getAdmins() {
         return userRepository.getAdmins();
@@ -67,7 +88,19 @@ public class UserService {
         return new ResponseEntity<>("Succes", HttpStatus.OK);
     }
 
+
+
     public User getAUserById(UUID id){
        return userRepository.findById(id);
     }
+
+    public List<User>handleSearch(String search){
+        String formatedSearch = search.toLowerCase();
+        return userRepository.getPatientSearch(formatedSearch);
+    }
+
 }
+
+
+
+
