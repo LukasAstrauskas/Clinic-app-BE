@@ -61,6 +61,7 @@ public class TimeslotService {
                 DateTimeHelper.toDateTime(timeslotDto.date(), timeslotDto.time())
         );
         Timeslot timeslot = optional.orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
+        timeslot.setPatientId(timeslotDto.patientId());
         boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslot);
         HttpStatus status = updated
                 ? HttpStatus.CREATED

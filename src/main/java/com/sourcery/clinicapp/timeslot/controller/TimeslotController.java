@@ -42,7 +42,7 @@ public class TimeslotController {
         return timeslotService.addTimeslot(timeslotDto);
     }
 
-    @PatchMapping("/{physicianId}/{date}/{time}")
+    @PatchMapping()
     public ResponseEntity<Timeslot> updateTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
         return timeslotService.updateTimeslot(timeslotFullDto);
     }
