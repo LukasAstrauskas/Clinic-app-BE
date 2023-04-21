@@ -44,10 +44,10 @@ public interface UserRepository {
 
 
 
-    @Select("SELECT * FROM users WHERE type='patient' LIMIT #{limit}")
-    List<User> GetLimitedPatients(@Param("limit") Number limit );
-    @Select("SELECT * FROM users WHERE type='admin' LIMIT #{limit}")
-    List<User> GetLimitedAdmins(@Param("limit") Number limit );
+    @Select("SELECT * FROM users WHERE type='patient' LIMIT 5 OFFSET #{offset}")
+    List<User> GetLimitedPatients(@Param("offset") Number offset );
+    @Select("SELECT * FROM users WHERE type='admin' LIMIT 5 OFFSET #{offset}")
+    List<User> GetLimitedAdmins(@Param("offset") Number offset );
 
     @ResultMap("PhysicianResultMap")
     @Select("""

@@ -34,12 +34,12 @@ public class UserService {
     }
 
 
-    public List<User> getPatientsLimited(Number limit){
-        return userRepository.GetLimitedPatients(limit);
+    public List<User> getPatientsLimited(Number offset){
+        return userRepository.GetLimitedPatients(offset);
     }
 
-    public List<User> getAdminsLimited(Number limit){
-        return userRepository.GetLimitedAdmins(limit);
+    public List<User> getAdminsLimited(Number offset){
+        return userRepository.GetLimitedAdmins(offset);
     }
 
 
