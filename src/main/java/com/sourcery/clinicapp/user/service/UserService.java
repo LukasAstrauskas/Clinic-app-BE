@@ -94,9 +94,18 @@ public class UserService {
        return userRepository.findById(id);
     }
 
-    public List<User>handleSearch(String search){
+    public List<User>handlePatientSearch(String search){
         String formatedSearch = search.toLowerCase();
         return userRepository.getPatientSearch(formatedSearch);
+    }
+    public List<User>handleAdminSearch(String search){
+        String formatedSearch = search.toLowerCase();
+        return userRepository.getAdminSearch(formatedSearch);
+    }
+
+    public List<Physician>handlePhysicianSearch(String search){
+        String formatedSearch = search.toLowerCase();
+        return userRepository.getPhysicianSearch(formatedSearch);
     }
 
 }

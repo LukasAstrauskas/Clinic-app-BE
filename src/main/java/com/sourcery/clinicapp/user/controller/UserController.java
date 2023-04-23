@@ -40,21 +40,18 @@ public class UserController {
     }
 
 
-
-
-
     @GetMapping(value = "adminSize")
     public Long getAmountOfAdmins(){
         return userService.getAmountOfAdmins();
     }
 
 
-    @GetMapping(value ="patients/limit/{offset}" )
+    @GetMapping(value ="patients/offset/{offset}" )
     public List<User> getLimitedPatients(@PathVariable("offset") Number offset){
         return userService.getPatientsLimited(offset);
     }
 
-    @GetMapping(value = "admins/limit/{offset}")
+    @GetMapping(value = "admins/offset/{offset}")
     public List<User> getLimitedAdmins(@PathVariable("offset") Number offset){
         return userService.getAdminsLimited(offset);
     }
@@ -103,18 +100,18 @@ public class UserController {
 
     @GetMapping(value = "patientSearch/{search}")
     public List<User> handlePatientSearch(@PathVariable("search") String search){
-     return  test.getPatientSearch(search);
+     return userService.handlePatientSearch(search);
     }
 
 
     @GetMapping(value = "physicianSearch/{search}")
     public List<Physician> handlePhysicianSearch(@PathVariable("search") String search){
-        return  test.getPhysicianSearch(search);
+        return  userService.handlePhysicianSearch(search);
     }
 
     @GetMapping(value = "adminSearch/{search}")
     public List<User> handleAdminSearch(@PathVariable("search") String search){
-        return  test.getAdminSearch(search);
+        return  userService.handleAdminSearch(search);
     }
 
 

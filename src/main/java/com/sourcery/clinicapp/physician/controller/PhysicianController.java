@@ -26,7 +26,7 @@ public class PhysicianController {
     }
 
 
-    @GetMapping(value = "physcians/limit/{limit}")
+    @GetMapping(value = "physcians/offset/{limit}")
     public List<Physician> getLimitedPhysicians(@PathVariable("limit") Number limit){
         return physicianService.getLimitedPhysiciansWithAdditionalInfo(limit);
     }

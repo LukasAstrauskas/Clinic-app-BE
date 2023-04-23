@@ -16,10 +16,10 @@ import java.util.UUID;
 public interface UserRepository {
 
 
-    @Select("SELECT * FROM users WHERE( name LIKE '%${search}%' OR email LIKE '%${search}%' )AND type='patient' ")
+    @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient'")
     List<User> getPatientSearch(@Param("search") String search );
 
-    @Select("SELECT * FROM users WHERE( name LIKE '%${search}%' OR email LIKE '%${search}%' )AND type='admin' ")
+    @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%'  OR LOWER(email) LIKE '%${search}%' )AND type='admin' ")
     List<User> getAdminSearch(@Param("search") String search );
 
 
@@ -31,7 +31,7 @@ public interface UserRepository {
                     ON u.id = i.user_id
                 LEFT JOIN occupations o
                     ON i.occupation_id = o.id
-                WHERE( u.name LIKE '%${search}%' OR o.name LIKE '%${search}%' )AND type='physician'
+                WHERE( LOWER(u.name) LIKE '%${search}%' OR LOWER(o.name) LIKE '%${search}%' )AND type='physician'
     """)
    List<Physician> getPhysicianSearch(@Param("search") String search );
 
