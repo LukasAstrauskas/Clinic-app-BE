@@ -2,17 +2,13 @@ package com.sourcery.clinicapp.user.service;
 
 
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
-import com.sourcery.clinicapp.physician.model.AdditionalPhysicianInfo;
-import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.physician.model.Physician;
-import com.sourcery.clinicapp.physician.repository.AdditionalPhysicianInfoRepository;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.*;
 

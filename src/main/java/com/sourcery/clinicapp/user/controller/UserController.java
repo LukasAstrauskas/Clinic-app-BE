@@ -2,8 +2,6 @@ package com.sourcery.clinicapp.user.controller;
 
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.user.model.User;
-import com.sourcery.clinicapp.occupation.repository.OccupationRepository;
-import com.sourcery.clinicapp.user.repository.UserRepository;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +18,6 @@ import java.util.UUID;
 public class UserController {
 
     public UserService userService;
-
-    public UserRepository test;
-    public OccupationRepository occupationRepository;
 
     @GetMapping("patients")
     public List<User> getPatients() {
