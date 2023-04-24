@@ -59,7 +59,7 @@ public interface UserRepository {
                 LEFT JOIN occupations o
                     ON i.occupation_id = o.id
                 WHERE type='physician'
-                LIMIT #{limit}
+                LIMIT 5 OFFSET #{limit}
             """)
     List<Physician> getLimitedPhysicians(@Param("limit") Number limit);
 
@@ -103,8 +103,7 @@ public interface UserRepository {
                     ON u.id = i.user_id
                 LEFT JOIN occupations o
                     ON i.occupation_id = o.id
-                WHERE type='physician'
-                LIMIT 7
+                WHERE type='physician' LIMIT 9
             """)
     List<Physician> getPhysicians();
 

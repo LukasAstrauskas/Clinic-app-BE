@@ -45,7 +45,7 @@ public class PhysicianService {
         additionalPhysicianInfoRepository.insertInfo(info);
     }
 
-    public List<Physician> getAllPhysiciansWithAdditionalInfo() {
+    public List<Physician> getPhysiciansWithAdditionalInfo() {
         return userRepository.getPhysicians();
     }
 
