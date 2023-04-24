@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.user.service;
 
+
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.model.AdditionalPhysicianInfo;
 import com.sourcery.clinicapp.login.model.Login;
@@ -90,8 +91,10 @@ public class UserService {
 
 
 
+
+
     public User getAUserById(UUID id){
-       return userRepository.findById(id);
+        return userRepository.findById(id);
     }
 
     public List<User>handlePatientSearch(String search){
@@ -108,6 +111,23 @@ public class UserService {
         return userRepository.getPhysicianSearch(formatedSearch);
     }
 
+
+    public ResponseEntity<String> updateUserById(UUID uuid, User user) {
+        try {
+            userRepository.updateUserById(user, uuid);
+            return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
+        } catch (NoSuchElementException exception) {
+            return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
+        }
+    }
+    public ResponseEntity<String> updatePhysicianDtoUserById(PhysicianDto user, UUID id) {
+        try {
+            userRepository.updatePhysicianDtoUserById(user, id);
+            return new ResponseEntity<>("The user, with id " + id + " was updated successfully.", HttpStatus.OK);
+        } catch (NoSuchElementException exception) {
+            return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
+        }
+    }
 }
 
 

@@ -6,12 +6,14 @@ import com.sourcery.clinicapp.occupation.repository.OccupationRepository;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping("/user")
@@ -22,7 +24,7 @@ public class UserController {
     public UserRepository test;
     public OccupationRepository occupationRepository;
 
-    @GetMapping(value = "patients")
+    @GetMapping("patients")
     public List<User> getPatients() {
         return userService.getPatients();
     }
@@ -56,12 +58,12 @@ public class UserController {
         return userService.getAdminsLimited(offset);
     }
 
-    @GetMapping(value = "physicians")
+    @GetMapping("physicians")
     public List<User> getPhysician() {
         return userService.getPhysicians();
     }
 
-    @GetMapping(value = "admins")
+    @GetMapping("admins")
     public List<User> getAdmins() {
         return userService.getAdmins();
     }
@@ -71,18 +73,20 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PostMapping(value = "admins")
-    public ResponseEntity<String> createAdmin(@RequestBody User user) {
+
+    @PostMapping("admins")
+    public ResponseEntity<String> createAdmin(@RequestBody User user ){
         return userService.createAdmin(user);
     }
 
-    @PostMapping(value = "patients")
+
+    @PostMapping("patients")
     public ResponseEntity<String> createPatient(@RequestBody User user) {
         return userService.createPatient(user);
     }
 
-    @DeleteMapping(value = "patients/{uuid}")
-    public ResponseEntity<String> removePatient(@PathVariable("uuid") UUID uuid) {
+    @DeleteMapping("{uuid}")
+    public ResponseEntity<String> removeUser(@PathVariable("uuid") UUID uuid) {
         return userService.deletePatientById(uuid);
     }
 
@@ -92,8 +96,8 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "{id}")
-    public User getUserById(@PathVariable("id") UUID id) {
+    @GetMapping("{id}")
+    public User getUserById(@PathVariable("id") UUID id){
         return userService.getAUserById(id);
     }
 
@@ -115,4 +119,10 @@ public class UserController {
     }
 
 
+
+    @PutMapping ("{uuid}")
+    public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable("uuid") UUID uuid) {
+        log.debug("User with id: " + uuid + " successfully updated");
+        return userService.updateUserById(uuid, user);
+    }
 }

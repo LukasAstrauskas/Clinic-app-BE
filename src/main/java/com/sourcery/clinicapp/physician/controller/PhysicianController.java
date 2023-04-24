@@ -5,25 +5,35 @@ import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.repository.AdditionalPhysicianInfoRepository;
 import com.sourcery.clinicapp.physician.service.PhysicianService;
-import com.sourcery.clinicapp.user.model.User;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
+@RequestMapping("/physicianInfo")
 public class PhysicianController {
 
     private final PhysicianService physicianService;
     private final AdditionalPhysicianInfoRepository temp;
 
-    @GetMapping(path = "physician/{id}")
+    @GetMapping("{id}")
     public Physician GetPhysicianWithAdditionalInfo(@PathVariable("id") UUID id) {
         return physicianService.getPhysicianById(id);
     }
+
+
+    @GetMapping(value = "physcians/offset/{limit}")
+    public List<Physician> getLimitedPhysicians(@PathVariable("limit") Number limit){
+        return physicianService.getLimitedPhysiciansWithAdditionalInfo(limit);
+    }
+
 
 
     @GetMapping(value = "physcians/offset/{limit}")
@@ -37,9 +47,13 @@ public class PhysicianController {
         physicianService.createPhysician(physician);
     }
 
-    @GetMapping("physicianInfo")
+    @GetMapping()
     public List<Physician> getAllPhysiciansWithAdditionalInfo() {
         return physicianService.getAllPhysiciansWithAdditionalInfo();
+    }
+    @PutMapping("{uuid}")
+    public ResponseEntity<String> updatePhysicianById(@RequestBody PhysicianDto user, @PathVariable("uuid") UUID uuid) {
+        return physicianService.updatePhysicianById(user, uuid);
     }
 
     @DeleteMapping(value = "physician/{id}")

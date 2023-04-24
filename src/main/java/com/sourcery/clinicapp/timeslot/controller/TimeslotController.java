@@ -1,10 +1,11 @@
 package com.sourcery.clinicapp.timeslot.controller;
 
-import com.sourcery.clinicapp.timeslot.model.dto.NewTimeslotDto;
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotDto;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
-import com.sourcery.clinicapp.timeslot.model.dto.TimePatientDto;
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotFullDto;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotsDto;
 import com.sourcery.clinicapp.timeslot.service.TimeslotService;
+import com.sourcery.clinicapp.utils.DateTimeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -21,6 +21,11 @@ public class TimeslotController {
 
     @Autowired
     private TimeslotService timeslotService;
+
+    @GetMapping("/{physicianId}/{date}/{time}")
+    public Timeslot getTimeslot(@PathVariable UUID physicianId, @PathVariable String date, @PathVariable String time) {
+        return timeslotService.getTimeslot(physicianId, DateTimeHelper.toDateTime(date, time)).orElseGet(Timeslot::new);
+    }
 
     @GetMapping("getAll")
     public Collection<Timeslot> getAllTimeslots() {
@@ -33,17 +38,17 @@ public class TimeslotController {
     }
 
     @PostMapping()
-    public boolean addTimeslot(@RequestBody NewTimeslotDto newTimeslotDto) {
-        return timeslotService.addTimeslot(newTimeslotDto);
+    public boolean addTimeslot(@RequestBody TimeslotDto timeslotDto) {
+        return timeslotService.addTimeslot(timeslotDto);
     }
 
-    @GetMapping("/{physicianId}/{dateTime}")
-    public Timeslot getTimeslot(@PathVariable UUID physicianId, @PathVariable LocalDateTime dateTime) {
-        return timeslotService.getTimeslot(physicianId, dateTime);
+    @PatchMapping()
+    public ResponseEntity<Timeslot> updateTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
+        return timeslotService.updateTimeslot(timeslotFullDto);
     }
 
-    @DeleteMapping("/{physicianId}/{dateTime}")
-    public boolean deleteTimeslot(@PathVariable UUID physicianId, @PathVariable LocalDateTime dateTime) {
-        return timeslotService.deleteTimeslot(physicianId, dateTime);
+    @DeleteMapping()
+    public ResponseEntity<Timeslot> deleteTimeslot(@RequestBody TimeslotDto timeslotDto) {
+        return timeslotService.deleteTimeslot(timeslotDto);
     }
 }

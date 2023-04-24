@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.user.repository;
 import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.login.model.LoginDto;
 import com.sourcery.clinicapp.physician.model.Physician;
+import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.user.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -123,5 +124,10 @@ public interface UserRepository {
     @Insert("INSERT INTO users (id, name, email, password, type) VALUES (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
     void save(@Param("user") User user);
 
+    @Update("UPDATE users SET name=#{user.name}, email=#{user.email}, password=#{user.password}, type=#{user.type} WHERE id=#{uuid}")
+    void updateUserById(@Param("user") User user, @Param("uuid") UUID id);
+
+    @Update("UPDATE users SET name=#{user.name}, email=#{user.email}, password=#{user.password} WHERE id=#{id} ")
+    void updatePhysicianDtoUserById(@Param("user") PhysicianDto user, @Param("id") UUID id);
 
 }
