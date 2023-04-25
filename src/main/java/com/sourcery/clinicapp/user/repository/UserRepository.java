@@ -75,7 +75,7 @@ public interface UserRepository {
     @Select("SELECT COUNT(*) FROM users WHERE type='physician' " )
     Long getAmountOfPhysicians();
 
- @Select("SELECT * FROM users WHERE type='physician'")
+    @Select("SELECT * FROM users WHERE type='physician'")
     List<User> getPhysiciansType();
 
 
