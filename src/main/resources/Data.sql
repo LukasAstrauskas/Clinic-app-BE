@@ -80,3 +80,8 @@ INSERT INTO additional_physician_info (user_id, occupation_id)
            ('5ab747c7-3094-4d04-a93e-a104e27d6f60', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
            ('37a55d08-8747-4c25-bb24-b1e857009acf', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
            ('60867f57-9fb1-45e4-9a34-0715ec32f476', '27004ebf-7c16-419e-8592-a4ae0be2cddd');
+INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street, city,
+                                     postal_code, country, emergency_name, emergency_surname,
+                                     emergency_phone, emergency_relation)
+    VALUES ('f5e843ba-ce74-11ed-afa1-0242ac120002', 'male', '1999-09-09', 861234567, 'Zalgirio g.', 'Vilnius', 'LT-88345', 'Lithuania',
+            'John', 'Doe', 867654321, 'Dad');
