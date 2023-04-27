@@ -45,10 +45,13 @@ public class PhysicianService {
         additionalPhysicianInfoRepository.insertInfo(info);
     }
 
-    public List<Physician> getAllPhysiciansWithAdditionalInfo() {
-        return userRepository.getAllPhysicians();
+    public List<Physician> getPhysiciansWithAdditionalInfo() {
+        return userRepository.getPhysicians();
     }
 
+    public List<Physician> getLimitedPhysiciansWithAdditionalInfo(Number limit){
+        return userRepository.getLimitedPhysicians(limit);
+    }
     public Physician getPhysicianById(UUID id) {
         return userRepository.getPhysician(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
     }
@@ -65,7 +68,7 @@ public class PhysicianService {
     }
 
     public Collection<PhyNameOccupationDto> getPhysiciansNamesOccupations() {
-        return userRepository.getAllPhysicians().stream().map(physician ->
+        return userRepository.getPhysicians().stream().map(physician ->
                         new PhyNameOccupationDto(
                                 physician.getId(),
                                 physician.getName(),
