@@ -25,7 +25,7 @@ CREATE TABLE additional_physician_info (
 
 
 CREATE TABLE additional_patient_info (
-    user_id UUID NOT NULL,
+    user_id UUID,
     gender VARCHAR(255),
     birth_date DATE,
     phone BIGINT,

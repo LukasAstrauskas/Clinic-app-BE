@@ -4,6 +4,7 @@ import com.sourcery.clinicapp.patient.model.AdditionalPatientInfo;
 import com.sourcery.clinicapp.patient.repository.AdditionalPatientInfoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
@@ -16,5 +17,15 @@ public class PatientService {
     private final AdditionalPatientInfoRepository additionalPatientInfoRepository;
     public AdditionalPatientInfo getAdditionalPatientInfo(UUID id) {
         return additionalPatientInfoRepository.getAdditionalPatientInfo(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
+    }
+
+    public ResponseEntity<String> updateAdditionalPatientInfo(UUID id, AdditionalPatientInfo additionalPatientInfo) {
+        try{
+            additionalPatientInfoRepository.updateAdditionalPatientInfo(id, additionalPatientInfo);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
