@@ -28,14 +28,22 @@ public class PhysicianController {
         return physicianService.getPhysicianById(id);
     }
 
-    @PostMapping()
+
+    @GetMapping(value = "physcians/offset/{limit}")
+    public List<Physician> getLimitedPhysicians(@PathVariable("limit") Number limit){
+        return physicianService.getLimitedPhysiciansWithAdditionalInfo(limit);
+    }
+
+
+
+    @PostMapping("physicianInfo")
     public void createPhysician(@RequestBody PhysicianDto physician) {
         physicianService.createPhysician(physician);
     }
 
     @GetMapping()
-    public List<Physician> getAllPhysiciansWithAdditionalInfo() {
-        return physicianService.getAllPhysiciansWithAdditionalInfo();
+    public List<Physician> getPhysiciansWithAdditionalInfo() {
+        return physicianService.getPhysiciansWithAdditionalInfo();
     }
     @PutMapping("{uuid}")
     public ResponseEntity<String> updatePhysicianById(@RequestBody PhysicianDto user, @PathVariable("uuid") UUID uuid) {
