@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -41,6 +40,10 @@ public class TimeslotController {
     public boolean addTimeslot(@RequestBody TimeslotDto timeslotDto) {
         return timeslotService.addTimeslot(timeslotDto);
     }
+    @GetMapping("/count/{physicianId}/{patientId}")
+    public Long countUpcomingTimeslotsWithPhysician(@PathVariable UUID physicianId, @PathVariable UUID patientId) {
+        return timeslotService.countUpcomingTimeslotsWithPhysician(physicianId, patientId);
+    }
 
     @PatchMapping()
     public ResponseEntity<Timeslot> updateTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
@@ -51,4 +54,9 @@ public class TimeslotController {
     public ResponseEntity<Timeslot> deleteTimeslot(@RequestBody TimeslotDto timeslotDto) {
         return timeslotService.deleteTimeslot(timeslotDto);
     }
+    @PatchMapping("/{physicianId}/{patientId}")
+    public ResponseEntity<Void> removePatientFromTimeslot(@PathVariable UUID physicianId, @PathVariable UUID patientId) {
+        return timeslotService.removePatientFromTimeslot(physicianId, patientId);
+    }
+
 }

@@ -55,7 +55,21 @@ public class TimeslotService {
         return timeslotMapper.getTimeslot(physicianId, dateTime);
     }
 
+    public Long countUpcomingTimeslotsWithPhysician(UUID physicianId, UUID patientId){
+        Long upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(physicianId, patientId);
+        return upcomingTimeslotsCount;
+    }
+
     public ResponseEntity<Timeslot> updateTimeslot(TimeslotFullDto timeslotDto) {
+
+        Long upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
+                timeslotDto.physicianId(),
+                timeslotDto.patientId()
+        );
+        if (upcomingTimeslotsCount > 0) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
         Optional<Timeslot> optional = getTimeslot(
                 timeslotDto.physicianId(),
                 DateTimeHelper.toDateTime(timeslotDto.date(), timeslotDto.time())
@@ -66,7 +80,6 @@ public class TimeslotService {
         HttpStatus status = updated
                 ? HttpStatus.CREATED
                 : HttpStatus.NOT_MODIFIED;
-        new ResponseEntity<Timeslot>(timeslot, status);
         return new ResponseEntity<Timeslot>(timeslot, status);
     }
 
@@ -82,5 +95,14 @@ public class TimeslotService {
                 : HttpStatus.BAD_REQUEST;
         new ResponseEntity<Timeslot>(timeslot, status);
         return new ResponseEntity<Timeslot>(timeslot, status);
+    }
+
+    public ResponseEntity<Void> removePatientFromTimeslot(UUID physicianId, UUID patientId) {
+        boolean isDeleted  = timeslotMapper.removePatientFromTimeslot(physicianId, patientId);
+        if (isDeleted  == true) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
