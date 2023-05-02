@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.user.service;
 
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.model.Physician;
+import com.sourcery.clinicapp.timeslot.model.dto.PatientAppointmentsDto;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,10 @@ public class UserService {
         return userRepository.GetLimitedAdmins(offset);
     }
 
+    public List<PatientAppointmentsDto> getPatientAppointments(UUID id){
+        return   userRepository.getPatientAppointments(id);
+
+    }
 
     public ResponseEntity<String> createPatient(User user) {
         User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();

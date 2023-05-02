@@ -4,6 +4,7 @@ import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.login.model.LoginDto;
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
+import com.sourcery.clinicapp.timeslot.model.dto.PatientAppointmentsDto;
 import com.sourcery.clinicapp.user.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,25 @@ public interface UserRepository {
     List<User> getAdminSearch(@Param("search") String search );
 
 
-    @ResultMap("PhysicianResultMap")
+
+ @ResultMap("PatientTimeslotResultMap")
+ @Select("""
+           SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
+           FROM users u
+                LEFT JOIN additional_physician_info i
+                    ON u.id = i.user_id
+                LEFT JOIN occupations o
+                    ON i.occupation_id = o.id
+                LEFT JOIN timeslot t
+                    ON u.id = t.physicianid
+                WHERE t.patientid=#{patient}
+            """)
+ List<PatientAppointmentsDto>getPatientAppointments(@Param("patient") UUID patient);
+
+
+
+
+ @ResultMap("PhysicianResultMap")
     @Select("""
            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
             FROM users u
