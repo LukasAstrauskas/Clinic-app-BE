@@ -33,10 +33,11 @@ CREATE TABLE additional_patient_info (
     postal_code VARCHAR(12),
     country VARCHAR(255),
     emergency_name VARCHAR(255),
-    emergency_surname VARCHAR(255),
+    emergency_last_name VARCHAR(255),
     emergency_phone BIGINT,
     emergency_relation VARCHAR(255),
-    CONSTRAINT fk_user_id_patient FOREIGN KEY (user_id) REFERENCES users(id)
+    CONSTRAINT fk_user_id_patient FOREIGN KEY (user_id) REFERENCES users(id),
+    PRIMARY KEY (user_id)
 );
 
 CREATE TABLE IF NOT EXISTS timeslot (

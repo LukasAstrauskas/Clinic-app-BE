@@ -13,16 +13,16 @@ import java.util.UUID;
 @Builder
 @Data
 public class AdditionalPatientInfo {
-    private UUID user_id;
+    private UUID userId;
     private String gender;
-    private Date birth_date;
+    private Date birthDate;
     private long phone;
     private String street;
     private String city;
-    private String postal_code;
+    private String postalCode;
     private String country;
-    private String emergency_name;
-    private String emergency_surname;
-    private long emergency_phone;
-    private String emergency_relation;
+    private String emergencyName;
+    private String emergencyLastName;
+    private long emergencyPhone;
+    private String emergencyRelation;
 }

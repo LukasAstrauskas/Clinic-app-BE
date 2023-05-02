@@ -19,8 +19,12 @@ public class PatientController {
     public AdditionalPatientInfo getPhysicianWithAdditionalInfo(@PathVariable("id") UUID id) {
         return patientService.getAdditionalPatientInfo(id);
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updatePatient(@PathVariable UUID id, @RequestBody AdditionalPatientInfo updatedPatientInfo) {
+    @PutMapping("{id}")
+    public ResponseEntity<AdditionalPatientInfo> updateAdditionalPatientInfo(@PathVariable UUID id, @RequestBody AdditionalPatientInfo updatedPatientInfo) {
         return patientService.updateAdditionalPatientInfo(id, updatedPatientInfo);
+    }
+    @PostMapping("/")
+    public ResponseEntity<AdditionalPatientInfo> createPatient(@RequestBody AdditionalPatientInfo patient) {
+        return patientService.createAdditionalPatientInfo(patient);
     }
 }

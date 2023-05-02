@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -19,13 +20,29 @@ public class PatientService {
         return additionalPatientInfoRepository.getAdditionalPatientInfo(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
     }
 
-    public ResponseEntity<String> updateAdditionalPatientInfo(UUID id, AdditionalPatientInfo additionalPatientInfo) {
+    public ResponseEntity<AdditionalPatientInfo> updateAdditionalPatientInfo(UUID id, AdditionalPatientInfo additionalPatientInfo) {
         try{
-            additionalPatientInfoRepository.updateAdditionalPatientInfo(id, additionalPatientInfo);
-            return new ResponseEntity<>(HttpStatus.OK);
+            boolean result = additionalPatientInfoRepository.updateAdditionalPatientInfo(id, additionalPatientInfo);
+            if(result)
+                return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
         }
-        catch (Exception ex){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        catch (NoSuchElementException exception){
+            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<AdditionalPatientInfo> createAdditionalPatientInfo(AdditionalPatientInfo additionalPatientInfo) {
+        try{
+            boolean result = additionalPatientInfoRepository.createAdditionalPatientInfo(additionalPatientInfo);
+            if(result)
+                return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+        }
+        catch (NoSuchElementException exception){
+            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
         }
     }
 }
