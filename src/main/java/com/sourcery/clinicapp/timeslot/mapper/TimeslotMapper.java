@@ -21,7 +21,7 @@ public interface TimeslotMapper {
     Optional<Timeslot> getTimeslot(UUID physicianId, LocalDateTime dateTime);
 
     @Select("SELECT COUNT(*) FROM timeslot WHERE patientid = #{patientId} AND physicianid = #{physicianId} AND date >= now()")
-    Long countUpcomingTimeslotsWithPhysician(@Param("physicianId") UUID physicianId, @Param("patientId") UUID patientId);
+    Short countUpcomingTimeslotsWithPhysician(@Param("physicianId") UUID physicianId, @Param("patientId") UUID patientId);
 
     @Insert("INSERT INTO timeslot (physicianId, date) VALUES(#{physicianId}, #{date})")
     boolean addTimeslot(Timeslot timeslot);

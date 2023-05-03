@@ -57,7 +57,7 @@ public class TimeslotService {
 
     public ResponseEntity<Timeslot> updateTimeslot(TimeslotFullDto timeslotDto) {
 
-        Long upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
+        Short upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
                 timeslotDto.physicianId(),
                 timeslotDto.patientId()
         );
