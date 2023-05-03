@@ -27,6 +27,6 @@ public interface TimeslotMapper {
             " WHERE physicianid = #{physicianId} AND date = #{date} AND patientid IS NULL")
     boolean updateTimeslotSetPatientID(Timeslot timeslot);
 
-    @Delete("DELETE FROM timeslot WHERE physicianid = #{physicianId} AND date=#{date} AND patientid IS NULL")
-    boolean deleteTimeslot(Timeslot timeslot);
+    @Delete("DELETE FROM timeslot WHERE physicianid=#{id}")
+    boolean deleteTimeslot(/*Timeslot timeslot*/ @Param("id") UUID id);
 }

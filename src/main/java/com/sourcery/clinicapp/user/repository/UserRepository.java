@@ -26,19 +26,33 @@ public interface UserRepository {
 
 
 
- @ResultMap("PatientTimeslotResultMap")
- @Select("""
-           SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
-           FROM users u
-                LEFT JOIN additional_physician_info i
-                    ON u.id = i.user_id
-                LEFT JOIN occupations o
-                    ON i.occupation_id = o.id
-                LEFT JOIN timeslot t
-                    ON u.id = t.physicianid
-                WHERE t.patientid=#{patient}
-            """)
- List<PatientAppointmentsDto>getPatientAppointments(@Param("patient") UUID patient);
+    @ResultMap("PatientTimeslotResultMap")
+    @Select("""
+              SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
+              FROM users u
+                   LEFT JOIN additional_physician_info i
+                       ON u.id = i.user_id
+                   LEFT JOIN occupations o
+                       ON i.occupation_id = o.id
+                   LEFT JOIN timeslot t
+                       ON u.id = t.physicianid
+                   WHERE t.patientid=#{patient} AND t.date > CURDATE()
+               """)
+    List<PatientAppointmentsDto>getUpcomingPatientAppointments(@Param("patient") UUID patient);
+
+    @ResultMap("PatientTimeslotResultMap")
+    @Select("""
+                 SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
+                 FROM users u
+                      LEFT JOIN additional_physician_info i
+                          ON u.id = i.user_id
+                      LEFT JOIN occupations o
+                          ON i.occupation_id = o.id
+                      LEFT JOIN timeslot t
+                          ON u.id = t.physicianid
+                      WHERE t.patientid=#{patient} AND t.date <= CURDATE()
+                  """)
+    List<PatientAppointmentsDto>getPastPatientAppointments(@Param("patient") UUID patient);
 
 
 

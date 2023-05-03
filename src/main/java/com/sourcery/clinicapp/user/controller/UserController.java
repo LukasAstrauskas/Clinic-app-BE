@@ -24,11 +24,16 @@ public class UserController {
     public List<User> getPatients() {
         return userService.getPatients();
     }
-
-    @GetMapping("patientAppointments/{id}")
-    public List<PatientAppointmentsDto> getAppointments(@PathVariable("id") UUID id){
-        return  userService.getPatientAppointments(id);
+    @GetMapping("patientUpcomingAppointments/{id}")
+    public List<PatientAppointmentsDto> getUpcomingAppointments(@PathVariable("id") UUID id){
+        return  userService.getUpcomingPatientAppointments(id);
     }
+
+    @GetMapping("patientPastAppointments/{id}")
+    public List<PatientAppointmentsDto> getPastAppointments(@PathVariable("id") UUID id){
+        return  userService.getPastPatientAppointments(id);
+    }
+
 
     @GetMapping(value = "patientSize")
     public Long getAmountOfPatients(){

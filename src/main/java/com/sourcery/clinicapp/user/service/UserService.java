@@ -40,9 +40,13 @@ public class UserService {
         return userRepository.GetLimitedAdmins(offset);
     }
 
-    public List<PatientAppointmentsDto> getPatientAppointments(UUID id){
-        return   userRepository.getPatientAppointments(id);
+    public List<PatientAppointmentsDto> getUpcomingPatientAppointments(UUID id){
+        return   userRepository.getUpcomingPatientAppointments(id);
+    }
 
+
+    public List<PatientAppointmentsDto> getPastPatientAppointments(UUID id){
+        return   userRepository.getPastPatientAppointments(id);
     }
 
     public ResponseEntity<String> createPatient(User user) {

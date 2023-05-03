@@ -47,8 +47,8 @@ public class TimeslotController {
         return timeslotService.updateTimeslot(timeslotFullDto);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<Timeslot> deleteTimeslot(@RequestBody TimeslotDto timeslotDto) {
-        return timeslotService.deleteTimeslot(timeslotDto);
+    @DeleteMapping("{id}")
+    public ResponseEntity<Timeslot> deleteTimeslot(/*@RequestBody TimeslotDto timeslotDto*/ @PathVariable("id") UUID id) {
+        return timeslotService.deleteTimeslot(id);
     }
 }

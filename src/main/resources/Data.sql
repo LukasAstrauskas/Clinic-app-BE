@@ -134,6 +134,7 @@ INSERT INTO timeslot (physicianid, date)
 INSERT INTO timeslot (physicianid, date, patientid)
     VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '2023-06-20 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-06-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('60867f57-9fb1-45e4-9a34-0715ec32f476', '2023-05-01 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-06-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
 --patients
 INSERT INTO users (id, name, email, password, type)
