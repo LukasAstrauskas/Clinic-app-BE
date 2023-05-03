@@ -24,19 +24,30 @@ public interface UserRepository {
     List<User> getAdminSearch(@Param("search") String search );
 
 
-    @ResultMap("PhysicianResultMap")
-    @Select("""
-           SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
-            FROM users u
-                LEFT JOIN additional_physician_info i
-                    ON u.id = i.user_id
-                LEFT JOIN occupations o
-                    ON i.occupation_id = o.id
-                WHERE( LOWER(u.name) LIKE '%${search}%' OR LOWER(o.name) LIKE '%${search}%' )AND type='physician'
-    """)
-   List<Physician> getPhysicianSearch(@Param("search") String search );
 
-    @Select("SELECT * FROM users WHERE type='patient' LIMIT 7")
+
+   @ResultMap("PhysicianResultMap")
+   @Select("""
+    SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
+    FROM users u
+    LEFT JOIN additional_physician_info i ON u.id = i.user_id
+    LEFT JOIN occupations o ON i.occupation_id = o.id
+    WHERE type = 'physician'
+    AND (
+        #{search} IS NULL OR 
+        #{search} = '' OR 
+        (
+            LOWER(u.name) LIKE CONCAT('%', #{search}, '%') OR 
+            LOWER(o.name) LIKE CONCAT('%', #{search}, '%')
+        )
+    ) 
+    AND (#{occupation} IS NULL OR #{occupation} = '' OR LOWER(o.name) LIKE CONCAT('%', #{occupation}, '%'))
+""")
+   List<Physician> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
+
+
+
+   @Select("SELECT * FROM users WHERE type='patient' LIMIT 7")
     List<User> getPatients();
 
     @Select("SELECT * FROM users WHERE type='admin' LIMIT 7 ")
