@@ -55,11 +55,6 @@ public class TimeslotService {
         return timeslotMapper.getTimeslot(physicianId, dateTime);
     }
 
-    public Long countUpcomingTimeslotsWithPhysician(UUID physicianId, UUID patientId){
-        Long upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(physicianId, patientId);
-        return upcomingTimeslotsCount;
-    }
-
     public ResponseEntity<Timeslot> updateTimeslot(TimeslotFullDto timeslotDto) {
 
         Long upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(

@@ -40,11 +40,6 @@ public class TimeslotController {
     public boolean addTimeslot(@RequestBody TimeslotDto timeslotDto) {
         return timeslotService.addTimeslot(timeslotDto);
     }
-    @GetMapping("/count/{physicianId}/{patientId}")
-    public Long countUpcomingTimeslotsWithPhysician(@PathVariable UUID physicianId, @PathVariable UUID patientId) {
-        return timeslotService.countUpcomingTimeslotsWithPhysician(physicianId, patientId);
-    }
-
     @PatchMapping()
     public ResponseEntity<Timeslot> updateTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
         return timeslotService.updateTimeslot(timeslotFullDto);
