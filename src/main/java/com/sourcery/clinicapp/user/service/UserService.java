@@ -58,6 +58,14 @@ public class UserService {
         return sortedAppointments;
     }
 
+
+    public List<PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
+        return userRepository.getMorePastPatientAppointments(id, offset);
+    }
+
+
+
+
     public ResponseEntity<String> createPatient(User user) {
         User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
         userRepository.save(newUser);

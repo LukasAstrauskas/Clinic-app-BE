@@ -36,9 +36,11 @@ public interface UserRepository {
                        ON i.occupation_id = o.id
                    LEFT JOIN timeslot t
                        ON u.id = t.physicianid
-                   WHERE t.patientid=#{patient} AND t.date > CURDATE()
+                   WHERE t.patientid=#{patient} AND t.date > CURRENT_TIMESTAMP()
                """)
     List<PatientAppointmentsDto>getUpcomingPatientAppointments(@Param("patient") UUID patient);
+
+
 
     @ResultMap("PatientTimeslotResultMap")
     @Select("""
@@ -50,14 +52,30 @@ public interface UserRepository {
                           ON i.occupation_id = o.id
                       LEFT JOIN timeslot t
                           ON u.id = t.physicianid
-                      WHERE t.patientid=#{patient} AND t.date <= CURDATE()
+                       ORDER BY t.date ASC
+                      WHERE t.patientid=#{patient} AND t.date < CURRENT_TIMESTAMP()  ORDER BY t.date ASC
                   """)
     List<PatientAppointmentsDto>getPastPatientAppointments(@Param("patient") UUID patient);
 
 
+    @ResultMap("PatientTimeslotResultMap")
+    @Select("""
+                 SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
+                 FROM users u
+                      LEFT JOIN additional_physician_info i
+                          ON u.id = i.user_id
+                      LEFT JOIN occupations o
+                          ON i.occupation_id = o.id
+                      LEFT JOIN timeslot t
+                          ON u.id = t.physicianid
+                      WHERE t.patientid=#{patient} AND t.date < CURRENT_TIMESTAMP()  ORDER BY t.date DESC LIMIT 4 OFFSET #{offset}
+                  """)
+    List<PatientAppointmentsDto>getMorePastPatientAppointments(@Param("patient") UUID patient,@Param("offset") Number offset);
 
 
- @ResultMap("PhysicianResultMap")
+
+
+    @ResultMap("PhysicianResultMap")
     @Select("""
            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
             FROM users u

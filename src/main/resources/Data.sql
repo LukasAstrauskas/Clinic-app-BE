@@ -137,7 +137,14 @@ INSERT INTO timeslot (physicianid, date, patientid)
            ('60867f57-9fb1-45e4-9a34-0715ec32f476', '2023-05-01 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-06-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac131313', '2023-07-10 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-            ('f8a8e135-cc11-11ed-8f53-0242ac666666', '2023-06-28 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
+            ('f8a8e135-cc11-11ed-8f53-0242ac666666', '2023-06-28 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+
+            ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-05-01 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac555555', '2023-05-02 08:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac444444', '2023-05-03 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac222222', '2023-05-04 10:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac111111', '2023-05-02 05:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
+
 
 --patients
 INSERT INTO users (id, name, email, password, type)
