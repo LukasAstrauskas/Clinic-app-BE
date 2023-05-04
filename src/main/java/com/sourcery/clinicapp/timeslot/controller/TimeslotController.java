@@ -45,9 +45,9 @@ public class TimeslotController {
         return timeslotService.updateTimeslot(timeslotFullDto);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Timeslot> deleteTimeslot(/*@RequestBody TimeslotDto timeslotDto*/ @PathVariable("id") UUID id) {
-        return timeslotService.deleteTimeslot(id);
+    @DeleteMapping
+    public ResponseEntity<Timeslot> deleteTimeslot(@RequestBody TimeslotDto timeslotDto) {
+        return timeslotService.deleteTimeslot(timeslotDto);
     }
     @PatchMapping("/{physicianId}/{patientId}")
     public ResponseEntity<Void> removePatientFromTimeslot(@PathVariable UUID physicianId, @PathVariable UUID patientId) {

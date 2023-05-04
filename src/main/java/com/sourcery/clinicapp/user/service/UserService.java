@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.user.service;
 
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.model.Physician;
+import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import com.sourcery.clinicapp.timeslot.model.dto.PatientAppointmentsDto;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -41,12 +43,19 @@ public class UserService {
     }
 
     public List<PatientAppointmentsDto> getUpcomingPatientAppointments(UUID id){
-        return   userRepository.getUpcomingPatientAppointments(id);
+        List<PatientAppointmentsDto> sortedAppointments = userRepository.getUpcomingPatientAppointments(id).stream()
+                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(Timeslot::getDate).reversed()))
+                .collect(Collectors.toList());
+
+        return sortedAppointments;
     }
 
-
     public List<PatientAppointmentsDto> getPastPatientAppointments(UUID id){
-        return   userRepository.getPastPatientAppointments(id);
+        List<PatientAppointmentsDto> sortedAppointments = userRepository.getPastPatientAppointments(id).stream()
+                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(Timeslot::getDate).reversed()))
+                .collect(Collectors.toList());
+
+        return sortedAppointments;
     }
 
     public ResponseEntity<String> createPatient(User user) {
