@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -103,9 +104,10 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "physicianSearch/{search}")
-    public List<Physician> handlePhysicianSearch(@PathVariable("search") String search){
-        return  userService.handlePhysicianSearch(search);
+    @GetMapping(value = "physicianSearch/")
+    public List<Physician> handlePhysicianSearch(@RequestParam(name = "search", required = false) Optional<String> search,
+                                                 @RequestParam(name = "occupation", required = false) Optional<String> occupation) {
+        return userService.handlePhysicianSearch(search, occupation);
     }
 
     @GetMapping(value = "adminSearch/{search}")
