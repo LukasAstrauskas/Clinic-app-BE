@@ -102,9 +102,10 @@ public class UserService {
         return userRepository.getAdminSearch(formatedSearch);
     }
 
-    public List<Physician>handlePhysicianSearch(String search){
-        String formatedSearch = search.toLowerCase();
-        return userRepository.getPhysicianSearch(formatedSearch);
+    public List<Physician>handlePhysicianSearch(Optional<String>  search, Optional<String> occupation){
+        String formattedSearch = search.map(String::toLowerCase).orElse("");
+        String formattedOccupation = occupation.map(String::toLowerCase).orElse("");
+        return userRepository.getPhysicianSearch(formattedSearch, formattedOccupation);
     }
 
 

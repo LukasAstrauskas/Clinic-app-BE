@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -33,15 +34,15 @@ public class TimeslotController {
     }
 
     @GetMapping("getPhyTimeslots/{physicianId}")
-    public List<TimeslotsDto> getPhyTimeslots(@PathVariable UUID physicianId) {
-        return timeslotService.getPhyTimeslots(physicianId);
+    public ResponseEntity<List<TimeslotsDto>> getPhyTimeslots(@PathVariable UUID physicianId, @RequestParam Optional<String> date) {
+        return timeslotService.getPhyTimeslots(physicianId, date.orElseGet(() -> LocalDate.now().toString()));
     }
 
     @PostMapping()
     public boolean addTimeslot(@RequestBody TimeslotDto timeslotDto) {
         return timeslotService.addTimeslot(timeslotDto);
     }
-
+    
     @PatchMapping()
     public ResponseEntity<Timeslot> updateTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
         return timeslotService.updateTimeslot(timeslotFullDto);
@@ -51,4 +52,10 @@ public class TimeslotController {
     public ResponseEntity<Timeslot> deleteTimeslot(@RequestBody TimeslotDto timeslotDto) {
         return timeslotService.deleteTimeslot(timeslotDto);
     }
+
+    @PatchMapping("/{physicianId}/{patientId}")
+    public ResponseEntity<Void> removePatientFromTimeslot(@PathVariable UUID physicianId, @PathVariable UUID patientId) {
+        return timeslotService.removePatientFromTimeslot(physicianId, patientId);
+    }
+
 }
