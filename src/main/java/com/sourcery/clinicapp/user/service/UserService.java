@@ -5,6 +5,8 @@ import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import com.sourcery.clinicapp.timeslot.model.dto.PatientAppointmentsDto;
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotForPatient;
+import com.sourcery.clinicapp.user.model.Page;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -44,26 +46,20 @@ public class UserService {
 
     public List<PatientAppointmentsDto> getUpcomingPatientAppointments(UUID id){
         List<PatientAppointmentsDto> sortedAppointments = userRepository.getUpcomingPatientAppointments(id).stream()
-                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(Timeslot::getDate).reversed()))
+                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(TimeslotForPatient::getDate).reversed()))
                 .collect(Collectors.toList());
-
-        return sortedAppointments;
-    }
-
-    public List<PatientAppointmentsDto> getPastPatientAppointments(UUID id){
-        List<PatientAppointmentsDto> sortedAppointments = userRepository.getPastPatientAppointments(id).stream()
-                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(Timeslot::getDate).reversed()))
-                .collect(Collectors.toList());
-
         return sortedAppointments;
     }
 
 
-    public List<PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
-        return userRepository.getMorePastPatientAppointments(id, offset);
+    public  Page /*List*/ <PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
+        var data =userRepository.getMorePastPatientAppointments(id, offset);
+        var size = userRepository.getPastAppointmentAmount(id);
+        Page<PatientAppointmentsDto> page = new Page<>();
+        page.setData(data);
+        page.setTotal(size);
+        return page;
     }
-
-
 
 
     public ResponseEntity<String> createPatient(User user) {

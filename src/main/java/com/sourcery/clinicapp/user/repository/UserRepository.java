@@ -52,32 +52,21 @@ public interface UserRepository {
                           ON i.occupation_id = o.id
                       LEFT JOIN timeslot t
                           ON u.id = t.physicianid
-                       ORDER BY t.date ASC
-                      WHERE t.patientid=#{patient} AND t.date < CURRENT_TIMESTAMP()  ORDER BY t.date ASC
-                  """)
-    List<PatientAppointmentsDto>getPastPatientAppointments(@Param("patient") UUID patient);
-
-
-    @ResultMap("PatientTimeslotResultMap")
-    @Select("""
-                 SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
-                 FROM users u
-                      LEFT JOIN additional_physician_info i
-                          ON u.id = i.user_id
-                      LEFT JOIN occupations o
-                          ON i.occupation_id = o.id
-                      LEFT JOIN timeslot t
-                          ON u.id = t.physicianid
-                      WHERE t.patientid=#{patient} AND t.date < CURRENT_TIMESTAMP()  ORDER BY t.date DESC LIMIT 4 OFFSET #{offset}
+                      WHERE t.patientid=#{patient} AND t.date < CURRENT_TIMESTAMP() ORDER BY t.date DESC
+                      LIMIT 5 OFFSET #{offset}
                   """)
     List<PatientAppointmentsDto>getMorePastPatientAppointments(@Param("patient") UUID patient,@Param("offset") Number offset);
 
 
+    @Select("""
+            SELECT COUNT(*) FROM timeslot WHERE patientId =#{patient} AND date < CURRENT_TIMESTAMP()
+            """)
+    int getPastAppointmentAmount(@Param("patient") UUID patient);
 
 
     @ResultMap("PhysicianResultMap")
     @Select("""
-           SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
+           SELECT u.name name, o.id occupation_id, o.name occupation_name
             FROM users u
                 LEFT JOIN additional_physician_info i
                     ON u.id = i.user_id

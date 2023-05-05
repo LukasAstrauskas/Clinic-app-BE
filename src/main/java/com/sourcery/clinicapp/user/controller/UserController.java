@@ -2,6 +2,7 @@ package com.sourcery.clinicapp.user.controller;
 
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.timeslot.model.dto.PatientAppointmentsDto;
+import com.sourcery.clinicapp.user.model.Page;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -35,7 +36,7 @@ public class UserController {
 //    }
 
     @GetMapping("patientPastAppointments/{id}/{offset}")
-    public List<PatientAppointmentsDto> getPastAppointments(@PathVariable("id") UUID id,@PathVariable("offset") Number offset){
+    public Page<PatientAppointmentsDto> getPastAppointments(@PathVariable("id") UUID id, @PathVariable("offset") Number offset){
         return  userService.getMorePastPatientAppointments(id, offset);
     }
 

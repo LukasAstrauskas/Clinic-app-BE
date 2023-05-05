@@ -83,18 +83,19 @@ VALUES
             ('634d6e1c-03fc-49a2-bf52-0ccfb9f9a7da', 'Sophia Lee', 'sophialee@example.com', 'passabcword', 'admin'),
             ('411a6468-eeb5-48c2-b6e2-1551578c0d69', 'Daniel Smith', 'danielsmith@example.com', 'passwordxyz', 'admin'),
             ('1dc5f57a-84b9-4c18-b70f-c2d882fe8c43', 'Katie Kim', 'katiekim@example.com', 'passxyzword', 'admin'),
-
-
-('f8a8e135-cc11-11ed-8f53-0242ac112345', 'James Wilson', 'james.wilson@gmail.com', 'password123', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac123666', 'Elizabeth Taylor', 'elizabethtaylor@hotmail.com', 'pass123word', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac111111', 'William Carter', 'williamcarter@yahoo.com', 'password456', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac333333', 'Isabella Rodriguez', 'isabellarodriguez@gmail.com', 'pass456word', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac222222', 'Benjamin Lopez', 'benjaminlopez@yahoo.com', 'password789', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac444444', 'Avery Davis', 'averydavis@hotmail.com', 'pass789word', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac555555', 'Ethan Wilson', 'ethanwilson@gmail.com', 'passwordabc', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac345445', 'Sofia Garcia', 'sofiagarcia@yahoo.com', 'passabcword', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac131313', 'Michael Brown', 'michaelbrown@hotmail.com', 'passwordxyz', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac666666', 'Olivia Anderson', 'oliviaanderson@gmail.com', 'passxyzword', 'physician');
+            ('f8a8e135-cc11-11ed-8f53-0242ac112345', 'James Wilson', 'james.wilson@gmail.com', 'password123', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac123666', 'Elizabeth Taylor', 'elizabethtaylor@hotmail.com', 'pass123word', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac111111', 'William Carter', 'williamcarter@yahoo.com', 'password456', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac333333', 'Isabella Rodriguez', 'isabellarodriguez@gmail.com', 'pass456word', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac222222', 'Benjamin Lopez', 'benjaminlopez@yahoo.com', 'password789', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac444444', 'Avery Davis', 'averydavis@hotmail.com', 'pass789word', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac555555', 'Ethan Wilson', 'ethanwilson@gmail.com', 'passwordabc', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac345445', 'Sofia Garcia', 'sofiagarcia@yahoo.com', 'passabcword', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac131313', 'Michael Brown', 'michaelbrown@hotmail.com', 'passwordxyz', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac666666', 'Olivia Anderson', 'oliviaanderson@gmail.com', 'passxyzword', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac777777', 'testing testing', 'oliviaandfsderson@gmail.com', 'passxyzword', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac888888', 'asd asd', 'oliviaandersdfgo3n@gmail.com', 'passxyzword', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac999999', 'Olasdivia Anderfgson', 'oliv12iaanderson@gmail.com', 'passxyzword', 'physician');
 
 INSERT INTO additional_physician_info (user_id, occupation_id)
     VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
@@ -108,7 +109,12 @@ INSERT INTO additional_physician_info (user_id, occupation_id)
             ('f8a8e135-cc11-11ed-8f53-0242ac555555', '6df1266e-05a4-11ec-9a03-0242ac130003'),
             ('f8a8e135-cc11-11ed-8f53-0242ac345445', '7c8ecb0c-05a4-11ec-9a03-0242ac130003'),
             ('f8a8e135-cc11-11ed-8f53-0242ac131313', '899f8fd2-05a4-11ec-9a03-0242ac130003'),
-            ('f8a8e135-cc11-11ed-8f53-0242ac666666', '9771dd68-05a4-11ec-9a03-0242ac130003');
+            ('f8a8e135-cc11-11ed-8f53-0242ac666666', '9771dd68-05a4-11ec-9a03-0242ac130003'),
+
+('f8a8e135-cc11-11ed-8f53-0242ac999999', '9771dd68-05a4-11ec-9a03-0242ac130003'),
+('f8a8e135-cc11-11ed-8f53-0242ac888888', '9771dd68-05a4-11ec-9a03-0242ac130003'),
+('f8a8e135-cc11-11ed-8f53-0242ac777777', '9771dd68-05a4-11ec-9a03-0242ac130003');
+
 
 
 INSERT INTO timeslot (physicianid, date)
@@ -138,12 +144,20 @@ INSERT INTO timeslot (physicianid, date, patientid)
            ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-06-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac131313', '2023-07-10 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac666666', '2023-06-28 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+--past appointments
+           ('f8a8e135-cc11-11ed-8f53-0242ac112345', '2023-04-01 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac123666', '2023-04-23 07:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac333333', '2023-04-29 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac777777', '2023-04-29 06:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac888888', '2023-04-29 07:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac999999', '2023-05-01 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
 
-            ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-05-01 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-            ('f8a8e135-cc11-11ed-8f53-0242ac555555', '2023-05-02 08:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-            ('f8a8e135-cc11-11ed-8f53-0242ac444444', '2023-05-03 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-            ('f8a8e135-cc11-11ed-8f53-0242ac222222', '2023-05-04 10:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-            ('f8a8e135-cc11-11ed-8f53-0242ac111111', '2023-05-02 05:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
+
+
+            ('f8a8e135-cc11-11ed-8f53-0242ac555555', '2023-05-02 08:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
+--             ('f8a8e135-cc11-11ed-8f53-0242ac444444', '2023-05-03 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+--             ('f8a8e135-cc11-11ed-8f53-0242ac222222', '2023-05-04 10:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+--             ('f8a8e135-cc11-11ed-8f53-0242ac111111', '2023-05-02 05:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
 
 
 --patients
