@@ -25,6 +25,7 @@ VALUES
 
 INSERT INTO users (id, name, email, password, type)
 VALUES
+            ('81fe6628-7f9f-4f2e-be41-a190aa369831', 'Tikras Pacientas', 'clinicgunit2023@gmail.com','password', 'patient'),
             ('e89e027e-cb1f-11ed-afa1-0342ac123002', 'Giedrius Jocius', 'GiedriusJocius@devBridge.com','password', 'patient'),
             ('f5e843ba-ce74-11ed-afa1-0242ac120002', 'Patient patient', 'patient@yahoo.com', 'passowrd', 'patient'),
             ('f5a643ba-ce99-11ed-afa1-1232ac120002', 'Patientas patientas', 'patientas@yahoo.com', 'passowrd', 'patient'),
