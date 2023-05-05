@@ -24,7 +24,7 @@ CREATE TABLE additional_physician_info (
 
 
 CREATE TABLE additional_patient_info (
-    user_id UUID,
+    user_id UUID PRIMARY KEY,
     gender VARCHAR(255),
     birth_date DATE,
     phone BIGINT,
@@ -36,8 +36,8 @@ CREATE TABLE additional_patient_info (
     emergency_last_name VARCHAR(255),
     emergency_phone BIGINT,
     emergency_relation VARCHAR(255),
-    CONSTRAINT fk_user_id_patient FOREIGN KEY (user_id) REFERENCES users(id),
-    PRIMARY KEY (user_id)
+    CONSTRAINT fk_user_id_patient FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS timeslot (

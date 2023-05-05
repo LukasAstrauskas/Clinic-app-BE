@@ -164,5 +164,5 @@ INSERT INTO additional_physician_info (user_id, occupation_id)
 INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street, city, postal_code,
                                      country, emergency_name, emergency_last_name, emergency_phone,
                                      emergency_relation)
-    VALUES ('f5e843ba-ce74-11ed-afa1-0242ac120002', 'male', '1990-09-09', 37062345678, 'Zalgiris g. 112', 'Vilnius',
-            '09300', 'Lithuania', 'Vardenis', 'Pavardenis', 37068765432, 'Father');
+    VALUES ('f5e843ba-ce74-11ed-afa1-0242ac120002', 'male', '1990-09-09', 37062345678, 'Zalgiris g. 112',
+            'Vilnius', '09300', 'Lithuania', 'Vardenis', 'Pavardenis', 37068765432, 'Father');

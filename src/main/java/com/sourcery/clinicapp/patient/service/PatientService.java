@@ -17,32 +17,37 @@ public class PatientService {
 
     private final AdditionalPatientInfoRepository additionalPatientInfoRepository;
     public AdditionalPatientInfo getAdditionalPatientInfo(UUID id) {
-        return additionalPatientInfoRepository.getAdditionalPatientInfo(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
+        return additionalPatientInfoRepository.getAdditionalPatientInfo(id).orElseThrow(
+                () -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
     }
 
     public ResponseEntity<AdditionalPatientInfo> updateAdditionalPatientInfo(UUID id, AdditionalPatientInfo additionalPatientInfo) {
         try{
-            boolean result = additionalPatientInfoRepository.updateAdditionalPatientInfo(id, additionalPatientInfo);
-            if(result)
-                return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);
-            else
+            if (!additionalPatientInfoRepository.updateAdditionalPatientInfo(id, additionalPatientInfo)) {
                 return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);
         }
         catch (NoSuchElementException exception){
             return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     public ResponseEntity<AdditionalPatientInfo> createAdditionalPatientInfo(AdditionalPatientInfo additionalPatientInfo) {
         try{
-            boolean result = additionalPatientInfoRepository.createAdditionalPatientInfo(additionalPatientInfo);
-            if(result)
-                return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);
-            else
+            if (!additionalPatientInfoRepository.createAdditionalPatientInfo(additionalPatientInfo)) {
                 return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);
         }
         catch (NoSuchElementException exception){
             return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
