@@ -84,17 +84,16 @@ VALUES
             ('411a6468-eeb5-48c2-b6e2-1551578c0d69', 'Daniel Smith', 'danielsmith@example.com', 'passwordxyz', 'admin'),
             ('1dc5f57a-84b9-4c18-b70f-c2d882fe8c43', 'Katie Kim', 'katiekim@example.com', 'passxyzword', 'admin'),
             ('0a1a7d29-fc40-45b0-924c-f92ba8ba703e','Ted Kaczynski', 'ted@ml.com', 'ted', 'admin' ),
-
-('f8a8e135-cc11-11ed-8f53-0242ac112345', 'James Wilson', 'james.wilson@gmail.com', 'password123', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac123666', 'Elizabeth Taylor', 'elizabethtaylor@hotmail.com', 'pass123word', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac111111', 'William Carter', 'williamcarter@yahoo.com', 'password456', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac333333', 'Isabella Rodriguez', 'isabellarodriguez@gmail.com', 'pass456word', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac222222', 'Benjamin Lopez', 'benjaminlopez@yahoo.com', 'password789', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac444444', 'Avery Davis', 'averydavis@hotmail.com', 'pass789word', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac555555', 'Ethan Wilson', 'ethanwilson@gmail.com', 'passwordabc', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac345445', 'Sofia Garcia', 'sofiagarcia@yahoo.com', 'passabcword', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac131313', 'Michael Brown', 'michaelbrown@hotmail.com', 'passwordxyz', 'physician'),
-('f8a8e135-cc11-11ed-8f53-0242ac666666', 'Olivia Anderson', 'oliviaanderson@gmail.com', 'passxyzword', 'physician');
+            ('f8a8e135-cc11-11ed-8f53-0242ac112345', 'James Wilson', 'james.wilson@gmail.com', 'password123', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac123666', 'Elizabeth Taylor', 'elizabethtaylor@hotmail.com', 'pass123word', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac111111', 'William Carter', 'williamcarter@yahoo.com', 'password456', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac333333', 'Isabella Rodriguez', 'isabellarodriguez@gmail.com', 'pass456word', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac222222', 'Benjamin Lopez', 'benjaminlopez@yahoo.com', 'password789', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac444444', 'Avery Davis', 'averydavis@hotmail.com', 'pass789word', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac555555', 'Ethan Wilson', 'ethanwilson@gmail.com', 'passwordabc', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac345445', 'Sofia Garcia', 'sofiagarcia@yahoo.com', 'passabcword', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac131313', 'Michael Brown', 'michaelbrown@hotmail.com', 'passwordxyz', 'physician'),
+            ('f8a8e135-cc11-11ed-8f53-0242ac666666', 'Olivia Anderson', 'oliviaanderson@gmail.com', 'passxyzword', 'physician');
 
 INSERT INTO additional_physician_info (user_id, occupation_id)
     VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
@@ -256,3 +255,9 @@ INSERT INTO additional_physician_info (user_id, occupation_id)
            ('5ab747c7-3094-4d04-a93e-a104e27d6f60', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
            ('37a55d08-8747-4c25-bb24-b1e857009acf', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
            ('60867f57-9fb1-45e4-9a34-0715ec32f476', '27004ebf-7c16-419e-8592-a4ae0be2cddd');
+
+INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street, city, postal_code,
+                                     country, emergency_name, emergency_last_name, emergency_phone,
+                                     emergency_relation)
+    VALUES ('f5e843ba-ce74-11ed-afa1-0242ac120002', 'male', '1990-09-09', 37062345678, 'Zalgiris g. 112',
+            'Vilnius', '09300', 'Lithuania', 'Vardenis', 'Pavardenis', 37068765432, 'Father');
