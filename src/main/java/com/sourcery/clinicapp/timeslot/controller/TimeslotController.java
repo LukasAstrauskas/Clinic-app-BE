@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.timeslot.controller;
 
+import com.sourcery.clinicapp.notifications.EmailMessageHandler;
 import com.sourcery.clinicapp.notifications.EmailSenderService;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotDto;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
@@ -28,10 +29,7 @@ public class TimeslotController {
     private TimeslotService timeslotService;
 
     @Autowired
-    private EmailSenderService emailSenderService;
-
-    @Autowired
-    private UserService userService;
+    private EmailMessageHandler messageHandler;
 
     @GetMapping("/{physicianId}/{date}/{time}")
     public Timeslot getTimeslot(@PathVariable UUID physicianId, @PathVariable String date, @PathVariable String time) {
@@ -56,14 +54,7 @@ public class TimeslotController {
     @PatchMapping()
     public ResponseEntity<Timeslot> updateTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
 
-        String toEmail = userService.getAUserById(timeslotFullDto.patientId()).getEmail();
-        String emailSubject = "Appointment confirmation " + LocalDate.now();
-        String physicianName = "\nPhysician name: " + userService.getAUserById(timeslotFullDto.physicianId()).getName();
-        String patientName = "Hello, " + userService.getAUserById(timeslotFullDto.patientId()).getName() +",\n";
-        String appointmentDate = "\nAppointment date: " + timeslotFullDto.date() + ", " + timeslotFullDto.time();
-        String emailMessage = patientName + "\nYour appointment successfully confirmed!\n" + physicianName + ";" + appointmentDate + ";\nIf you have any questions, please contact +37065468789; \nIf you want to cancel appointment, please login http://localhost:3000/login;";
-
-        emailSenderService.sendEmail(toEmail, emailSubject, emailMessage);
+        messageHandler.getEmailMessage(timeslotFullDto);
 
         return timeslotService.updateTimeslot(timeslotFullDto);
     }
