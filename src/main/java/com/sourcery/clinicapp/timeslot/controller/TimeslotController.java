@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Slf4j
 @RestController
 @RequestMapping("timeslot")
 public class TimeslotController {
