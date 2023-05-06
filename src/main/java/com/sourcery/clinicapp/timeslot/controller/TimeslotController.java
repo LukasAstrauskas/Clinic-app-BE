@@ -1,13 +1,10 @@
 package com.sourcery.clinicapp.timeslot.controller;
 
-import com.sourcery.clinicapp.notifications.EmailMessageHandler;
-import com.sourcery.clinicapp.notifications.EmailSenderService;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotDto;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotFullDto;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotsDto;
 import com.sourcery.clinicapp.timeslot.service.TimeslotService;
-import com.sourcery.clinicapp.user.service.UserService;
 import com.sourcery.clinicapp.utils.DateTimeHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +24,6 @@ public class TimeslotController {
 
     @Autowired
     private TimeslotService timeslotService;
-
-    @Autowired
-    private EmailMessageHandler messageHandler;
 
     @GetMapping("/{physicianId}/{date}/{time}")
     public Timeslot getTimeslot(@PathVariable UUID physicianId, @PathVariable String date, @PathVariable String time) {
@@ -53,8 +47,6 @@ public class TimeslotController {
     
     @PatchMapping()
     public ResponseEntity<Timeslot> updateTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
-
-        messageHandler.getEmailMessage(timeslotFullDto);
 
         return timeslotService.updateTimeslot(timeslotFullDto);
     }

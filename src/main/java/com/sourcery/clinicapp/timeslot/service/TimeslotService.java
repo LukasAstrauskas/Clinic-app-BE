@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.timeslot.service;
 
+import com.sourcery.clinicapp.notifications.EmailSenderService;
 import com.sourcery.clinicapp.utils.DateTimeHelper;
 import com.sourcery.clinicapp.timeslot.mapper.TimeslotMapper;
 import com.sourcery.clinicapp.timeslot.model.dto.*;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -22,6 +22,8 @@ public class TimeslotService {
     private TimeslotMapper timeslotMapper;
     @Autowired
     private TimeslotDataHelper timeslotDataHelper;
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     public Collection<Timeslot> getAllTimeslots() {
         return timeslotMapper.getAltTimeslots();
@@ -46,6 +48,8 @@ public class TimeslotService {
     }
 
     public ResponseEntity<Timeslot> updateTimeslot(TimeslotFullDto timeslotDto) {
+
+        emailSenderService.getEmailMessage(timeslotDto);
 
         Short upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
                 timeslotDto.physicianId(),

@@ -1,25 +1,39 @@
 package com.sourcery.clinicapp.notifications;
 
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotFullDto;
+import com.sourcery.clinicapp.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 public class EmailSenderService {
 
     @Autowired
-    private JavaMailSender mailSender;
+    private EmailNotificationConfig emailNotificationConfig;
 
-    public void sendEmail(String toEmail, String subject, String body) {
+    @Autowired
+    private UserService userService;
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("clinicgunit2023@gmail.com");
-        message.setTo(toEmail);
-        message.setSubject(subject);
-        message.setText(body);
+    public ResponseEntity<String> getEmailMessage(TimeslotFullDto timeslotFullDto) {
 
-        mailSender.send(message);
+    String toEmail = userService.getAUserById(timeslotFullDto.patientId()).getEmail();
+    String emailSubject = "Appointment confirmation " + LocalDate.now();
+    String physicianName = userService.getAUserById(timeslotFullDto.physicianId()).getName();
+    String patientName =  userService.getAUserById(timeslotFullDto.patientId()).getName();
+    String appointmentDate = timeslotFullDto.date() + ", " + timeslotFullDto.time();
+    String emailMessage = "Hello, " + patientName + ",\n" +
+            "\nYour appointment successfully confirmed!\n" +
+            "\nPhysician name: " +physicianName + ";" +
+            "\nAppointment date: " + appointmentDate + ";" +
+            "\nIf you have any questions, please contact +37065468789; " +
+            "\nIf you want to cancel appointment, please login http://localhost:3000/login;";
+
+    emailNotificationConfig.sendEmail(toEmail, emailSubject, emailMessage);
+
+    return new ResponseEntity<>("Appointment confirmation successfully send!", HttpStatus.OK);
     }
-
 }
