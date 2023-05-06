@@ -18,7 +18,7 @@ public class EmailSenderService {
     @Autowired
     private UserService userService;
 
-    public ResponseEntity<String> getEmailMessage(TimeslotFullDto timeslotFullDto) {
+    public void getEmailMessage(TimeslotFullDto timeslotFullDto) {
 
     String toEmail = userService.getAUserById(timeslotFullDto.patientId()).getEmail();
     String emailSubject = "Appointment confirmation " + LocalDate.now();
@@ -33,7 +33,5 @@ public class EmailSenderService {
             "\nIf you want to cancel appointment, please login http://localhost:3000/login;";
 
     emailNotificationConfig.sendEmail(toEmail, emailSubject, emailMessage);
-
-    return new ResponseEntity<>("Appointment confirmation successfully send!", HttpStatus.OK);
     }
 }
