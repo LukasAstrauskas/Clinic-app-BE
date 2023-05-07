@@ -46,7 +46,7 @@ public class UserService {
 
     public List<PatientAppointmentsDto> getUpcomingPatientAppointments(UUID id){
         List<PatientAppointmentsDto> sortedAppointments = userRepository.getUpcomingPatientAppointments(id).stream()
-                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(TimeslotForPatient::getDate).reversed()))
+                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(TimeslotForPatient::getDate)))
                 .collect(Collectors.toList());
         return sortedAppointments;
     }
