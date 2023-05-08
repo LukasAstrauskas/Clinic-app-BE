@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static java.util.stream.Collectors.groupingBy;
-
 @Service
 public class TimeslotService {
 
@@ -47,7 +45,7 @@ public class TimeslotService {
         return timeslotMapper.getTimeslot(physicianId, dateTime);
     }
 
-    public ResponseEntity<Timeslot> updateTimeslot(TimeslotFullDto timeslotDto) {
+    public ResponseEntity<Timeslot> bookAppointment(TimeslotFullDto timeslotDto) {
 
         emailSenderService.getEmailMessage(timeslotDto);
 
@@ -69,7 +67,7 @@ public class TimeslotService {
         HttpStatus status = updated
                 ? HttpStatus.OK
                 : HttpStatus.NOT_MODIFIED;
-        return new ResponseEntity<Timeslot>(timeslot, status);
+        return new ResponseEntity<>(timeslot, status);
     }
 
     public ResponseEntity<Timeslot> deleteTimeslot(TimeslotDto timeslotDto) {
@@ -82,8 +80,8 @@ public class TimeslotService {
         HttpStatus status = deleted
                 ? HttpStatus.OK
                 : HttpStatus.BAD_REQUEST;
-        new ResponseEntity<Timeslot>(timeslot, status);
-        return new ResponseEntity<Timeslot>(timeslot, status);
+        new ResponseEntity<>(timeslot, status);
+        return new ResponseEntity<>(timeslot, status);
     }
 
     public ResponseEntity<Void> removePatientFromTimeslot(UUID physicianId, UUID patientId) {

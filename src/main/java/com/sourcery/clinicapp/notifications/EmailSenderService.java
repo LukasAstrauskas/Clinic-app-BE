@@ -3,10 +3,7 @@ package com.sourcery.clinicapp.notifications;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotFullDto;
 import com.sourcery.clinicapp.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 
 @Service
