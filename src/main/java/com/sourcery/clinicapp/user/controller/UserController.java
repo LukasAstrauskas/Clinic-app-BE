@@ -2,6 +2,7 @@ package com.sourcery.clinicapp.user.controller;
 
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.user.model.User;
+import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping(value = "patients/{physicianId}")
-    public List<User> getPatientsByPhysicianId(@PathVariable UUID physicianId) {
+    public List<UserDTO> getPatientsByPhysicianId(@PathVariable UUID physicianId) {
         return userService.getPatientsWithAppointments(physicianId);
     }
 

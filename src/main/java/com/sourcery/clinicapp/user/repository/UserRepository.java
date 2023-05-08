@@ -5,6 +5,7 @@ import com.sourcery.clinicapp.login.model.LoginDto;
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.user.model.User;
+import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -57,7 +58,7 @@ public interface UserRepository {
                INNER JOIN timeslot t ON u.id = t.patientId
                WHERE t.physicianId = #{physicianId}
                """)
-    List<User> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId);
+    List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId);
 
     @Select("SELECT * FROM users WHERE type='admin' ORDER BY name LIMIT 7 ")
     List<User> getAdmins();
