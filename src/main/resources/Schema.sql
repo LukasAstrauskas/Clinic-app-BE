@@ -44,5 +44,9 @@ CREATE TABLE IF NOT EXISTS timeslot (
      physicianid UUID NOT NULL,
      date TIMESTAMP NOT NULl,
      patientid UUID ,
-     PRIMARY KEY (physicianid, date)
+     PRIMARY KEY (physicianid, date),
+     CONSTRAINT fk_physician_id FOREIGN KEY (physicianid) REFERENCES users(id)
+     ON DELETE CASCADE,
+     CONSTRAINT fk_patient_id FOREIGN KEY (patientid) REFERENCES users(id)
+     ON DELETE SET NULL
 );
