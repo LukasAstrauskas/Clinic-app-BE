@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.user.service;
 
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.model.Physician;
+import com.sourcery.clinicapp.timeslot.service.TimeslotService;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final TimeslotService timeslotService;
 
     public Long getAmountOfPatients(){
        return userRepository.getAmountOfPatients();
@@ -73,8 +75,8 @@ public class UserService {
     public ResponseEntity<String> deletePatientById(UUID uuid) {
         try {
             userRepository.deletePatientById(uuid);
-
-            return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
+            timeslotService.deleteAllTimeslotsByPatientId(uuid);
+            return new ResponseEntity<>("The user with all appointments was deleted successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
@@ -84,10 +86,6 @@ public class UserService {
         userRepository.deleteAdminById(uuid);
         return new ResponseEntity<>("Succes", HttpStatus.OK);
     }
-
-
-
-
 
     public User getAUserById(UUID id){
         return userRepository.findById(id);
