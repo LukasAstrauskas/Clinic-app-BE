@@ -48,8 +48,16 @@ public interface UserRepository {
 
 
 
-   @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 7")
-    List<User> getPatients();
+    @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 7")
+     List<User> getPatients();
+
+    @Select("""
+               SELECT u.id, u.name, u.email
+               FROM users u
+               INNER JOIN timeslot t ON u.id = t.patientId
+               WHERE t.physicianId = #{physicianId}
+               """)
+    List<User> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId);
 
     @Select("SELECT * FROM users WHERE type='admin' ORDER BY name LIMIT 7 ")
     List<User> getAdmins();

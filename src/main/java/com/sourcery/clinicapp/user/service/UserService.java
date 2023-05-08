@@ -60,6 +60,8 @@ public class UserService {
         return userRepository.getPatients();
     }
 
+    public List<User> getPatientsWithAppointments(UUID uuid) { return userRepository.getPatientsByPhysicianId(uuid); }
+
     public List<User> getPhysicians() {
         return userRepository.getPhysiciansType();
     }

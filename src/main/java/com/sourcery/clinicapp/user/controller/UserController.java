@@ -25,6 +25,11 @@ public class UserController {
         return userService.getPatients();
     }
 
+    @GetMapping(value = "patients/{physicianId}")
+    public List<User> getPatientsByPhysicianId(@PathVariable UUID physicianId) {
+        return userService.getPatientsWithAppointments(physicianId);
+    }
+
 
 
     @GetMapping(value = "patientSize")
