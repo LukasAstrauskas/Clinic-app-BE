@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.groupingBy;
 
 @Service
 public class TimeslotService {
