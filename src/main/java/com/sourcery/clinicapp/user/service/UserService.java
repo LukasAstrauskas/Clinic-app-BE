@@ -32,11 +32,11 @@ public class UserService {
 
 
     public List<User> getPatientsLimited(Number offset){
-        return userRepository.GetLimitedPatients(offset);
+        return userRepository.getLimitedPatients(offset);
     }
 
     public List<User> getAdminsLimited(Number offset){
-        return userRepository.GetLimitedAdmins(offset);
+        return userRepository.getLimitedAdmins(offset);
     }
 
 
