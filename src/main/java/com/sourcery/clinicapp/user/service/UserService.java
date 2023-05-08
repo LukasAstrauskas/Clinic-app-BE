@@ -23,6 +23,7 @@ public class UserService {
     public Long getAmountOfPatients(){
        return userRepository.getAmountOfPatients();
     }
+    public Short getPatientsByPhysicianIdAmount(UUID uuid) {return userRepository.getPatientsByPhysicianIdAmount(uuid);}
     public Long getAmountOfAdmins(){
         return userRepository.getAmountOfAdmins();
     }
@@ -61,7 +62,7 @@ public class UserService {
         return userRepository.getPatients();
     }
 
-    public List<UserDTO> getPatientsWithAppointments(UUID uuid) { return userRepository.getPatientsByPhysicianId(uuid); }
+    public List<UserDTO> getPatientsWithAppointments(UUID uuid, Number offset) { return userRepository.getPatientsByPhysicianId(uuid, offset); }
 
     public List<User> getPhysicians() {
         return userRepository.getPhysiciansType();

@@ -53,12 +53,20 @@ public interface UserRepository {
      List<User> getPatients();
 
     @Select("""
-               SELECT u.id, u.name, u.email
+               SELECT DISTINCT u.id, u.name, u.email
+               FROM users u
+               INNER JOIN timeslot t ON u.id = t.patientId
+               WHERE t.physicianId = #{physicianId} LIMIT 7 OFFSET #{offset}
+               """)
+    List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId, @Param("offset") Number offset);
+
+ @Select("""
+               SELECT COUNT(*)
                FROM users u
                INNER JOIN timeslot t ON u.id = t.patientId
                WHERE t.physicianId = #{physicianId}
                """)
-    List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId);
+    Short getPatientsByPhysicianIdAmount(@Param("physicianId") UUID physicianId);
 
     @Select("SELECT * FROM users WHERE type='admin' ORDER BY name LIMIT 7 ")
     List<User> getAdmins();

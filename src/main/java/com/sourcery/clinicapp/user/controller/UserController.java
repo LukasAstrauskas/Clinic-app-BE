@@ -26,9 +26,9 @@ public class UserController {
         return userService.getPatients();
     }
 
-    @GetMapping(value = "patients/{physicianId}")
-    public List<UserDTO> getPatientsByPhysicianId(@PathVariable UUID physicianId) {
-        return userService.getPatientsWithAppointments(physicianId);
+    @GetMapping(value = "patients/{physicianId}/{offset}")
+    public List<UserDTO> getPatientsByPhysicianId(@PathVariable UUID physicianId, @PathVariable Number offset) {
+        return userService.getPatientsWithAppointments(physicianId, offset);
     }
 
 
@@ -37,6 +37,9 @@ public class UserController {
     public Long getAmountOfPatients(){
         return userService.getAmountOfPatients();
     }
+
+    @GetMapping(value = "patientsByPhysicianIdSize/{uuid}")
+    public Short getPatientsByPhysicianIdAmount(@PathVariable("uuid") UUID uuid ) {return userService.getPatientsByPhysicianIdAmount(uuid);}
 
     @GetMapping(value = "physicianSize")
     public Long getAmountOfPhysicians(){
