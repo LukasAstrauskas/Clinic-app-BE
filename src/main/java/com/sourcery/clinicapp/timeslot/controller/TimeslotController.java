@@ -44,8 +44,8 @@ public class TimeslotController {
     }
     
     @PatchMapping()
-    public ResponseEntity<Timeslot> updateTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
-        return timeslotService.updateTimeslot(timeslotFullDto);
+    public ResponseEntity<Timeslot> bookAppointment(@RequestBody TimeslotFullDto timeslotFullDto) {
+        return timeslotService.bookAppointment(timeslotFullDto);
     }
 
     @DeleteMapping()

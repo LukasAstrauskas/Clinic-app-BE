@@ -4,8 +4,6 @@ package com.sourcery.clinicapp.physician.repository;
 import com.sourcery.clinicapp.physician.model.AdditionalPhysicianInfo;
 import com.sourcery.clinicapp.occupation.model.Occupation;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
-import com.sourcery.clinicapp.user.model.User;
-import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 

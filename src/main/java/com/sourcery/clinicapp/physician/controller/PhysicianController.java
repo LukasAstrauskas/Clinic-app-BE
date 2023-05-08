@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/physicianInfo")
