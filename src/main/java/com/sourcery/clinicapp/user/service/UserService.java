@@ -1,9 +1,8 @@
 package com.sourcery.clinicapp.user.service;
 
 
-import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.model.Physician;
-import com.sourcery.clinicapp.timeslot.service.TimeslotService;
+import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -11,15 +10,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
-    private final TimeslotService timeslotService;
 
     public Long getAmountOfPatients(){
        return userRepository.getAmountOfPatients();
@@ -75,7 +75,6 @@ public class UserService {
     public ResponseEntity<String> deletePatientById(UUID uuid) {
         try {
             userRepository.deletePatientById(uuid);
-            timeslotService.deleteAllTimeslotsByPatientId(uuid);
             return new ResponseEntity<>("The user with all appointments was deleted successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);

@@ -89,13 +89,5 @@ public class TimeslotService {
         }
     }
 
-    public ResponseEntity<Void> deleteAllTimeslotsByPatientId(UUID patientId) {
-        boolean isDeleted = timeslotMapper.removePatientFromAllTimeSlots(patientId);
-        if (isDeleted  == true) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
 }
