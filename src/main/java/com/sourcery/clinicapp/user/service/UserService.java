@@ -1,8 +1,8 @@
 package com.sourcery.clinicapp.user.service;
 
 
-import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.model.Physician;
+import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.repository.UserRepository;
@@ -11,14 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
 
     public Long getAmountOfPatients(){
        return userRepository.getAmountOfPatients();
@@ -77,8 +79,7 @@ public class UserService {
     public ResponseEntity<String> deletePatientById(UUID uuid) {
         try {
             userRepository.deletePatientById(uuid);
-
-            return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
+            return new ResponseEntity<>("The user with all appointments was deleted successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
@@ -88,10 +89,6 @@ public class UserService {
         userRepository.deleteAdminById(uuid);
         return new ResponseEntity<>("Succes", HttpStatus.OK);
     }
-
-
-
-
 
     public User getAUserById(UUID id){
         return userRepository.findById(id);

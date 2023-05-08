@@ -36,4 +36,5 @@ public interface TimeslotMapper {
 
     @Delete("DELETE FROM timeslot WHERE physicianid = #{physicianId} AND date=#{date} AND patientid IS NULL")
     boolean deleteTimeslot(Timeslot timeslot);
+
 }
