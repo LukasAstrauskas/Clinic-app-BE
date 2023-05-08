@@ -46,6 +46,7 @@ VALUES
 --patients, admins
 INSERT INTO users (id, name, email, password, type)
 VALUES
+            ('81fe6628-7f9f-4f2e-be41-a190aa369831', 'Tikras Pacientas', 'clinicgunit2023@gmail.com','password', 'patient'),
             ('52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3', 'Graham Chapman', 'gra@gmail.com', 'grah', 'patient'),
             ('a2246d5b-c433-48c8-a82b-d338976417a0', 'John Cleese', 'john@gmail.com', 'john', 'patient' ),
             ('eb5cd7ba-f1be-4595-9da8-995e1fe08ed5', 'Terry Gilliam', 'terr@gmail.com', 'terr', 'patient' ),

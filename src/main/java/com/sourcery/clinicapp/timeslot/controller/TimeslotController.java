@@ -6,6 +6,7 @@ import com.sourcery.clinicapp.timeslot.model.dto.TimeslotFullDto;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotsDto;
 import com.sourcery.clinicapp.timeslot.service.TimeslotService;
 import com.sourcery.clinicapp.utils.DateTimeHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,7 @@ public class TimeslotController {
     
     @PatchMapping()
     public ResponseEntity<Timeslot> updateTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
+
         return timeslotService.updateTimeslot(timeslotFullDto);
     }
 
