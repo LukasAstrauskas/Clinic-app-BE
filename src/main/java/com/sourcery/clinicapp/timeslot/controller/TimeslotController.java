@@ -53,9 +53,14 @@ public class TimeslotController {
         return timeslotService.deleteTimeslot(timeslotDto);
     }
 
-    @PatchMapping("/{physicianId}/{patientId}")
-    public ResponseEntity<Void> removePatientFromTimeslot(@PathVariable UUID physicianId, @PathVariable UUID patientId) {
-        return timeslotService.removePatientFromTimeslot(physicianId, patientId);
+    @PatchMapping("/removeExistingPatient/{physicianId}/{patientId}")
+    public ResponseEntity<Void> removePatientFromUpcomingTimeslot(@PathVariable UUID physicianId, @PathVariable UUID patientId){
+        return timeslotService.removePatientFromUpcomingTimeslot(physicianId, patientId);
+    }
+
+    @PatchMapping("/removePatient")
+    public ResponseEntity<Void> removePatientFromTimeslot(@RequestBody TimeslotFullDto timeslotFullDto) {
+        return timeslotService.removePatientFromTimeslot(timeslotFullDto);
     }
 
 }
