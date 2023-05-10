@@ -52,7 +52,7 @@ public class UserService {
     }
 
 
-    public  Page /*List*/ <PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
+    public  Page <PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
         var data =userRepository.getMorePastPatientAppointments(id, offset);
         var size = userRepository.getPastAppointmentAmount(id);
         Page<PatientAppointmentsDto> page = new Page<>();
