@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/physicianInfo")
@@ -29,11 +28,10 @@ public class PhysicianController {
     }
 
 
-    @GetMapping(value = "physcians/offset/{limit}")
-    public List<Physician> getLimitedPhysicians(@PathVariable("limit") Number limit){
-        return physicianService.getLimitedPhysiciansWithAdditionalInfo(limit);
+    @GetMapping(value = "physcians/offset/{offset}")
+    public List<Physician> getLimitedPhysicians(@PathVariable("offset") Number offset) {
+        return physicianService.getLimitedPhysiciansWithAdditionalInfo(offset);
     }
-
 
 
     @PostMapping("physicianInfo")
@@ -45,14 +43,14 @@ public class PhysicianController {
     public List<Physician> getPhysiciansWithAdditionalInfo() {
         return physicianService.getPhysiciansWithAdditionalInfo();
     }
+
     @PutMapping("{uuid}")
     public ResponseEntity<String> updatePhysicianById(@RequestBody PhysicianDto user, @PathVariable("uuid") UUID uuid) {
         return physicianService.updatePhysicianById(user, uuid);
     }
 
     @DeleteMapping(value = "physician/{id}")
-    void DeletePhysicianById(@PathVariable("id") UUID id)
-    {
+    void DeletePhysicianById(@PathVariable("id") UUID id) {
         temp.deletePhysicianById(id);
     }
 
