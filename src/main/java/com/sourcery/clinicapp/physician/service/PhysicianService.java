@@ -1,6 +1,5 @@
 package com.sourcery.clinicapp.physician.service;
 
-import com.sourcery.clinicapp.occupation.repository.OccupationRepository;
 import com.sourcery.clinicapp.physician.model.AdditionalPhysicianInfo;
 import com.sourcery.clinicapp.physician.model.PhyNameOccupationDto;
 import com.sourcery.clinicapp.physician.model.Physician;
@@ -49,9 +48,10 @@ public class PhysicianService {
         return userRepository.getPhysicians();
     }
 
-    public List<Physician> getLimitedPhysiciansWithAdditionalInfo(Number limit){
-        return userRepository.getLimitedPhysicians(limit);
+    public List<Physician> getLimitedPhysiciansWithAdditionalInfo(Number offset) {
+        return userRepository.getLimitedPhysicians(offset);
     }
+
     public Physician getPhysicianById(UUID id) {
         return userRepository.getPhysician(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
     }

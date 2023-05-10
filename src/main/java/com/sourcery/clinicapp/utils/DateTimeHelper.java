@@ -10,6 +10,15 @@ public class DateTimeHelper {
         return LocalDateTime.parse(date + "T" + time);
     }
 
+    public static LocalDateTime fromDateString(String date) {
+        return LocalDate.parse(date).atStartOfDay();
+    }
+
+    public static LocalDateTime nextMonthFirstDay(LocalDateTime dateTime) {
+        LocalDateTime addedMonth = dateTime.plusMonths(1);
+        return LocalDateTime.of(addedMonth.getYear(), addedMonth.getMonthValue(), 1, 0, 0);
+    }
+
     public static LocalDate toDate(LocalDateTime dateTime) {
         int year = dateTime.getYear();
         int monthValue = dateTime.getMonthValue();

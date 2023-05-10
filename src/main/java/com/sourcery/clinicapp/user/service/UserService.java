@@ -1,20 +1,24 @@
 package com.sourcery.clinicapp.user.service;
 
 
-import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.model.Physician;
+import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import com.sourcery.clinicapp.timeslot.model.dto.PatientAppointmentsDto;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotForPatient;
 import com.sourcery.clinicapp.user.model.Page;
 import com.sourcery.clinicapp.user.model.User;
+import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -23,10 +27,10 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-
     public Long getAmountOfPatients(){
        return userRepository.getAmountOfPatients();
     }
+    public Short getPatientsByPhysicianIdAmount(UUID uuid) {return userRepository.getPatientsByPhysicianIdAmount(uuid);}
     public Long getAmountOfAdmins(){
         return userRepository.getAmountOfAdmins();
     }
@@ -37,11 +41,29 @@ public class UserService {
 
 
     public List<User> getPatientsLimited(Number offset){
-        return userRepository.GetLimitedPatients(offset);
+        return userRepository.getLimitedPatients(offset);
     }
 
     public List<User> getAdminsLimited(Number offset){
-        return userRepository.GetLimitedAdmins(offset);
+       return userRepository.getLimitedAdmins(offset);
+    }
+
+    
+    public List<PatientAppointmentsDto> getUpcomingPatientAppointments(UUID id){
+        List<PatientAppointmentsDto> sortedAppointments = userRepository.getUpcomingPatientAppointments(id).stream()
+                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(TimeslotForPatient::getDate)))
+                .collect(Collectors.toList());
+        return sortedAppointments;
+    }
+
+
+    public  Page /*List*/ <PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
+        var data =userRepository.getMorePastPatientAppointments(id, offset);
+        var size = userRepository.getPastAppointmentAmount(id);
+        Page<PatientAppointmentsDto> page = new Page<>();
+        page.setData(data);
+        page.setTotal(size);
+        return page;
     }
 
     public List<PatientAppointmentsDto> getUpcomingPatientAppointments(UUID id){
@@ -82,6 +104,8 @@ public class UserService {
         return userRepository.getPatients();
     }
 
+    public List<UserDTO> getPatientsWithAppointments(UUID uuid, Number offset) { return userRepository.getPatientsByPhysicianId(uuid, offset); }
+
     public List<User> getPhysicians() {
         return userRepository.getPhysiciansType();
     }
@@ -95,8 +119,7 @@ public class UserService {
     public ResponseEntity<String> deletePatientById(UUID uuid) {
         try {
             userRepository.deletePatientById(uuid);
-
-            return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
+            return new ResponseEntity<>("The user with all appointments was deleted successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
@@ -106,10 +129,6 @@ public class UserService {
         userRepository.deleteAdminById(uuid);
         return new ResponseEntity<>("Succes", HttpStatus.OK);
     }
-
-
-
-
 
     public User getAUserById(UUID id){
         return userRepository.findById(id);
@@ -124,9 +143,10 @@ public class UserService {
         return userRepository.getAdminSearch(formatedSearch);
     }
 
-    public List<Physician>handlePhysicianSearch(String search){
-        String formatedSearch = search.toLowerCase();
-        return userRepository.getPhysicianSearch(formatedSearch);
+    public List<Physician>handlePhysicianSearch(Optional<String>  search, Optional<String> occupation){
+        String formattedSearch = search.map(String::toLowerCase).orElse("");
+        String formattedOccupation = occupation.map(String::toLowerCase).orElse("");
+        return userRepository.getPhysicianSearch(formattedSearch, formattedOccupation);
     }
 
 
