@@ -60,7 +60,7 @@ public interface UserRepository {
                """)
     List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId, @Param("offset") Number offset);
 
- @Select("""
+    @Select("""
                SELECT COUNT(*)
                FROM users u
                INNER JOIN timeslot t ON u.id = t.patientId
