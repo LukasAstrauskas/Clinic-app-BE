@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 
         private String physicianId;
         private String physicianName;
-//        private String physicianEmail;
         private Occupation occupation;
         private TimeslotForPatient timeslot;
 
