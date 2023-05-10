@@ -31,10 +31,15 @@ public interface TimeslotMapper {
     @Update("UPDATE timeslot SET patientid = #{patientId}" + " WHERE physicianid = #{physicianId} AND date = #{date} AND patientid IS NULL")
     boolean updateTimeslotSetPatientID(Timeslot timeslot);
 
-    @Update("UPDATE timeslot SET patientid = NULL " + " WHERE physicianid = #{physicianId} AND patientid = #{patientId}")
-    boolean removePatientFromTimeslot(@Param("physicianId") UUID physicianId, @Param("patientId") UUID patientId);
+    @Update("UPDATE timeslot SET patientid = NULL WHERE physicianid = #{physicianId} AND patientid = #{patientId} AND date >= now()")
+    boolean removePatientFromUpcomingTimeslot(@Param("physicianId") UUID physicianId, @Param("patientId") UUID patientId);
+
+    @Update("UPDATE timeslot SET patientid = NULL " + " WHERE physicianid = #{physicianId} AND date = #{date} AND patientid = #{patientId}")
+    boolean removePatientFromTimeslot(Timeslot timeslot);
 
     @Delete("DELETE FROM timeslot WHERE physicianid = #{physicianId} AND date=#{date} AND patientid IS NULL")
     boolean deleteTimeslot(Timeslot timeslot);
+
+
 
 }

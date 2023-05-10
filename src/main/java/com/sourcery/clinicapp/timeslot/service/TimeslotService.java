@@ -84,9 +84,27 @@ public class TimeslotService {
         return new ResponseEntity<>(timeslot, status);
     }
 
-    public ResponseEntity<Void> removePatientFromTimeslot(UUID physicianId, UUID patientId) {
-        boolean isDeleted  = timeslotMapper.removePatientFromTimeslot(physicianId, patientId);
-        if (isDeleted  == true) {
+
+    public ResponseEntity<Void>  removePatientFromUpcomingTimeslot(UUID physicianId, UUID patientId){
+        boolean isDeleted = timeslotMapper.removePatientFromUpcomingTimeslot(physicianId, patientId);
+
+        if (isDeleted == true) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<Void> removePatientFromTimeslot(TimeslotFullDto timeslotfullDto) {
+        Optional<Timeslot> optional = getTimeslot(
+                timeslotfullDto.physicianId(),
+                DateTimeHelper.toDateTime(timeslotfullDto.date(), timeslotfullDto.time())
+        );
+        Timeslot timeslot = optional.orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
+        timeslot.setPatientId(timeslotfullDto.patientId());
+        boolean isDeleted = timeslotMapper.removePatientFromTimeslot(timeslot);
+
+        if (isDeleted == true) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();

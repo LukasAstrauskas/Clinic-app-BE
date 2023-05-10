@@ -4,6 +4,7 @@ package com.sourcery.clinicapp.user.service;
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.user.model.User;
+import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ public class UserService {
     public Long getAmountOfPatients(){
        return userRepository.getAmountOfPatients();
     }
+    public Short getPatientsByPhysicianIdAmount(UUID uuid) {return userRepository.getPatientsByPhysicianIdAmount(uuid);}
     public Long getAmountOfAdmins(){
         return userRepository.getAmountOfAdmins();
     }
@@ -61,6 +63,8 @@ public class UserService {
     public List<User> getPatients() {
         return userRepository.getPatients();
     }
+
+    public List<UserDTO> getPatientsWithAppointments(UUID uuid, Number offset) { return userRepository.getPatientsByPhysicianId(uuid, offset); }
 
     public List<User> getPhysicians() {
         return userRepository.getPhysiciansType();
