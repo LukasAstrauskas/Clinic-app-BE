@@ -115,7 +115,7 @@ public interface UserRepository {
 
     @ResultMap("PhysicianResultMap")
     @Select("""
-            SELECT u.name name, o.id occupation_id, o.name occupation_name
+            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
             FROM users u
                 LEFT JOIN additional_physician_info i
                     ON u.id = i.user_id
