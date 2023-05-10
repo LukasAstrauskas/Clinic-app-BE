@@ -30,10 +30,6 @@ public class UserController {
         return  userService.getUpcomingPatientAppointments(id);
     }
 
-//    @GetMapping("patientPastAppointments/{id}")
-//    public List<PatientAppointmentsDto> getPastAppointments(@PathVariable("id") UUID id){
-//        return  userService.getPastPatientAppointments(id);
-//    }
 
     @GetMapping("patientPastAppointments/{id}/{offset}")
     public Page<PatientAppointmentsDto> getPastAppointments(@PathVariable("id") UUID id, @PathVariable("offset") Number offset){
