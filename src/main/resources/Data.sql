@@ -125,12 +125,18 @@ INSERT INTO additional_physician_info (user_id, occupation_id)
             ('f8a8e135-cc11-11ed-8f53-0242ac345445', '7c8ecb0c-05a4-11ec-9a03-0242ac130003'),
             ('f8a8e135-cc11-11ed-8f53-0242ac131313', '899f8fd2-05a4-11ec-9a03-0242ac130003'),
             ('f8a8e135-cc11-11ed-8f53-0242ac666666', '9771dd68-05a4-11ec-9a03-0242ac130003'),
+            ('cae5c6a8-ea81-497b-a7cb-6a02aa54f623', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
+            ('9a6acba7-310e-4cf9-ba70-6289775938a9', 'd5e7c80c-ca7c-11ed-afa1-0242ac120002'),
+            ('37a55d08-8747-4c25-bb24-b1e857009acf', '9771dd68-05a4-11ec-9a03-0242ac130003'),
+            ('c8d96722-c86f-4554-8081-f4b4ac1e70b6', 'bd1d85c8-ca7c-11ed-afa1-0242ac120002'),
+            ('5ab747c7-3094-4d04-a93e-a104e27d6f60', '5fca1384-05a4-11ec-9a03-0242ac130003'),
             ('60867f57-9fb1-45e4-9a34-0715ec32f476', '27004ebf-7c16-419e-8592-a4ae0be2cddd');
 
-
+--Aane Patrick timeslots
 INSERT INTO timeslot (physicianid, date)
     VALUES
            ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-06-01 07:30'),
+           ('698e415e-ca7c-11ed-afa1-0242ac120002', '2023-05-11 12:30'),
            ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-06-01 08:00'),
            ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-06-02 08:00'),
            ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-06-20 08:00'),
@@ -241,39 +247,13 @@ INSERT INTO timeslot (physicianid, date)
 INSERT INTO timeslot (physicianid, date, patientid)
     VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '2023-04-20 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-04-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-
            ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-03-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac131313', '2023-02-10 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac666666', '2023-06-28 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-
            ('f8a8e135-cc11-11ed-8f53-0242ac112345', '2023-04-01 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('f8a8e135-cc11-11ed-8f53-0242ac123666', '2023-04-23 07:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('f8a8e135-cc11-11ed-8f53-0242ac333333', '2023-04-29 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-
             ('60867f57-9fb1-45e4-9a34-0715ec32f476', '2023-05-01 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
-
-
-
--- --one
--- INSERT INTO additional_physician_info (user_id, occupation_id)
---     VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
---            ('c4d695d2-cc18-11ed-afa1-0242ac120002', '8d33cd28-e35a-4f50-8162-4af412f0ae8a'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac112345', 'd5e7c80c-ca7c-11ed-afa1-0242ac120002'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac123666', '7c12de6b-39da-45ab-b03b-4c1a9b89de46'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac111111', 'c07baa19-9933-4faf-8489-b81a127e4408'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac333333', '6128b07b-3108-486a-890b-b52f1e227e1f'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac222222', '1bc6279d-1a95-42b8-93f3-929d1c3689b2'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac444444', '5fca1384-05a4-11ec-9a03-0242ac130003'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac555555', '6df1266e-05a4-11ec-9a03-0242ac130003'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac345445', '6128b07b-3108-486a-890b-b52f1e227e1f'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac131313', '8d33cd28-e35a-4f50-8162-4af412f0ae8a'),
---            ('f8a8e135-cc11-11ed-8f53-0242ac666666', '9771dd68-05a4-11ec-9a03-0242ac130003'),
---            ('cae5c6a8-ea81-497b-a7cb-6a02aa54f623', '3e7e0766-65e8-4196-8346-d1271f59b2e3'),
---            ('9a6acba7-310e-4cf9-ba70-6289775938a9', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
---            ('c8d96722-c86f-4554-8081-f4b4ac1e70b6', '3e7e0766-65e8-4196-8346-d1271f59b2e3'),
---            ('5ab747c7-3094-4d04-a93e-a104e27d6f60', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
---            ('37a55d08-8747-4c25-bb24-b1e857009acf', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
---            ('60867f57-9fb1-45e4-9a34-0715ec32f476', '27004ebf-7c16-419e-8592-a4ae0be2cddd');
 
 
 INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street, city, postal_code,

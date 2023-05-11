@@ -37,7 +37,6 @@ public interface TimeslotMapper {
     @Update("UPDATE timeslot SET patientid = NULL " + " WHERE physicianid = #{physicianId} AND date = #{date} AND patientid = #{patientId}")
     boolean removePatientFromTimeslot(Timeslot timeslot);
 
-
     @Delete("DELETE FROM timeslot WHERE physicianid = #{physicianId} AND date=#{date} AND patientid IS NULL")
     boolean deleteTimeslot(Timeslot timeslot);
 

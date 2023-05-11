@@ -87,10 +87,6 @@ public interface UserRepository {
 """)
    List<Physician> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
 
-
-
-
-
     @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 7")
      List<User> getPatients();
 

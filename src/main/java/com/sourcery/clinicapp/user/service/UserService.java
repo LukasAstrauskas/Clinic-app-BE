@@ -54,13 +54,12 @@ public class UserService {
 
 
     public  Page<PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
-        var data =userRepository.getMorePastPatientAppointments(id, offset);
-        var size = userRepository.getPastAppointmentAmount(id);
+        List<PatientAppointmentsDto> data = userRepository.getMorePastPatientAppointments(id, offset);
+        int size = userRepository.getPastAppointmentAmount(id);
         Page<PatientAppointmentsDto> page = new Page<>();
         page.setData(data);
         page.setTotal(size);
         return page;
-
     }
 
 
