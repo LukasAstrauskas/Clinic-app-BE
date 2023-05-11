@@ -6,7 +6,6 @@ import com.sourcery.clinicapp.physician.model.PhysicianDto;
 import com.sourcery.clinicapp.physician.repository.AdditionalPhysicianInfoRepository;
 import com.sourcery.clinicapp.physician.service.PhysicianService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +33,7 @@ public class PhysicianController {
     }
 
 
-    @PostMapping("physicianInfo")
+    @PostMapping()
     public void createPhysician(@RequestBody PhysicianDto physician) {
         physicianService.createPhysician(physician);
     }
