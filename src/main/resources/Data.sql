@@ -245,9 +245,9 @@ INSERT INTO timeslot (physicianid, date)
 
 --booked timeslots
 INSERT INTO timeslot (physicianid, date, patientid)
-    VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '2023-04-20 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-           ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-04-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-03-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+    VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '2023-05-20 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-06-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-05-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac131313', '2023-02-10 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac666666', '2023-06-28 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('f8a8e135-cc11-11ed-8f53-0242ac112345', '2023-04-01 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),

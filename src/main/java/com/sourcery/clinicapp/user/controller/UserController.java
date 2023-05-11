@@ -1,7 +1,7 @@
 package com.sourcery.clinicapp.user.controller;
 
 import com.sourcery.clinicapp.physician.model.Physician;
-import com.sourcery.clinicapp.timeslot.model.dto.PatientAppointmentsDto;
+import com.sourcery.clinicapp.user.model.PatientAppointmentsDto;
 import com.sourcery.clinicapp.user.model.Page;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
@@ -27,11 +27,11 @@ public class UserController {
     public List<User> getPatients() {
         return userService.getPatients();
     }
+
     @GetMapping("patientUpcomingAppointments/{id}")
     public List<PatientAppointmentsDto> getUpcomingAppointments(@PathVariable("id") UUID id){
         return  userService.getUpcomingPatientAppointments(id);
     }
-
 
     @GetMapping(value = "patients/{physicianId}/{offset}")
     public List<UserDTO> getPatientsByPhysicianId(@PathVariable UUID physicianId, @PathVariable Number offset) {
@@ -42,7 +42,6 @@ public class UserController {
     public Page<PatientAppointmentsDto> getPastAppointments(@PathVariable("id") UUID id, @PathVariable("offset") Number offset){
         return  userService.getMorePastPatientAppointments(id, offset);
     }
-
 
     @GetMapping(value = "patientSize")
     public Long getAmountOfPatients(){
