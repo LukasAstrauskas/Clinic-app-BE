@@ -4,6 +4,7 @@ import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.login.model.LoginDto;
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
+import com.sourcery.clinicapp.patient.model.PatientAppointmentsDto;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;
@@ -23,6 +24,45 @@ public interface UserRepository {
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='admin' ORDER BY name")
     List<User> getAdminSearch(@Param("search") String search);
+
+
+
+    @ResultMap("PatientTimeslotResultMap")
+    @Select("""
+              SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
+              FROM users u
+                   LEFT JOIN additional_physician_info i
+                       ON u.id = i.user_id
+                   LEFT JOIN occupations o
+                       ON i.occupation_id = o.id
+                   LEFT JOIN timeslot t
+                       ON u.id = t.physicianid
+                   WHERE t.patientid=#{patient} AND t.date > CURRENT_TIMESTAMP()
+               """)
+    List<PatientAppointmentsDto>getUpcomingPatientAppointments(@Param("patient") UUID patient);
+
+
+
+    @ResultMap("PatientTimeslotResultMap")
+    @Select("""
+                 SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
+                 FROM users u
+                      LEFT JOIN additional_physician_info i
+                          ON u.id = i.user_id
+                      LEFT JOIN occupations o
+                          ON i.occupation_id = o.id
+                      LEFT JOIN timeslot t
+                          ON u.id = t.physicianid
+                      WHERE t.patientid=#{patient} AND t.date < CURRENT_TIMESTAMP() ORDER BY t.date DESC
+                      LIMIT 5 OFFSET #{offset}
+                  """)
+    List<PatientAppointmentsDto>getMorePastPatientAppointments(@Param("patient") UUID patient,@Param("offset") Number offset);
+
+
+    @Select("""
+            SELECT COUNT(*) FROM timeslot WHERE patientId =#{patient} AND date < CURRENT_TIMESTAMP()
+            """)
+    int getPastAppointmentAmount(@Param("patient") UUID patient);
 
 
 
@@ -46,8 +86,6 @@ public interface UserRepository {
     ORDER BY name
 """)
    List<Physician> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
-
-
 
     @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 7")
      List<User> getPatients();

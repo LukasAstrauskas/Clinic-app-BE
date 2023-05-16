@@ -3,6 +3,9 @@ package com.sourcery.clinicapp.user.service;
 
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
+import com.sourcery.clinicapp.patient.model.PatientAppointmentsDto;
+import com.sourcery.clinicapp.patient.model.TimeslotForPatient;
+import com.sourcery.clinicapp.patient.model.PatientAppointmentsPage;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.repository.UserRepository;
@@ -11,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -40,8 +41,27 @@ public class UserService {
     }
 
     public List<User> getAdminsLimited(Number offset){
-        return userRepository.getLimitedAdmins(offset);
+       return userRepository.getLimitedAdmins(offset);
     }
+
+    
+    public List<PatientAppointmentsDto> getUpcomingPatientAppointments(UUID id){
+        List<PatientAppointmentsDto> sortedAppointments = userRepository.getUpcomingPatientAppointments(id).stream()
+                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(TimeslotForPatient::getDate)))
+                .collect(Collectors.toList());
+        return sortedAppointments;
+    }
+
+
+    public PatientAppointmentsPage<PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
+        List<PatientAppointmentsDto> data = userRepository.getMorePastPatientAppointments(id, offset);
+        int size = userRepository.getPastAppointmentAmount(id);
+        PatientAppointmentsPage<PatientAppointmentsDto> patientAppointmentsPage = new PatientAppointmentsPage<>();
+        patientAppointmentsPage.setData(data);
+        patientAppointmentsPage.setTotal(size);
+        return patientAppointmentsPage;
+    }
+
 
 
     public ResponseEntity<String> createPatient(User user) {

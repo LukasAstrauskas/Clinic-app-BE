@@ -1,0 +1,16 @@
+<?xml version= "1.0" encoding= "UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sourcery.clinicapp.user.repository.UserRepository">
+    <resultMap id="PatientTimeslotResultMap" type="com.sourcery.clinicapp.patient.model.PatientAppointmentsDto">
+        <id property="physicianId" column="id"/>
+        <result property="physicianName" column="name"/>
+        <association property="occupation" javaType="com.sourcery.clinicapp.occupation.model.Occupation">
+            <id property="id" column="occupation_id"/>
+            <result property="name" column="occupation_name"/>
+        </association>
+        <association property="timeslot" javaType="com.sourcery.clinicapp.patient.model.TimeslotForPatient">
+            <id property="physicianId" column="id"/>
+            <result property="date" column="date"/>
+        </association>
+    </resultMap>
+</mapper>
