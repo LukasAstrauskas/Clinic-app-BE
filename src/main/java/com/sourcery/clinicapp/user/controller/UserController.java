@@ -24,7 +24,7 @@ public class UserController {
     public UserService userService;
 
     @GetMapping("patients")
-    public List<User> getPatients() {
+    public List<UserDTO> getPatients() {
         return userService.getPatients();
     }
 
@@ -64,27 +64,27 @@ public class UserController {
 
 
     @GetMapping(value ="patients/offset/{offset}" )
-    public List<User> getLimitedPatients(@PathVariable("offset") Number offset){
+    public List<UserDTO> getLimitedPatients(@PathVariable("offset") Number offset){
         return userService.getPatientsLimited(offset);
     }
 
     @GetMapping(value = "admins/offset/{offset}")
-    public List<User> getLimitedAdmins(@PathVariable("offset") Number offset){
+    public List<UserDTO> getLimitedAdmins(@PathVariable("offset") Number offset){
         return userService.getAdminsLimited(offset);
     }
 
     @GetMapping("physicians")
-    public List<User> getPhysician() {
+    public List<UserDTO> getPhysician() {
         return userService.getPhysicians();
     }
 
     @GetMapping("admins")
-    public List<User> getAdmins() {
+    public List<UserDTO> getAdmins() {
         return userService.getAdmins();
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
@@ -112,13 +112,13 @@ public class UserController {
 
 
     @GetMapping("{id}")
-    public User getUserById(@PathVariable("id") UUID id){
+    public UserDTO getUserById(@PathVariable("id") UUID id){
         return userService.getAUserById(id);
     }
 
 
     @GetMapping(value = "patientSearch/{search}")
-    public List<User> handlePatientSearch(@PathVariable("search") String search){
+    public List<UserDTO> handlePatientSearch(@PathVariable("search") String search){
      return userService.handlePatientSearch(search);
     }
 
@@ -130,7 +130,7 @@ public class UserController {
     }
 
     @GetMapping(value = "adminSearch/{search}")
-    public List<User> handleAdminSearch(@PathVariable("search") String search){
+    public List<UserDTO> handleAdminSearch(@PathVariable("search") String search){
         return  userService.handleAdminSearch(search);
     }
 

@@ -36,11 +36,11 @@ public class UserService {
     }
 
 
-    public List<User> getPatientsLimited(Number offset){
+    public List<UserDTO> getPatientsLimited(Number offset){
         return userRepository.getLimitedPatients(offset);
     }
 
-    public List<User> getAdminsLimited(Number offset){
+    public List<UserDTO> getAdminsLimited(Number offset){
        return userRepository.getLimitedAdmins(offset);
     }
 
@@ -76,23 +76,23 @@ public class UserService {
         return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
     }
 
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userRepository.getUsers();
     }
 
-    public List<User> getPatients() {
+    public List<UserDTO> getPatients() {
         return userRepository.getPatients();
     }
 
     public List<UserDTO> getPatientsWithAppointments(UUID uuid, Number offset) { return userRepository.getPatientsByPhysicianId(uuid, offset); }
 
-    public List<User> getPhysicians() {
+    public List<UserDTO> getPhysicians() {
         return userRepository.getPhysiciansType();
     }
 
 
 
-    public List<User> getAdmins() {
+    public List<UserDTO> getAdmins() {
         return userRepository.getAdmins();
     }
 
@@ -110,15 +110,15 @@ public class UserService {
         return new ResponseEntity<>("Succes", HttpStatus.OK);
     }
 
-    public User getAUserById(UUID id){
+    public UserDTO getAUserById(UUID id){
         return userRepository.findById(id);
     }
 
-    public List<User>handlePatientSearch(String search){
+    public List<UserDTO>handlePatientSearch(String search){
         String formatedSearch = search.toLowerCase();
         return userRepository.getPatientSearch(formatedSearch);
     }
-    public List<User>handleAdminSearch(String search){
+    public List<UserDTO>handleAdminSearch(String search){
         String formatedSearch = search.toLowerCase();
         return userRepository.getAdminSearch(formatedSearch);
     }
