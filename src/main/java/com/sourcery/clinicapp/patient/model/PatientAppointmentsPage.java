@@ -1,4 +1,4 @@
-package com.sourcery.clinicapp.user.model;
+package com.sourcery.clinicapp.patient.model;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Page<T> {
+public class PatientAppointmentsPage<T> {
     private List<T> data;
     private int total;
 }

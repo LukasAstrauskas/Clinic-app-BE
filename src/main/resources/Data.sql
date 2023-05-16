@@ -111,7 +111,7 @@ VALUES
             ('411a6468-eeb5-48c2-b6e2-1551578c0d69', 'Daniel Smith', 'danielsmith@example.com', 'passwordxyz', 'admin'),
             ('1dc5f57a-84b9-4c18-b70f-c2d882fe8c43', 'Katie Kim', 'katiekim@example.com', 'passxyzword', 'admin');
 
-
+--info
 INSERT INTO additional_physician_info (user_id, occupation_id)
     VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '27004ebf-7c16-419e-8592-a4ae0be2cddd'),
            ('c4d695d2-cc18-11ed-afa1-0242ac120002', '8d33cd28-e35a-4f50-8162-4af412f0ae8a'),
@@ -245,9 +245,9 @@ INSERT INTO timeslot (physicianid, date)
 
 --booked timeslots
 INSERT INTO timeslot (physicianid, date, patientid)
-    VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '2023-05-20 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-           ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-06-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-05-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+    VALUES ('698e415e-ca7c-11ed-afa1-0242ac120002', '2023-05-15 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-02-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac131313', '2023-02-10 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('f8a8e135-cc11-11ed-8f53-0242ac666666', '2023-06-28 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('f8a8e135-cc11-11ed-8f53-0242ac112345', '2023-04-01 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
@@ -255,7 +255,7 @@ INSERT INTO timeslot (physicianid, date, patientid)
            ('f8a8e135-cc11-11ed-8f53-0242ac333333', '2023-04-29 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
             ('60867f57-9fb1-45e4-9a34-0715ec32f476', '2023-05-01 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
 
-
+--additional Info
 INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street, city, postal_code,
                                      country, emergency_name, emergency_last_name, emergency_phone,
                                      emergency_relation)

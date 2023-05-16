@@ -3,9 +3,9 @@ package com.sourcery.clinicapp.user.service;
 
 import com.sourcery.clinicapp.physician.model.Physician;
 import com.sourcery.clinicapp.physician.model.PhysicianDto;
-import com.sourcery.clinicapp.user.model.PatientAppointmentsDto;
-import com.sourcery.clinicapp.user.model.TimeslotForPatient;
-import com.sourcery.clinicapp.user.model.Page;
+import com.sourcery.clinicapp.patient.model.PatientAppointmentsDto;
+import com.sourcery.clinicapp.patient.model.TimeslotForPatient;
+import com.sourcery.clinicapp.patient.model.PatientAppointmentsPage;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.repository.UserRepository;
@@ -53,13 +53,13 @@ public class UserService {
     }
 
 
-    public  Page<PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
+    public PatientAppointmentsPage<PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset){
         List<PatientAppointmentsDto> data = userRepository.getMorePastPatientAppointments(id, offset);
         int size = userRepository.getPastAppointmentAmount(id);
-        Page<PatientAppointmentsDto> page = new Page<>();
-        page.setData(data);
-        page.setTotal(size);
-        return page;
+        PatientAppointmentsPage<PatientAppointmentsDto> patientAppointmentsPage = new PatientAppointmentsPage<>();
+        patientAppointmentsPage.setData(data);
+        patientAppointmentsPage.setTotal(size);
+        return patientAppointmentsPage;
     }
 
 

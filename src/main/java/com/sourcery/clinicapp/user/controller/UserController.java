@@ -1,8 +1,8 @@
 package com.sourcery.clinicapp.user.controller;
 
 import com.sourcery.clinicapp.physician.model.Physician;
-import com.sourcery.clinicapp.user.model.PatientAppointmentsDto;
-import com.sourcery.clinicapp.user.model.Page;
+import com.sourcery.clinicapp.patient.model.PatientAppointmentsDto;
+import com.sourcery.clinicapp.patient.model.PatientAppointmentsPage;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("patientPastAppointments/{id}/{offset}")
-    public Page<PatientAppointmentsDto> getPastAppointments(@PathVariable("id") UUID id, @PathVariable("offset") Number offset){
+    public PatientAppointmentsPage<PatientAppointmentsDto> getPastAppointments(@PathVariable("id") UUID id, @PathVariable("offset") Number offset){
         return  userService.getMorePastPatientAppointments(id, offset);
     }
 

@@ -38,12 +38,12 @@ public class TimeslotController {
         return timeslotService.getPhyTimeslots(physicianId, date.orElseGet(() -> LocalDate.now().toString()));
     }
 
-    @PostMapping()
+    @PostMapping
     public boolean addTimeslot(@RequestBody TimeslotDto timeslotDto) {
         return timeslotService.addTimeslot(timeslotDto);
     }
     
-    @PatchMapping()
+    @PatchMapping
     public ResponseEntity<Timeslot> bookAppointment(@RequestBody TimeslotFullDto timeslotFullDto) {
         return timeslotService.bookAppointment(timeslotFullDto);
     }
