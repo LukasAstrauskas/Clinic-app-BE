@@ -131,16 +131,24 @@ public class UserService {
 
 
     public ResponseEntity<String> updateUserById(UUID uuid, User user) {
+        String nameUpperCase = user.getName();
+        nameUpperCase = nameUpperCase.substring(0, 1).toUpperCase() + nameUpperCase.substring(1);
+        User newUser = user.toBuilder().name(nameUpperCase).build();
         try {
-            userRepository.updateUserById(user, uuid);
+            if(user.getPassword().length() != 0) {
+                userRepository.updateUserById(newUser, uuid);
+            }
             return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
     }
     public ResponseEntity<String> updatePhysicianDtoUserById(PhysicianDto user, UUID id) {
+        String nameUpperCase = user.getName();
+        nameUpperCase = nameUpperCase.substring(0, 1).toUpperCase() + nameUpperCase.substring(1);
+        PhysicianDto newUser = user.toBuilder().name(nameUpperCase).build();
         try {
-            userRepository.updatePhysicianDtoUserById(user, id);
+            userRepository.updatePhysicianDtoUserById(newUser, id);
             return new ResponseEntity<>("The user, with id " + id + " was updated successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
