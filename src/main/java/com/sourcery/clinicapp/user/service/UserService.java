@@ -65,13 +65,23 @@ public class UserService {
 
 
     public ResponseEntity<String> createPatient(User user) {
-        User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
+        String name = user.getName();
+        String[] names = name.split(" ");
+        String firstName = names[0].substring(0, 1).toUpperCase() + names[0].substring(1);
+        String lastName = names.length > 1 ? names[1].substring(0, 1).toUpperCase() + names[1].substring(1) : "";
+        String fullName = firstName + " " + lastName;
+        User newUser = user.toBuilder().name(fullName).id(UUID.randomUUID()).type("patient").build();
         userRepository.save(newUser);
         return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
     }
 
     public ResponseEntity<String> createAdmin(User user) {
-        User newUser = user.toBuilder().id(UUID.randomUUID()).type("admin").build();
+        String name = user.getName();
+        String[] names = name.split(" ");
+        String firstName = names[0].substring(0, 1).toUpperCase() + names[0].substring(1);
+        String lastName = names.length > 1 ? names[1].substring(0, 1).toUpperCase() + names[1].substring(1) : "";
+        String fullName = firstName + " " + lastName;
+        User newUser = user.toBuilder().name(fullName).id(UUID.randomUUID()).type("admin").build();
         userRepository.save(newUser);
         return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
     }
@@ -131,9 +141,12 @@ public class UserService {
 
 
     public ResponseEntity<String> updateUserById(UUID uuid, User user) {
-        String nameUpperCase = user.getName();
-        nameUpperCase = nameUpperCase.substring(0, 1).toUpperCase() + nameUpperCase.substring(1);
-        User newUser = user.toBuilder().name(nameUpperCase).build();
+        String name = user.getName();
+        String[] names = name.split(" ");
+        String firstName = names[0].substring(0, 1).toUpperCase() + names[0].substring(1);
+        String lastName = names.length > 1 ? names[1].substring(0, 1).toUpperCase() + names[1].substring(1) : "";
+        String fullName = firstName + " " + lastName;
+        User newUser = user.toBuilder().name(fullName).build();
         try {
             if(user.getPassword().length() != 0) {
                 userRepository.updateUserById(newUser, uuid);
@@ -144,9 +157,12 @@ public class UserService {
         }
     }
     public ResponseEntity<String> updatePhysicianDtoUserById(PhysicianDto user, UUID id) {
-        String nameUpperCase = user.getName();
-        nameUpperCase = nameUpperCase.substring(0, 1).toUpperCase() + nameUpperCase.substring(1);
-        PhysicianDto newUser = user.toBuilder().name(nameUpperCase).build();
+        String name = user.getName();
+        String[] names = name.split(" ");
+        String firstName = names[0].substring(0, 1).toUpperCase() + names[0].substring(1);
+        String lastName = names.length > 1 ? names[1].substring(0, 1).toUpperCase() + names[1].substring(1) : "";
+        String fullName = firstName + " " + lastName;
+        PhysicianDto newUser = user.toBuilder().name(fullName).build();
         try {
             userRepository.updatePhysicianDtoUserById(newUser, id);
             return new ResponseEntity<>("The user, with id " + id + " was updated successfully.", HttpStatus.OK);

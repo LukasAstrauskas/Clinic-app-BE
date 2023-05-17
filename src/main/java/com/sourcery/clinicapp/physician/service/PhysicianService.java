@@ -29,9 +29,14 @@ public class PhysicianService {
     private final UserService userService;
 
     public void createPhysician(PhysicianDto physicianDto) {
+        String name = physicianDto.getName();
+        String[] names = name.split(" ");
+        String firstName = names[0].substring(0, 1).toUpperCase() + names[0].substring(1);
+        String lastName = names.length > 1 ? names[1].substring(0, 1).toUpperCase() + names[1].substring(1) : "";
+        String fullName = firstName + " " + lastName;
         User user = User.builder()
                 .id(UUID.randomUUID())
-                .name(physicianDto.getName())
+                .name(fullName)
                 .email(physicianDto.getEmail())
                 .password(physicianDto.getPassword())
                 .type("physician")
