@@ -20,10 +20,10 @@ public interface UserRepository {
 
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")
-    List<User> getPatientSearch(@Param("search") String search);
+    List<UserDTO> getPatientSearch(@Param("search") String search);
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='admin' ORDER BY name")
-    List<User> getAdminSearch(@Param("search") String search);
+    List<UserDTO> getAdminSearch(@Param("search") String search);
 
 
 
@@ -88,7 +88,7 @@ public interface UserRepository {
    List<Physician> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
 
     @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 7")
-     List<User> getPatients();
+     List<UserDTO> getPatients();
 
     @Select("""
                SELECT DISTINCT u.id, u.name, u.email
@@ -107,7 +107,7 @@ public interface UserRepository {
     Short getPatientsByPhysicianIdAmount(@Param("physicianId") UUID physicianId);
 
     @Select("SELECT * FROM users WHERE type='admin' ORDER BY name LIMIT 7 ")
-    List<User> getAdmins();
+    List<UserDTO> getAdmins();
 
     @ResultMap("PhysicianResultMap")
     @Select("""
@@ -123,10 +123,10 @@ public interface UserRepository {
     List<Physician> getPhysicians();
 
     @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 5 OFFSET #{offset}")
-    List<User> getLimitedPatients(@Param("offset") Number offset);
+    List<UserDTO> getLimitedPatients(@Param("offset") Number offset);
 
     @Select("SELECT * FROM users WHERE type='admin' ORDER BY name LIMIT 5 OFFSET #{offset}")
-    List<User> getLimitedAdmins(@Param("offset") Number offset);
+    List<UserDTO> getLimitedAdmins(@Param("offset") Number offset);
 
     @ResultMap("PhysicianResultMap")
     @Select("""
@@ -152,7 +152,7 @@ public interface UserRepository {
     Long getAmountOfPhysicians();
 
     @Select("SELECT * FROM users WHERE type='physician'")
-    List<User> getPhysiciansType();
+    List<UserDTO> getPhysiciansType();
 
 
     @Select("SELECT id, type FROM users WHERE email=#{user.email} AND password=#{user.password} ")
@@ -171,7 +171,7 @@ public interface UserRepository {
     Optional<Physician> getPhysician(UUID id);
 
     @Select("SELECT * FROM users")
-    List<User> getUsers();
+    List<UserDTO> getUsers();
 
     @Delete("DELETE FROM users WHERE id=#{uuid} AND type='patient'")
     void deletePatientById(@Param("uuid") UUID uuid);
@@ -180,7 +180,7 @@ public interface UserRepository {
     void deleteAdminById(@Param("uuid") UUID uuid);
 
     @Select("SELECT * FROM users WHERE id=#{id}")
-    User findById(@Param("id") UUID id);
+    UserDTO findById(@Param("id") UUID id);
 
     @Insert("INSERT INTO users (id, name, email, password, type) VALUES (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
     void save(@Param("user") User user);
