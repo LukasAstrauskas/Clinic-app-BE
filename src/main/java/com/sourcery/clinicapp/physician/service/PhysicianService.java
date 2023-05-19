@@ -8,6 +8,7 @@ import com.sourcery.clinicapp.physician.repository.AdditionalPhysicianInfoReposi
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import com.sourcery.clinicapp.user.service.UserService;
+import com.sourcery.clinicapp.utils.FullNameCapitalisation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,24 +28,20 @@ public class PhysicianService {
     private final AdditionalPhysicianInfoRepository additionalPhysicianInfoRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-
+    private final FullNameCapitalisation fullNameCapitalisation;
     public void createPhysician(PhysicianDto physicianDto) {
-        String name = physicianDto.getName();
-        String[] names = name.split(" ");
-        String firstName = names[0].substring(0, 1).toUpperCase() + names[0].substring(1);
-        String lastName = names.length > 1 ? names[1].substring(0, 1).toUpperCase() + names[1].substring(1) : "";
-        String fullName = firstName + " " + lastName;
+        PhysicianDto newUser = fullNameCapitalisation.capitalize(physicianDto);
         User user = User.builder()
                 .id(UUID.randomUUID())
-                .name(fullName)
-                .email(physicianDto.getEmail())
-                .password(physicianDto.getPassword())
+                .name(newUser.getName())
+                .email(newUser.getEmail())
+                .password(newUser.getPassword())
                 .type("physician")
                 .build();
         userRepository.save(user);
         AdditionalPhysicianInfo info = AdditionalPhysicianInfo.builder()
                 .userId(user.getId())
-                .occupationId(physicianDto.getOccupationId())
+                .occupationId(newUser.getOccupationId())
                 .build();
         additionalPhysicianInfoRepository.insertInfo(info);
     }
