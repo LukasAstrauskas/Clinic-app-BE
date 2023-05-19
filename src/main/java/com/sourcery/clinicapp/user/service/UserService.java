@@ -68,14 +68,16 @@ public class UserService {
 
     public ResponseEntity<String> createPatient(User user) {
         User newUser =fullNameCapitalisation.capitalize(user);
-        userRepository.save(newUser);
-        return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
+        User finalUser = newUser.toBuilder().id(UUID.randomUUID()).type("patient").build();
+        userRepository.save(finalUser);
+        return new ResponseEntity<>(finalUser.toString(), HttpStatus.CREATED);
     }
 
     public ResponseEntity<String> createAdmin(User user) {
-        User newUser = fullNameCapitalisation.capitalize(user);
-        userRepository.save(newUser);
-        return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
+        User newUser =fullNameCapitalisation.capitalize(user);
+        User finalUser = newUser.toBuilder().id(UUID.randomUUID()).type("admin").build();
+        userRepository.save(finalUser);
+        return new ResponseEntity<>(finalUser.toString(), HttpStatus.CREATED);
     }
 
     public List<User> getAllUsers() {
