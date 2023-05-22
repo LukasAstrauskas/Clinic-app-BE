@@ -8,6 +8,7 @@ import com.sourcery.clinicapp.physician.repository.AdditionalPhysicianInfoReposi
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import com.sourcery.clinicapp.user.service.UserService;
+import com.sourcery.clinicapp.utils.FullNameCapitalisation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,19 +28,20 @@ public class PhysicianService {
     private final AdditionalPhysicianInfoRepository additionalPhysicianInfoRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-
+    private final FullNameCapitalisation fullNameCapitalisation;
     public void createPhysician(PhysicianDto physicianDto) {
+        PhysicianDto newUser = fullNameCapitalisation.capitalize(physicianDto);
         User user = User.builder()
                 .id(UUID.randomUUID())
-                .name(physicianDto.getName())
-                .email(physicianDto.getEmail())
-                .password(physicianDto.getPassword())
+                .name(newUser.getName())
+                .email(newUser.getEmail())
+                .password(newUser.getPassword())
                 .type("physician")
                 .build();
         userRepository.save(user);
         AdditionalPhysicianInfo info = AdditionalPhysicianInfo.builder()
                 .userId(user.getId())
-                .occupationId(physicianDto.getOccupationId())
+                .occupationId(newUser.getOccupationId())
                 .build();
         additionalPhysicianInfoRepository.insertInfo(info);
     }
