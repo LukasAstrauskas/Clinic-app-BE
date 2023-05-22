@@ -9,6 +9,7 @@ import com.sourcery.clinicapp.patient.model.PatientAppointmentsPage;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.repository.UserRepository;
+import com.sourcery.clinicapp.utils.FullNameCapitalisation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final FullNameCapitalisation fullNameCapitalisation;
     public Long getAmountOfPatients(){
        return userRepository.getAmountOfPatients();
     }
@@ -65,15 +67,17 @@ public class UserService {
 
 
     public ResponseEntity<String> createPatient(User user) {
-        User newUser = user.toBuilder().id(UUID.randomUUID()).type("patient").build();
-        userRepository.save(newUser);
-        return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
+        User newUser =fullNameCapitalisation.capitalize(user);
+        User finalUser = newUser.toBuilder().id(UUID.randomUUID()).type("patient").build();
+        userRepository.save(finalUser);
+        return new ResponseEntity<>(finalUser.toString(), HttpStatus.CREATED);
     }
 
     public ResponseEntity<String> createAdmin(User user) {
-        User newUser = user.toBuilder().id(UUID.randomUUID()).type("admin").build();
-        userRepository.save(newUser);
-        return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
+        User newUser =fullNameCapitalisation.capitalize(user);
+        User finalUser = newUser.toBuilder().id(UUID.randomUUID()).type("admin").build();
+        userRepository.save(finalUser);
+        return new ResponseEntity<>(finalUser.toString(), HttpStatus.CREATED);
     }
 
     public List<UserDTO> getAllUsers() {
@@ -131,16 +135,20 @@ public class UserService {
 
 
     public ResponseEntity<String> updateUserById(UUID uuid, User user) {
+        User newUser = fullNameCapitalisation.capitalize(user);
         try {
-            userRepository.updateUserById(user, uuid);
+            if(user.getPassword().length() != 0) {
+                userRepository.updateUserById(newUser, uuid);
+            }
             return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
     }
     public ResponseEntity<String> updatePhysicianDtoUserById(PhysicianDto user, UUID id) {
+        PhysicianDto newUser = fullNameCapitalisation.capitalize(user);
         try {
-            userRepository.updatePhysicianDtoUserById(user, id);
+            userRepository.updatePhysicianDtoUserById(newUser, id);
             return new ResponseEntity<>("The user, with id " + id + " was updated successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
