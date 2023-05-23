@@ -19,7 +19,7 @@ VALUES
             ('37a55d08-8747-4c25-bb24-b1e857009acf', 'Lytta Neyd', 'lytt@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'physician'),
             ('60867f57-9fb1-45e4-9a34-0715ec32f476', 'Sorel Degerlund', 'sore@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'physician'),
             ('c4d695d2-cc18-11ed-afa1-0242ac120002', 'Aane Patrick', 'Jdaane@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'physician'),
-            ('698e415e-ca7c-11ed-afa1-0242ac120002', 'Aen Vengerberg', 'aen@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'physician');
+            ('698e415e-ca7c-11ed-afa1-0242ac120002', 'Aen Vengerberg', 'aen@gmail.com', 'test', 'physician');
 
 INSERT INTO occupations (id, name)
 VALUES
@@ -46,7 +46,7 @@ VALUES
 --patients, admins
 INSERT INTO users (id, name, email, password, type)
 VALUES
-            ('81fe6628-7f9f-4f2e-be41-a190aa369831', 'Hilda Herbert', 'clinicgunit2023@gmail.com','$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
+            ('81fe6628-7f9f-4f2e-be41-a190aa369831', 'Hilda Herbert', 'clinicgunit2023@gmail.com','test', 'patient'),
             ('52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3', 'Graham Chapman', 'gra@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
             ('a2246d5b-c433-48c8-a82b-d338976417a0', 'John Cleese', 'john@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient' ),
             ('eb5cd7ba-f1be-4595-9da8-995e1fe08ed5', 'Terry Gilliam', 'terr@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient' ),
@@ -89,7 +89,7 @@ VALUES
             ('b6c7d8e9-0143-6667-89ab-cdef66234578', 'Ted Kaczynski', 'kaczynski@yahoo.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
             ('b6c7dfe9-0123-4567-89ab-cdef66234500', 'Olivia Davis', 'olivia.davis@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
             ('b6c7dfe9-0123-4567-89ab-aaef66234511', 'Oalivia Davis', 'odlivia.davis@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
-            ('387cfae8-cc10-11ed-afa1-0242ac120002', 'Admin Admin', 'Admin@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'admin' ),
+            ('387cfae8-cc10-11ed-afa1-0242ac120002', 'Admin Admin', 'Admin@gmail.com', 'test', 'admin' ),
             ('b6c7dfe9-0123-4567-89ab-aaef66212300', 'John Doe', 'johndoe@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'admin'),
             ('b6c7dfe9-5313-4567-89ab-aaef66234500', 'Jane Doe', 'janedoe@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'admin'),
             ('b6c7dfe9-9876-4567-89ab-aaef66234500', 'Mark Smith', 'marksmith@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'admin'),
