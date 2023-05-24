@@ -1,6 +1,7 @@
 package com.sourcery.clinicapp.notifications;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ public class EmailNotificationConfig {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendEmail(String toEmail, String subject, String body) {
+    public String sendEmail(String toEmail, String subject, String body) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("clinicgunit2023@gmail.com");
@@ -19,7 +20,12 @@ public class EmailNotificationConfig {
         message.setSubject(subject);
         message.setText(body);
 
-        mailSender.send(message);
+        try {
+            mailSender.send(message);
+        } catch (MailException e) {
+            return "Error: " + e.getMessage();
+        }
+        return "Mail sent.";
     }
 
 }

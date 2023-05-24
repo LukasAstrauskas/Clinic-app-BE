@@ -47,8 +47,6 @@ public class TimeslotService {
 
     public ResponseEntity<Timeslot> bookAppointment(TimeslotFullDto timeslotDto) {
 
-        emailSenderService.getEmailMessage(timeslotDto);
-
         Short upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
                 timeslotDto.physicianId(),
                 timeslotDto.patientId()
@@ -64,6 +62,11 @@ public class TimeslotService {
         Timeslot timeslot = optional.orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
         timeslot.setPatientId(timeslotDto.patientId());
         boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslot);
+
+        if (updated) {
+            emailSenderService.getEmailMessage(timeslotDto);
+        }
+
         HttpStatus status = updated
                 ? HttpStatus.OK
                 : HttpStatus.NOT_MODIFIED;
@@ -85,7 +88,7 @@ public class TimeslotService {
     }
 
 
-    public ResponseEntity<Void>  removePatientFromUpcomingTimeslot(UUID physicianId, UUID patientId){
+    public ResponseEntity<Void> removePatientFromUpcomingTimeslot(UUID physicianId, UUID patientId) {
         boolean isDeleted = timeslotMapper.removePatientFromUpcomingTimeslot(physicianId, patientId);
 
         if (isDeleted == true) {
