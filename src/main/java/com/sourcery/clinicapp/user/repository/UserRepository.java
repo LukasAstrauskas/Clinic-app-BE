@@ -94,7 +94,9 @@ public interface UserRepository {
                SELECT DISTINCT u.id, u.name, u.email
                FROM users u
                INNER JOIN timeslot t ON u.id = t.patientId
-               WHERE t.physicianId = #{physicianId} LIMIT 7 OFFSET #{offset}
+               WHERE t.physicianId = #{physicianId}
+               ORDER BY name
+               LIMIT 7 OFFSET #{offset}
                """)
     List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId, @Param("offset") Number offset);
 
