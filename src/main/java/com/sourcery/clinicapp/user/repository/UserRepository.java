@@ -26,37 +26,35 @@ public interface UserRepository {
     List<UserDTO> getAdminSearch(@Param("search") String search);
 
 
+    @ResultMap("PatientTimeslotResultMap")
+    @Select("""
+            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
+            FROM users u
+                 LEFT JOIN additional_physician_info i
+                     ON u.id = i.user_id
+                 LEFT JOIN occupations o
+                     ON i.occupation_id = o.id
+                 LEFT JOIN timeslot t
+                     ON u.id = t.physicianid
+                 WHERE t.patientid=#{patient} AND t.date > CURRENT_TIMESTAMP()
+             """)
+    List<PatientAppointmentsDto> getUpcomingPatientAppointments(@Param("patient") UUID patient);
+
 
     @ResultMap("PatientTimeslotResultMap")
     @Select("""
-              SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
-              FROM users u
-                   LEFT JOIN additional_physician_info i
-                       ON u.id = i.user_id
-                   LEFT JOIN occupations o
-                       ON i.occupation_id = o.id
-                   LEFT JOIN timeslot t
-                       ON u.id = t.physicianid
-                   WHERE t.patientid=#{patient} AND t.date > CURRENT_TIMESTAMP()
-               """)
-    List<PatientAppointmentsDto>getUpcomingPatientAppointments(@Param("patient") UUID patient);
-
-
-
-    @ResultMap("PatientTimeslotResultMap")
-    @Select("""
-                 SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
-                 FROM users u
-                      LEFT JOIN additional_physician_info i
-                          ON u.id = i.user_id
-                      LEFT JOIN occupations o
-                          ON i.occupation_id = o.id
-                      LEFT JOIN timeslot t
-                          ON u.id = t.physicianid
-                      WHERE t.patientid=#{patient} AND t.date < CURRENT_TIMESTAMP() ORDER BY t.date DESC
-                      LIMIT 5 OFFSET #{offset}
-                  """)
-    List<PatientAppointmentsDto>getMorePastPatientAppointments(@Param("patient") UUID patient,@Param("offset") Number offset);
+            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
+            FROM users u
+                 LEFT JOIN additional_physician_info i
+                     ON u.id = i.user_id
+                 LEFT JOIN occupations o
+                     ON i.occupation_id = o.id
+                 LEFT JOIN timeslot t
+                     ON u.id = t.physicianid
+                 WHERE t.patientid=#{patient} AND t.date < CURRENT_TIMESTAMP() ORDER BY t.date DESC
+                 LIMIT 5 OFFSET #{offset}
+             """)
+    List<PatientAppointmentsDto> getMorePastPatientAppointments(@Param("patient") UUID patient, @Param("offset") Number offset);
 
 
     @Select("""
@@ -65,30 +63,28 @@ public interface UserRepository {
     int getPastAppointmentAmount(@Param("patient") UUID patient);
 
 
-
-
-   @ResultMap("PhysicianResultMap")
-   @Select("""
-    SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
-    FROM users u
-    LEFT JOIN additional_physician_info i ON u.id = i.user_id
-    LEFT JOIN occupations o ON i.occupation_id = o.id
-    WHERE type = 'physician'
-    AND (
-        #{search} IS NULL OR 
-        #{search} = '' OR 
-        (
-            LOWER(u.name) LIKE CONCAT('%', #{search}, '%') OR 
-            LOWER(o.name) LIKE CONCAT('%', #{search}, '%')
-        )
-    ) 
-    AND (#{occupation} IS NULL OR #{occupation} = '' OR LOWER(o.name) LIKE CONCAT('%', #{occupation}, '%'))
-    ORDER BY name
-""")
-   List<Physician> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
+    @ResultMap("PhysicianResultMap")
+    @Select("""
+                SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
+                FROM users u
+                LEFT JOIN additional_physician_info i ON u.id = i.user_id
+                LEFT JOIN occupations o ON i.occupation_id = o.id
+                WHERE type = 'physician'
+                AND (
+                    #{search} IS NULL OR 
+                    #{search} = '' OR 
+                    (
+                        LOWER(u.name) LIKE CONCAT('%', #{search}, '%') OR 
+                        LOWER(o.name) LIKE CONCAT('%', #{search}, '%')
+                    )
+                ) 
+                AND (#{occupation} IS NULL OR #{occupation} = '' OR LOWER(o.name) LIKE CONCAT('%', #{occupation}, '%'))
+                ORDER BY name
+            """)
+    List<Physician> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
 
     @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 7")
-     List<UserDTO> getPatients();
+    List<UserDTO> getPatients();
 
     @Select("""
                SELECT DISTINCT u.id, u.name, u.email
@@ -101,11 +97,11 @@ public interface UserRepository {
     List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId, @Param("offset") Number offset);
 
     @Select("""
-               SELECT COUNT(*)
-               FROM users u
-               INNER JOIN timeslot t ON u.id = t.patientId
-               WHERE t.physicianId = #{physicianId}
-               """)
+            SELECT COUNT(*)
+            FROM users u
+            INNER JOIN timeslot t ON u.id = t.patientId
+            WHERE t.physicianId = #{physicianId}
+            """)
     Short getPatientsByPhysicianIdAmount(@Param("physicianId") UUID physicianId);
 
     @Select("SELECT * FROM users WHERE type='admin' ORDER BY name LIMIT 7 ")
@@ -187,10 +183,15 @@ public interface UserRepository {
     @Insert("INSERT INTO users (id, name, email, password, type) VALUES (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
     void save(@Param("user") User user);
 
-    @Update("UPDATE users SET name=#{user.name}, email=#{user.email}, password=#{user.password}, type=#{user.type} WHERE id=#{uuid}")
+    @Update("UPDATE users SET name=#{user.name}, email=#{user.email} WHERE id=#{uuid}")
     void updateUserById(@Param("user") User user, @Param("uuid") UUID id);
 
-    @Update("UPDATE users SET name=#{user.name}, email=#{user.email}, password=#{user.password} WHERE id=#{id} ")
+    @Update("UPDATE users SET name=#{user.name}, email=#{user.email} WHERE id=#{id} ")
     void updatePhysicianDtoUserById(@Param("user") PhysicianDto user, @Param("id") UUID id);
+
+
+    @Update("UPDATE users SET password=#{password} WHERE id=#{id} ")
+    void updatePassword(@Param("password") String password, @Param("id") UUID id);
+
 
 }
