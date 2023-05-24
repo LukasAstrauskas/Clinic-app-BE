@@ -18,7 +18,6 @@ import java.util.UUID;
 @Mapper
 public interface UserRepository {
 
-
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")
     List<UserDTO> getPatientSearch(@Param("search") String search);
 
@@ -56,7 +55,6 @@ public interface UserRepository {
              """)
     List<PatientAppointmentsDto> getMorePastPatientAppointments(@Param("patient") UUID patient, @Param("offset") Number offset);
 
-
     @Select("""
             SELECT COUNT(*) FROM timeslot WHERE patientId =#{patient} AND date < CURRENT_TIMESTAMP()
             """)
@@ -82,6 +80,7 @@ public interface UserRepository {
                 ORDER BY name
             """)
     List<Physician> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
+
 
     @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 7")
     List<UserDTO> getPatients();
@@ -139,7 +138,6 @@ public interface UserRepository {
             """)
     List<Physician> getLimitedPhysicians(@Param("offset") Number offset);
 
-
     @Select("SELECT COUNT(*) FROM users WHERE type='patient' ")
     Long getAmountOfPatients();
 
@@ -151,7 +149,6 @@ public interface UserRepository {
 
     @Select("SELECT * FROM users WHERE type='physician'")
     List<UserDTO> getPhysiciansType();
-
 
     @Select("SELECT id, type FROM users WHERE email=#{user.email} AND password=#{user.password} ")
     Optional<LoginDto> checkLogIn(@Param("user") Login user);
@@ -189,9 +186,10 @@ public interface UserRepository {
     @Update("UPDATE users SET name=#{user.name}, email=#{user.email} WHERE id=#{id} ")
     void updatePhysicianDtoUserById(@Param("user") PhysicianDto user, @Param("id") UUID id);
 
-
     @Update("UPDATE users SET password=#{password} WHERE id=#{id} ")
     void updatePassword(@Param("password") String password, @Param("id") UUID id);
 
+    @Select("SELECT * FROM users WHERE email=#{email}")
+    Optional<User> findByEmail(@Param("email") String email);
 
 }

@@ -12,6 +12,7 @@ import com.sourcery.clinicapp.utils.FullNameCapitalisation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
@@ -29,13 +30,15 @@ public class PhysicianService {
     private final UserRepository userRepository;
     private final UserService userService;
     private final FullNameCapitalisation fullNameCapitalisation;
+    private final PasswordEncoder encoder;
+
     public void createPhysician(PhysicianDto physicianDto) {
         PhysicianDto newUser = fullNameCapitalisation.capitalize(physicianDto);
         User user = User.builder()
                 .id(UUID.randomUUID())
                 .name(newUser.getName())
                 .email(newUser.getEmail())
-                .password(newUser.getPassword())
+                .password(encoder.encode(newUser.getPassword()))
                 .type("physician")
                 .build();
         userRepository.save(user);

@@ -13,6 +13,7 @@ import com.sourcery.clinicapp.utils.FullNameCapitalisation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,6 +26,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final FullNameCapitalisation fullNameCapitalisation;
+
+    private final PasswordEncoder encoder;
 
     public Long getAmountOfPatients() {
         return userRepository.getAmountOfPatients();
@@ -72,14 +75,24 @@ public class UserService {
 
     public ResponseEntity<String> createPatient(User user) {
         User newUser = fullNameCapitalisation.capitalize(user);
-        User finalUser = newUser.toBuilder().id(UUID.randomUUID()).type("patient").build();
+
+        User finalUser = newUser.toBuilder()
+                .id(UUID.randomUUID())
+                .password(encoder.encode(user.getPassword()))
+                .type("patient").build();
+
         userRepository.save(finalUser);
         return new ResponseEntity<>(finalUser.toString(), HttpStatus.CREATED);
     }
 
     public ResponseEntity<String> createAdmin(User user) {
         User newUser = fullNameCapitalisation.capitalize(user);
-        User finalUser = newUser.toBuilder().id(UUID.randomUUID()).type("admin").build();
+
+        User finalUser = newUser.toBuilder()
+                .id(UUID.randomUUID())
+                .password(encoder.encode(user.getPassword()))
+                .type("admin").build();
+
         userRepository.save(finalUser);
         return new ResponseEntity<>(finalUser.toString(), HttpStatus.CREATED);
     }
@@ -146,7 +159,8 @@ public class UserService {
         try {
             userRepository.updateUserById(newUser, uuid);
             if (user.getPassword().length() != 0) {
-                userRepository.updatePassword(user.getPassword(), uuid);
+                String encodedPassword = encoder.encode(user.getPassword());
+                userRepository.updatePassword(encodedPassword, uuid);
             }
             return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
@@ -157,6 +171,8 @@ public class UserService {
     public ResponseEntity<String> updatePhysicianDtoUserById(PhysicianDto user, UUID id) {
         PhysicianDto newUser = fullNameCapitalisation.capitalize(user);
         try {
+            String encodedPassword = encoder.encode(user.getPassword());
+            newUser.setPassword(encodedPassword);
             userRepository.updatePhysicianDtoUserById(newUser, id);
             if (user.getPassword().length() != 0) {
                 userRepository.updatePassword(user.getPassword(), id);
