@@ -1,8 +1,8 @@
 package com.sourcery.clinicapp.user.controller;
 
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
-import com.sourcery.clinicapp.patient.model.PatientAppointmentsDto;
-import com.sourcery.clinicapp.patient.model.PatientAppointmentsPage;
+import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsDto;
+import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsPage;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
@@ -72,20 +72,20 @@ public class UserController {
         return userService.getAdminsLimited(offset);
     }
 
-    @GetMapping("physicians")
-    public List<UserDTO> getPhysician() {
-        return userService.getPhysicians();
-    }
+//    @GetMapping("physicians")
+//    public List<UserDTO> getPhysician() {
+//        return userService.getPhysicians();
+//    }
 
     @GetMapping("admins")
     public List<UserDTO> getAdmins() {
         return userService.getAdmins();
     }
 
-    @GetMapping
-    public List<UserDTO> getAllUsers() {
-        return userService.getAllUsers();
-    }
+//    @GetMapping
+//    public List<UserDTO> getAllUsers() {
+//        return userService.getAllUsers();
+//    }
 
     @PostMapping("admins")
     public ResponseEntity<String> createAdmin(@RequestBody User user) {
