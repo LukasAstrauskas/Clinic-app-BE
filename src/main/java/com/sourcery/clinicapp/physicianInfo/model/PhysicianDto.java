@@ -1,16 +1,16 @@
-package com.sourcery.clinicapp.physician.model;
+package com.sourcery.clinicapp.physicianInfo.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@SuperBuilder(toBuilder = true)
+@Builder
 public class PhysicianDto {
     private String name;
     private String email;

@@ -22,7 +22,7 @@ public class OccupationController {
     }
 
     @GetMapping("{id}")
-    public Occupation GetOccupationById (@PathVariable("id") UUID id){
+    public Occupation GetOccupationById(@PathVariable("id") UUID id) {
         return occupationService.getOccupationById(id);
     }
 

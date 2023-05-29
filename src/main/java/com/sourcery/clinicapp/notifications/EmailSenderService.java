@@ -17,10 +17,10 @@ public class EmailSenderService {
 
     public void getEmailMessage(TimeslotFullDto timeslotFullDto) {
 
-    String toEmail = userService.getAUserById(timeslotFullDto.patientId()).getEmail();
+    String toEmail = userService.getUserById(timeslotFullDto.patientId()).getEmail();
     String emailSubject = "Appointment confirmation " + LocalDate.now();
-    String physicianName = userService.getAUserById(timeslotFullDto.physicianId()).getName();
-    String patientName =  userService.getAUserById(timeslotFullDto.patientId()).getName();
+    String physicianName = userService.getUserById(timeslotFullDto.physicianId()).getName();
+    String patientName =  userService.getUserById(timeslotFullDto.patientId()).getName();
     String appointmentDate = timeslotFullDto.date() + ", " + timeslotFullDto.time();
     String emailMessage = "Hello, " + patientName + ",\n" +
             "\nYour appointment successfully confirmed!\n" +

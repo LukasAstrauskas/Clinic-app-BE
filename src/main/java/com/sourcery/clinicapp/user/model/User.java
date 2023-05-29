@@ -2,16 +2,16 @@ package com.sourcery.clinicapp.user.model;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@SuperBuilder(toBuilder = true)
+@Builder
 public class User {
     private UUID id;
     private String name;

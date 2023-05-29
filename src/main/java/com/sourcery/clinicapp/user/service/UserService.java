@@ -1,15 +1,18 @@
 package com.sourcery.clinicapp.user.service;
 
 
-import com.sourcery.clinicapp.physician.model.Physician;
-import com.sourcery.clinicapp.physician.model.PhysicianDto;
+import com.sourcery.clinicapp.physicianInfo.model.Physician;
+import com.sourcery.clinicapp.physicianInfo.model.PhysicianDto;
 import com.sourcery.clinicapp.patient.model.PatientAppointmentsDto;
 import com.sourcery.clinicapp.patient.model.TimeslotForPatient;
 import com.sourcery.clinicapp.patient.model.PatientAppointmentsPage;
+import com.sourcery.clinicapp.physicianInfo.repository.PhysicianInfoRepository;
+import com.sourcery.clinicapp.physicianInfo.service.PhysicianInfoService;
+import com.sourcery.clinicapp.user.model.Type;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.repository.UserRepository;
-import com.sourcery.clinicapp.utils.FullNameCapitalisation;
+import com.sourcery.clinicapp.utils.UserFieldHelper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +28,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final FullNameCapitalisation fullNameCapitalisation;
+    private final UserFieldHelper userFieldHelper;
 
     private final PasswordEncoder encoder;
+
+    private final PhysicianInfoRepository physicianInfoRepository;
 
     public Long getAmountOfPatients() {
         return userRepository.getAmountOfPatients();
@@ -74,27 +79,29 @@ public class UserService {
 
 
     public ResponseEntity<String> createPatient(User user) {
-        User newUser = fullNameCapitalisation.capitalize(user);
-
-        User finalUser = newUser.toBuilder()
+        String capitalizedFullName = userFieldHelper.capitalizeFullName(user.getName());
+        User userToSava = User.builder()
                 .id(UUID.randomUUID())
+                .name(capitalizedFullName)
+                .email(user.getEmail())
                 .password(encoder.encode(user.getPassword()))
-                .type("patient").build();
-
-        userRepository.save(finalUser);
-        return new ResponseEntity<>(finalUser.toString(), HttpStatus.CREATED);
+                .type("patient")
+                .build();
+        userRepository.saveUser(userToSava);
+        return new ResponseEntity<>(userToSava.toString(), HttpStatus.CREATED);
     }
 
     public ResponseEntity<String> createAdmin(User user) {
-        User newUser = fullNameCapitalisation.capitalize(user);
-
-        User finalUser = newUser.toBuilder()
+        String capitalizedFullName = userFieldHelper.capitalizeFullName(user.getName());
+        User userToSava = User.builder()
                 .id(UUID.randomUUID())
+                .name(capitalizedFullName)
+                .email(user.getEmail())
                 .password(encoder.encode(user.getPassword()))
-                .type("admin").build();
-
-        userRepository.save(finalUser);
-        return new ResponseEntity<>(finalUser.toString(), HttpStatus.CREATED);
+                .type("admin")
+                .build();
+        userRepository.saveUser(userToSava);
+        return new ResponseEntity<>(userToSava.toString(), HttpStatus.CREATED);
     }
 
     public List<UserDTO> getAllUsers() {
@@ -118,46 +125,44 @@ public class UserService {
         return userRepository.getAdmins();
     }
 
-    public ResponseEntity<String> deletePatientById(UUID uuid) {
-        try {
-            userRepository.deletePatientById(uuid);
-            return new ResponseEntity<>("The user with all appointments was deleted successfully.", HttpStatus.OK);
-        } catch (NoSuchElementException exception) {
-            return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> deleteUserById(UUID uuid) {
+        UserDTO userById = getUserById(uuid);
+        if (userById.getType().equals(Type.PHYSICIAN.type())) {
+            physicianInfoRepository.deletePhysicianInfo(userById.getId());
+        }
+        if (userRepository.deleteUserById(userById.getId())) {
+            return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("The user with the provided ID not found: " + userById.getId(), HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity<String> deleteAdminById(UUID uuid) {
-        userRepository.deleteAdminById(uuid);
-        return new ResponseEntity<>("Succes", HttpStatus.OK);
-    }
-
-    public UserDTO getAUserById(UUID id) {
-        return userRepository.findById(id);
+    public UserDTO getUserById(UUID id) {
+        return userRepository.getUserById(id).orElseThrow(() -> new NoSuchElementException("No user with id: " + id));
     }
 
     public List<UserDTO> handlePatientSearch(String search) {
-        String formatedSearch = search.toLowerCase();
-        return userRepository.getPatientSearch(formatedSearch);
+        String formattedSearch = search.toLowerCase();
+        return userRepository.getPatientSearch(formattedSearch);
     }
 
     public List<UserDTO> handleAdminSearch(String search) {
-        String formatedSearch = search.toLowerCase();
-        return userRepository.getAdminSearch(formatedSearch);
+        String formattedSearch = search.toLowerCase();
+        return userRepository.getAdminSearch(formattedSearch);
     }
 
-    public List<Physician> handlePhysicianSearch(Optional<String> search, Optional<String> occupation) {
-        String formattedSearch = search.map(String::toLowerCase).orElse("");
-        String formattedOccupation = occupation.map(String::toLowerCase).orElse("");
+    public List<Physician> handlePhysicianSearch(String search, String occupation) {
+        String formattedSearch = search.toLowerCase();
+        String formattedOccupation = occupation.toLowerCase();
         return userRepository.getPhysicianSearch(formattedSearch, formattedOccupation);
     }
 
 
     public ResponseEntity<String> updateUserById(UUID uuid, User user) {
-        User newUser = fullNameCapitalisation.capitalize(user);
-
+        String capitalizedFullName = userFieldHelper.capitalizeFullName(user.getName());
+        user.setName(capitalizedFullName);
         try {
-            userRepository.updateUserById(newUser, uuid);
+            userRepository.updateUserById(user, uuid);
             if (user.getPassword().length() != 0) {
                 String encodedPassword = encoder.encode(user.getPassword());
                 userRepository.updatePassword(encodedPassword, uuid);
@@ -169,11 +174,12 @@ public class UserService {
     }
 
     public ResponseEntity<String> updatePhysicianDtoUserById(PhysicianDto user, UUID id) {
-        PhysicianDto newUser = fullNameCapitalisation.capitalize(user);
+        String capitalizedFullName = userFieldHelper.capitalizeFullName(user.getName());
+        user.setName(capitalizedFullName);
         try {
             String encodedPassword = encoder.encode(user.getPassword());
-            newUser.setPassword(encodedPassword);
-            userRepository.updatePhysicianDtoUserById(newUser, id);
+            user.setPassword(encodedPassword);
+            userRepository.updatePhysicianDtoUserById(user, id);
             if (user.getPassword().length() != 0) {
                 userRepository.updatePassword(user.getPassword(), id);
             }

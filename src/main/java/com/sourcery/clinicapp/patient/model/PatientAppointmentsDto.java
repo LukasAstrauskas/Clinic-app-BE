@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class PatientAppointmentsDto {
 
-
     private String physicianId;
     private String physicianName;
     private Occupation occupation;

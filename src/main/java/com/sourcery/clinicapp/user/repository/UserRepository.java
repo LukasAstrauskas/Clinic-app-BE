@@ -2,8 +2,8 @@ package com.sourcery.clinicapp.user.repository;
 
 import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.login.model.LoginDto;
-import com.sourcery.clinicapp.physician.model.Physician;
-import com.sourcery.clinicapp.physician.model.PhysicianDto;
+import com.sourcery.clinicapp.physicianInfo.model.Physician;
+import com.sourcery.clinicapp.physicianInfo.model.PhysicianDto;
 import com.sourcery.clinicapp.patient.model.PatientAppointmentsDto;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
@@ -86,13 +86,13 @@ public interface UserRepository {
     List<UserDTO> getPatients();
 
     @Select("""
-               SELECT DISTINCT u.id, u.name, u.email
-               FROM users u
-               INNER JOIN timeslot t ON u.id = t.patientId
-               WHERE t.physicianId = #{physicianId}
-               ORDER BY name
-               LIMIT 7 OFFSET #{offset}
-               """)
+            SELECT DISTINCT u.id, u.name, u.email
+            FROM users u
+            INNER JOIN timeslot t ON u.id = t.patientId
+            WHERE t.physicianId = #{physicianId}
+            ORDER BY name
+            LIMIT 7 OFFSET #{offset}
+            """)
     List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId, @Param("offset") Number offset);
 
     @Select("""
@@ -168,17 +168,14 @@ public interface UserRepository {
     @Select("SELECT * FROM users")
     List<UserDTO> getUsers();
 
-    @Delete("DELETE FROM users WHERE id=#{uuid} AND type='patient'")
-    void deletePatientById(@Param("uuid") UUID uuid);
-
-    @Delete("DELETE FROM users WHERE id=#{uuid} AND type='admin'")
-    void deleteAdminById(@Param("uuid") UUID uuid);
+    @Delete("DELETE FROM users WHERE id=#{uuid}")
+    boolean deleteUserById(@Param("uuid") UUID uuid);
 
     @Select("SELECT * FROM users WHERE id=#{id}")
-    UserDTO findById(@Param("id") UUID id);
+    Optional<UserDTO> getUserById(@Param("id") UUID id);
 
     @Insert("INSERT INTO users (id, name, email, password, type) VALUES (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
-    void save(@Param("user") User user);
+    void saveUser(@Param("user") User user);
 
     @Update("UPDATE users SET name=#{user.name}, email=#{user.email} WHERE id=#{uuid}")
     void updateUserById(@Param("user") User user, @Param("uuid") UUID id);

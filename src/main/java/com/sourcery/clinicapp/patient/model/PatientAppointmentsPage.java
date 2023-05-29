@@ -4,11 +4,10 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class PatientAppointmentsPage<T> {
     private List<T> data;
     private int total;
