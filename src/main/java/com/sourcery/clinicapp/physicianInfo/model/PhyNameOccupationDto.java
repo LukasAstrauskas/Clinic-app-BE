@@ -1,4 +1,4 @@
-package com.sourcery.clinicapp.physician.model;
+package com.sourcery.clinicapp.physicianInfo.model;
 
 import java.util.UUID;
 

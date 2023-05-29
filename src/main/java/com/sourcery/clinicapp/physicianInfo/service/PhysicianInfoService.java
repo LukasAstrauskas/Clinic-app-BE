@@ -1,14 +1,14 @@
-package com.sourcery.clinicapp.physician.service;
+package com.sourcery.clinicapp.physicianInfo.service;
 
-import com.sourcery.clinicapp.physician.model.AdditionalPhysicianInfo;
-import com.sourcery.clinicapp.physician.model.PhyNameOccupationDto;
-import com.sourcery.clinicapp.physician.model.Physician;
-import com.sourcery.clinicapp.physician.model.PhysicianDto;
-import com.sourcery.clinicapp.physician.repository.AdditionalPhysicianInfoRepository;
+import com.sourcery.clinicapp.physicianInfo.model.AdditionalPhysicianInfo;
+import com.sourcery.clinicapp.physicianInfo.model.PhyNameOccupationDto;
+import com.sourcery.clinicapp.physicianInfo.model.Physician;
+import com.sourcery.clinicapp.physicianInfo.model.PhysicianDto;
+import com.sourcery.clinicapp.physicianInfo.repository.PhysicianInfoRepository;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.repository.UserRepository;
 import com.sourcery.clinicapp.user.service.UserService;
-import com.sourcery.clinicapp.utils.FullNameCapitalisation;
+import com.sourcery.clinicapp.utils.UserFieldHelper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,29 +24,30 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class PhysicianService {
+public class PhysicianInfoService {
 
-    private final AdditionalPhysicianInfoRepository additionalPhysicianInfoRepository;
+    private final PhysicianInfoRepository physicianInfoRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-    private final FullNameCapitalisation fullNameCapitalisation;
+    private final UserFieldHelper userFieldHelper;
     private final PasswordEncoder encoder;
 
     public void createPhysician(PhysicianDto physicianDto) {
-        PhysicianDto newUser = fullNameCapitalisation.capitalize(physicianDto);
+        String capitalizedFullName = userFieldHelper.capitalizeFullName(physicianDto.getName());
+
         User user = User.builder()
                 .id(UUID.randomUUID())
-                .name(newUser.getName())
-                .email(newUser.getEmail())
-                .password(encoder.encode(newUser.getPassword()))
+                .name(capitalizedFullName)
+                .email(physicianDto.getEmail())
+                .password(encoder.encode(physicianDto.getPassword()))
                 .type("physician")
                 .build();
-        userRepository.save(user);
+        userRepository.saveUser(user);
         AdditionalPhysicianInfo info = AdditionalPhysicianInfo.builder()
                 .userId(user.getId())
-                .occupationId(newUser.getOccupationId())
+                .occupationId(physicianDto.getOccupationId())
                 .build();
-        additionalPhysicianInfoRepository.insertInfo(info);
+        physicianInfoRepository.insertInfo(info);
     }
 
     public List<Physician> getPhysiciansWithAdditionalInfo() {
@@ -64,7 +65,7 @@ public class PhysicianService {
     public ResponseEntity<String> updatePhysicianById(PhysicianDto user, UUID id) {
         try {
             userService.updatePhysicianDtoUserById(user, id);
-            additionalPhysicianInfoRepository.updateAdditionalInfoTable(user, id);
+            physicianInfoRepository.updateAdditionalInfoTable(user, id);
 
             return new ResponseEntity<>("The physician, with id " + id + " was updated successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
@@ -79,5 +80,9 @@ public class PhysicianService {
                                 physician.getName(),
                                 physician.getOccupation().getName()))
                 .collect(Collectors.toList());
+    }
+
+    public void deletePhysicianInfo(UUID id) {
+        physicianInfoRepository.deletePhysicianInfo(id);
     }
 }
