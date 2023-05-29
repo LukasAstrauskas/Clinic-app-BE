@@ -1,7 +1,7 @@
-package com.sourcery.clinicapp.patient.service;
+package com.sourcery.clinicapp.patientInfo.service;
 
-import com.sourcery.clinicapp.patient.model.AdditionalPatientInfo;
-import com.sourcery.clinicapp.patient.repository.AdditionalPatientInfoRepository;
+import com.sourcery.clinicapp.patientInfo.model.AdditionalPatientInfo;
+import com.sourcery.clinicapp.patientInfo.repository.PatientInfoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +13,13 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class PatientService {
+public class PatientInfoService {
 
-    private final AdditionalPatientInfoRepository additionalPatientInfoRepository;
+    private final PatientInfoRepository patientInfoRepository;
 
-    public AdditionalPatientInfo getAdditionalPatientInfo(UUID id) {
+    public AdditionalPatientInfo getPatientInfo(UUID id) {
         try {
-            AdditionalPatientInfo additionalPatientInfo = additionalPatientInfoRepository.getAdditionalPatientInfo(id).orElseThrow(
+            AdditionalPatientInfo additionalPatientInfo = patientInfoRepository.getPatientInfo(id).orElseThrow(
                     () -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
             return additionalPatientInfo;
         } catch (HttpServerErrorException e) {
@@ -27,9 +27,9 @@ public class PatientService {
         }
     }
 
-    public ResponseEntity<AdditionalPatientInfo> updateAdditionalPatientInfo(UUID id, AdditionalPatientInfo additionalPatientInfo) {
+    public ResponseEntity<AdditionalPatientInfo> updatePatientInfo(UUID id, AdditionalPatientInfo additionalPatientInfo) {
         try {
-            if (!additionalPatientInfoRepository.updateAdditionalPatientInfo(id, additionalPatientInfo)) {
+            if (!patientInfoRepository.updatePatientInfo(id, additionalPatientInfo)) {
                 return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);
@@ -40,9 +40,9 @@ public class PatientService {
         }
     }
 
-    public ResponseEntity<AdditionalPatientInfo> createAdditionalPatientInfo(AdditionalPatientInfo additionalPatientInfo) {
+    public ResponseEntity<AdditionalPatientInfo> createPatientInfo(AdditionalPatientInfo additionalPatientInfo) {
         try {
-            if (!additionalPatientInfoRepository.createAdditionalPatientInfo(additionalPatientInfo)) {
+            if (!patientInfoRepository.createPatientInfo(additionalPatientInfo)) {
                 return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);

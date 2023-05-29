@@ -4,7 +4,7 @@ import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.login.model.LoginDto;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
 import com.sourcery.clinicapp.physicianInfo.model.PhysicianDto;
-import com.sourcery.clinicapp.patient.model.PatientAppointmentsDto;
+import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsDto;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;

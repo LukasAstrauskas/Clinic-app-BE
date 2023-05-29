@@ -3,11 +3,10 @@ package com.sourcery.clinicapp.user.service;
 
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
 import com.sourcery.clinicapp.physicianInfo.model.PhysicianDto;
-import com.sourcery.clinicapp.patient.model.PatientAppointmentsDto;
-import com.sourcery.clinicapp.patient.model.TimeslotForPatient;
-import com.sourcery.clinicapp.patient.model.PatientAppointmentsPage;
+import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsDto;
+import com.sourcery.clinicapp.patientInfo.model.TimeslotForPatient;
+import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsPage;
 import com.sourcery.clinicapp.physicianInfo.repository.PhysicianInfoRepository;
-import com.sourcery.clinicapp.physicianInfo.service.PhysicianInfoService;
 import com.sourcery.clinicapp.user.model.Type;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;

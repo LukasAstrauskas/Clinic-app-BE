@@ -1,4 +1,4 @@
-package com.sourcery.clinicapp.patient.model;
+package com.sourcery.clinicapp.patientInfo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
