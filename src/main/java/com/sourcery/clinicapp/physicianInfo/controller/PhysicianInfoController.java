@@ -30,12 +30,6 @@ public class PhysicianInfoController {
         return physicianInfoService.getLimitedPhysiciansWithAdditionalInfo(offset);
     }
 
-
-    @PostMapping()
-    public void createPhysician(@RequestBody PhysicianDto physician) {
-        physicianInfoService.createPhysician(physician);
-    }
-
     @GetMapping()
     public List<Physician> getPhysiciansWithAdditionalInfo() {
         return physicianInfoService.getPhysiciansWithAdditionalInfo();

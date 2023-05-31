@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 @Builder
-public class AdditionalPhysicianInfo {
+public class PhysicianInfo {
     private UUID userId;
     private UUID occupationId;
 
