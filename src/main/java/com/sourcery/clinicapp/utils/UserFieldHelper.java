@@ -18,7 +18,7 @@ public class UserFieldHelper {
         return fullName.split(" ");
     }
 
-    private String capitalizeFirstLetter(String name) {
-        return name.substring(0, 1).toUpperCase().concat(name.substring(1));
+    public String capitalizeFirstLetter(String word) {
+        return word.substring(0, 1).toUpperCase().concat(word.substring(1));
     }
 }

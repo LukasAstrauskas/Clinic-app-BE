@@ -7,6 +7,8 @@ import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsDto;
 import com.sourcery.clinicapp.patientInfo.model.TimeslotForPatient;
 import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsPage;
 import com.sourcery.clinicapp.physicianInfo.repository.PhysicianInfoRepository;
+import com.sourcery.clinicapp.physicianInfo.service.PhysicianInfoService;
+import com.sourcery.clinicapp.user.model.CreateUserDTO;
 import com.sourcery.clinicapp.user.model.Type;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
@@ -32,6 +34,8 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     private final PhysicianInfoRepository physicianInfoRepository;
+
+    private final PhysicianInfoService physicianInfoService;
 
     public Long getAmountOfPatients() {
         return userRepository.getAmountOfPatients();
@@ -76,37 +80,6 @@ public class UserService {
         return patientAppointmentsPage;
     }
 
-
-    public ResponseEntity<String> createPatient(User user) {
-        String capitalizedFullName = userFieldHelper.capitalizeFullName(user.getName());
-        User userToSava = User.builder()
-                .id(UUID.randomUUID())
-                .name(capitalizedFullName)
-                .email(user.getEmail())
-                .password(encoder.encode(user.getPassword()))
-                .type("patient")
-                .build();
-        userRepository.saveUser(userToSava);
-        return new ResponseEntity<>(userToSava.toString(), HttpStatus.CREATED);
-    }
-
-    public ResponseEntity<String> createAdmin(User user) {
-        String capitalizedFullName = userFieldHelper.capitalizeFullName(user.getName());
-        User userToSava = User.builder()
-                .id(UUID.randomUUID())
-                .name(capitalizedFullName)
-                .email(user.getEmail())
-                .password(encoder.encode(user.getPassword()))
-                .type("admin")
-                .build();
-        userRepository.saveUser(userToSava);
-        return new ResponseEntity<>(userToSava.toString(), HttpStatus.CREATED);
-    }
-
-    public List<UserDTO> getAllUsers() {
-        return userRepository.getUsers();
-    }
-
     public List<UserDTO> getPatients() {
         return userRepository.getPatients();
     }
@@ -115,11 +88,6 @@ public class UserService {
         return userRepository.getPatientsByPhysicianId(uuid, offset);
     }
 
-    public List<UserDTO> getPhysicians() {
-        return userRepository.getPhysiciansType();
-    }
-
-
     public List<UserDTO> getAdmins() {
         return userRepository.getAdmins();
     }
@@ -127,7 +95,7 @@ public class UserService {
     public ResponseEntity<String> deleteUserById(UUID uuid) {
         UserDTO userById = getUserById(uuid);
         if (userById.getType().equals(Type.PHYSICIAN.type())) {
-            physicianInfoRepository.deletePhysicianInfo(userById.getId());
+            physicianInfoService.deletePhysicianInfo(userById.getId());
         }
         if (userRepository.deleteUserById(userById.getId())) {
             return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
@@ -186,6 +154,24 @@ public class UserService {
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
+    }
+
+    public ResponseEntity<String> createUser(CreateUserDTO newUser) {
+        String name = userFieldHelper.capitalizeFirstLetter(newUser.getName());
+        String surname = userFieldHelper.capitalizeFirstLetter(newUser.getSurname());
+        String fullName = name.concat(" ").concat(surname);
+        User userToSave = User.builder()
+                .id(UUID.randomUUID())
+                .name(fullName)
+                .email(newUser.getEmail())
+                .password(encoder.encode(newUser.getPassword()))
+                .type(newUser.getType())
+                .build();
+        boolean saved = userRepository.saveUser(userToSave);
+        if (newUser.getInfoID() != null && newUser.getType().equals(Type.PHYSICIAN.type())) {
+            physicianInfoService.insertInfo(userToSave.getId(), newUser.getInfoID());
+        }
+        return new ResponseEntity<>(saved ? "User saved." : "Some error.", HttpStatus.OK);
     }
 }
 

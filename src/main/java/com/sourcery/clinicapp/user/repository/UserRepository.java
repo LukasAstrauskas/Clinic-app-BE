@@ -147,9 +147,6 @@ public interface UserRepository {
     @Select("SELECT COUNT(*) FROM users WHERE type='physician' ")
     Long getAmountOfPhysicians();
 
-    @Select("SELECT * FROM users WHERE type='physician'")
-    List<UserDTO> getPhysiciansType();
-
     @Select("SELECT id, type FROM users WHERE email=#{user.email} AND password=#{user.password} ")
     Optional<LoginDto> checkLogIn(@Param("user") Login user);
 
@@ -165,17 +162,15 @@ public interface UserRepository {
             """)
     Optional<Physician> getPhysician(UUID id);
 
-    @Select("SELECT * FROM users")
-    List<UserDTO> getUsers();
-
     @Delete("DELETE FROM users WHERE id=#{uuid}")
     boolean deleteUserById(@Param("uuid") UUID uuid);
 
     @Select("SELECT * FROM users WHERE id=#{id}")
     Optional<UserDTO> getUserById(@Param("id") UUID id);
 
-    @Insert("INSERT INTO users (id, name, email, password, type) VALUES (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
-    void saveUser(@Param("user") User user);
+    @Insert("INSERT INTO users (id, name, email, password, type) VALUES" +
+            " (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
+    boolean saveUser(@Param("user") User user);
 
     @Update("UPDATE users SET name=#{user.name}, email=#{user.email} WHERE id=#{uuid}")
     void updateUserById(@Param("user") User user, @Param("uuid") UUID id);

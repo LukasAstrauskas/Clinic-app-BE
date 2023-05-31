@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.user.controller;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
 import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsDto;
 import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsPage;
+import com.sourcery.clinicapp.user.model.CreateUserDTO;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
@@ -72,39 +73,9 @@ public class UserController {
         return userService.getAdminsLimited(offset);
     }
 
-//    @GetMapping("physicians")
-//    public List<UserDTO> getPhysician() {
-//        return userService.getPhysicians();
-//    }
-
     @GetMapping("admins")
     public List<UserDTO> getAdmins() {
         return userService.getAdmins();
-    }
-
-//    @GetMapping
-//    public List<UserDTO> getAllUsers() {
-//        return userService.getAllUsers();
-//    }
-
-    @PostMapping("admins")
-    public ResponseEntity<String> createAdmin(@RequestBody User user) {
-        return userService.createAdmin(user);
-    }
-
-    @PostMapping("patients")
-    public ResponseEntity<String> createPatient(@RequestBody User user) {
-        return userService.createPatient(user);
-    }
-
-    @DeleteMapping("admin/{uuid}")
-    public ResponseEntity<String> deleteUser(@PathVariable("uuid") UUID uuid) {
-        return userService.deleteUserById(uuid);
-    }
-
-    @GetMapping("{id}")
-    public UserDTO getUserById(@PathVariable("id") UUID id) {
-        return userService.getUserById(id);
     }
 
     @GetMapping("patientSearch/{search}")
@@ -122,6 +93,24 @@ public class UserController {
     public List<UserDTO> handleAdminSearch(@PathVariable("search") String search) {
         return userService.handleAdminSearch(search);
     }
+
+    //    CRUD OPERATIONS
+    @GetMapping("{id}")
+    public UserDTO getUserById(@PathVariable("id") UUID id) {
+        return userService.getUserById(id);
+    }
+
+
+    @PostMapping("admin")
+    public ResponseEntity<String> createUser(@RequestBody CreateUserDTO newUser) {
+        return userService.createUser(newUser);
+    }
+
+    @DeleteMapping("admin/{uuid}")
+    public ResponseEntity<String> deleteUser(@PathVariable("uuid") UUID uuid) {
+        return userService.deleteUserById(uuid);
+    }
+
 
     @PutMapping("{uuid}")
     public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable("uuid") UUID uuid) {
