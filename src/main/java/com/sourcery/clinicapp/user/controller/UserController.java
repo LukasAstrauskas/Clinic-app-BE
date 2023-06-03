@@ -4,7 +4,6 @@ import com.sourcery.clinicapp.physicianInfo.model.Physician;
 import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsDto;
 import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsPage;
 import com.sourcery.clinicapp.user.model.CreateUserDTO;
-import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -84,8 +83,9 @@ public class UserController {
     }
 
     @GetMapping("physicianSearch/")
-    public List<Physician> handlePhysicianSearch(@RequestParam(name = "search", required = false, defaultValue = "") String search,
-                                                 @RequestParam(name = "occupation", required = false, defaultValue = "") String occupation) {
+    public List<Physician> handlePhysicianSearch(
+            @RequestParam(name = "search", required = false, defaultValue = "") String search,
+            @RequestParam(name = "occupation", required = false, defaultValue = "") String occupation) {
         return userService.handlePhysicianSearch(search, occupation);
     }
 
@@ -100,7 +100,6 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-
     @PostMapping("admin")
     public ResponseEntity<String> createUser(@RequestBody CreateUserDTO newUser) {
         return userService.createUser(newUser);
@@ -111,10 +110,9 @@ public class UserController {
         return userService.deleteUserById(uuid);
     }
 
-
-    @PutMapping("{uuid}")
-    public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable("uuid") UUID uuid) {
+    @PutMapping("admin/{uuid}")
+    public ResponseEntity<String> updateUserById(@PathVariable("uuid") UUID uuid, @RequestBody CreateUserDTO createUserDTO) {
         log.debug("User with id: " + uuid + " successfully updated");
-        return userService.updateUserById(uuid, user);
+        return userService.updateUserById(uuid, createUserDTO);
     }
 }

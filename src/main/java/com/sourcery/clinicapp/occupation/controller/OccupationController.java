@@ -17,12 +17,12 @@ public class OccupationController {
     private final OccupationService occupationService;
 
     @GetMapping("occupations")
-    public List<Occupation> GetAllOccupations() {
+    public List<Occupation> getAllOccupations() {
         return occupationService.getAllOccupations();
     }
 
     @GetMapping("{id}")
-    public Occupation GetOccupationById(@PathVariable("id") UUID id) {
+    public Occupation getOccupationById(@PathVariable("id") UUID id) {
         return occupationService.getOccupationById(id);
     }
 

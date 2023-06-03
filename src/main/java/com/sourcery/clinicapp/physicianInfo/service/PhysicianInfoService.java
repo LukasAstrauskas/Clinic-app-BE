@@ -25,7 +25,7 @@ public class PhysicianInfoService {
     private final PhysicianInfoRepository physicianInfoRepository;
     private final UserRepository userRepository;
 
-    public void insertInfo(UUID userId,UUID occupationId ) {
+    public void insertInfo(UUID userId, UUID occupationId) {
         PhysicianInfo physicianInfo = new PhysicianInfo(userId, occupationId);
         physicianInfoRepository.insertPhysicianInfo(physicianInfo);
     }
@@ -42,10 +42,10 @@ public class PhysicianInfoService {
         return userRepository.getPhysician(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
     }
 
-    public ResponseEntity<String> updatePhysicianById(PhysicianDto user, UUID id) {
+    public ResponseEntity<String> updatePhysicianById(UUID occupationID, UUID physicianID) {
         try {
-            physicianInfoRepository.updatePhysicianInfo(user, id);
-            return new ResponseEntity<>("The physician, with id " + id + " was updated successfully.", HttpStatus.OK);
+            physicianInfoRepository.updatePhysicianInfo(occupationID, physicianID);
+            return new ResponseEntity<>("The physician, with id " + physicianID + " was updated successfully.", HttpStatus.OK);
         } catch (NoSuchElementException exception) {
             return new ResponseEntity<>("The physician with the provided ID not found.", HttpStatus.NOT_FOUND);
         }
