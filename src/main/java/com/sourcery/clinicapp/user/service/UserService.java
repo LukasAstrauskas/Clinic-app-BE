@@ -125,35 +125,25 @@ public class UserService {
     }
 
 
-    public ResponseEntity<String> updateUserById(UUID uuid, User user) {
-        String capitalizedFullName = userFieldHelper.capitalizeFullName(user.getName());
-        user.setName(capitalizedFullName);
-        try {
-            userRepository.updateUserById(user, uuid);
-            if (user.getPassword().length() != 0) {
-                String encodedPassword = encoder.encode(user.getPassword());
-                userRepository.updatePassword(encodedPassword, uuid);
-            }
-            return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
-        } catch (NoSuchElementException exception) {
-            return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
-        }
-    }
+    public ResponseEntity<String> updateUserById(UUID uuid, CreateUserDTO updateUser) {
+        String name = userFieldHelper.capitalizeFirstLetter(updateUser.getName());
+        String surname = userFieldHelper.capitalizeFirstLetter(updateUser.getSurname());
+        String fullName = name.concat(" ").concat(surname);
 
-    public ResponseEntity<String> updatePhysicianDtoUserById(PhysicianDto user, UUID id) {
-        String capitalizedFullName = userFieldHelper.capitalizeFullName(user.getName());
-        user.setName(capitalizedFullName);
-        try {
-            String encodedPassword = encoder.encode(user.getPassword());
-            user.setPassword(encodedPassword);
-            userRepository.updatePhysicianDtoUserById(user, id);
-            if (user.getPassword().length() != 0) {
-                userRepository.updatePassword(user.getPassword(), id);
-            }
-            return new ResponseEntity<>("The user, with id " + id + " was updated successfully.", HttpStatus.OK);
-        } catch (NoSuchElementException exception) {
-            return new ResponseEntity<>("The user with the provided ID not found.", HttpStatus.NOT_FOUND);
+        User userToUpdate = User.builder()
+                .name(fullName)
+                .email(updateUser.getEmail())
+                .build();
+
+        userRepository.updateUserById(userToUpdate, uuid);
+        if (updateUser.getPassword().length() != 0) {
+            String encodedPassword = encoder.encode(updateUser.getPassword());
+            userRepository.updatePassword(encodedPassword, uuid);
         }
+        if (updateUser.getInfoID() != null && updateUser.getType().equals(Type.PHYSICIAN.type())) {
+            physicianInfoService.updatePhysicianById(updateUser.getInfoID(), uuid);
+        }
+        return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
     }
 
     public ResponseEntity<String> createUser(CreateUserDTO newUser) {

@@ -35,11 +35,6 @@ public class PhysicianInfoController {
         return physicianInfoService.getPhysiciansWithAdditionalInfo();
     }
 
-    @PutMapping("{uuid}")
-    public ResponseEntity<String> updatePhysicianById(@RequestBody PhysicianDto user, @PathVariable("uuid") UUID uuid) {
-        return physicianInfoService.updatePhysicianById(user, uuid);
-    }
-
     @GetMapping("physicianNamesOccupations")
     public Collection<PhyNameOccupationDto> getPhysiciansNamesOccupations() {
         return physicianInfoService.getPhysiciansNamesOccupations();

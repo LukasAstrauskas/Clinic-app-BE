@@ -19,8 +19,8 @@ public interface PhysicianInfoRepository {
     @Insert("INSERT INTO additional_physician_info (user_id, occupation_id) VALUES (#{info.userId}, #{info.occupationId})")
     void insertPhysicianInfo(@Param("info") PhysicianInfo info);
 
-    @Update("UPDATE additional_physician_info SET occupation_id=#{user.occupationId} WHERE  user_id=#{id}")
-    void updatePhysicianInfo(@Param("user") PhysicianDto user, @Param("id") UUID id);
+    @Update("UPDATE additional_physician_info SET occupation_id=#{occupationID} WHERE  user_id=#{physicianID}")
+    void updatePhysicianInfo(@Param("occupationID") UUID occupationID, @Param("physicianID") UUID physicianID);
 
     @Delete("DELETE FROM additional_physician_info WHERE user_id=#{id}")
     void deletePhysicianInfo(@Param("id") UUID userId);
