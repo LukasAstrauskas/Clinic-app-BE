@@ -1,25 +1,26 @@
 package com.sourcery.clinicapp.occupation.service;
 
 import com.sourcery.clinicapp.occupation.model.Occupation;
-import com.sourcery.clinicapp.occupation.repository.OccupationRepository;
+import com.sourcery.clinicapp.occupation.repository.OccupationMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class OccupationService {
-    private final OccupationRepository occupationRepository;
+    private final OccupationMapper occupationMapper;
 
-    public List<Occupation> getAllOccupations() {
-        return occupationRepository.getAllOccupations();
+    public Collection<Occupation> getAllOccupations() {
+        return occupationMapper.getAllOccupations();
     }
 
     public Occupation getOccupationById(UUID id) {
-        return occupationRepository.findById(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
+        return occupationMapper.findById(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
     }
 }

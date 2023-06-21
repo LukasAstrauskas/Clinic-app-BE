@@ -1,65 +1,24 @@
-package com.sourcery.clinicapp.user.repository;
+package com.sourcery.clinicapp.user.mapper;
 
 import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.login.model.LoginDto;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
-import com.sourcery.clinicapp.physicianInfo.model.PhysicianDto;
-import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsDto;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
 @Mapper
-public interface UserRepository {
+public interface UserMapper {
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")
     List<UserDTO> getPatientSearch(@Param("search") String search);
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='admin' ORDER BY name")
     List<UserDTO> getAdminSearch(@Param("search") String search);
-
-
-    @ResultMap("PatientTimeslotResultMap")
-    @Select("""
-            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
-            FROM users u
-                 LEFT JOIN additional_physician_info i
-                     ON u.id = i.user_id
-                 LEFT JOIN occupations o
-                     ON i.occupation_id = o.id
-                 LEFT JOIN timeslot t
-                     ON u.id = t.physicianid
-                 WHERE t.patientid=#{patient} AND t.date > CURRENT_TIMESTAMP()
-             """)
-    List<PatientAppointmentsDto> getUpcomingPatientAppointments(@Param("patient") UUID patient);
-
-
-    @ResultMap("PatientTimeslotResultMap")
-    @Select("""
-            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name, t.date date, t.patientId patientid
-            FROM users u
-                 LEFT JOIN additional_physician_info i
-                     ON u.id = i.user_id
-                 LEFT JOIN occupations o
-                     ON i.occupation_id = o.id
-                 LEFT JOIN timeslot t
-                     ON u.id = t.physicianid
-                 WHERE t.patientid=#{patient} AND t.date < CURRENT_TIMESTAMP() ORDER BY t.date DESC
-                 LIMIT 5 OFFSET #{offset}
-             """)
-    List<PatientAppointmentsDto> getMorePastPatientAppointments(@Param("patient") UUID patient, @Param("offset") Number offset);
-
-    @Select("""
-            SELECT COUNT(*) FROM timeslot WHERE patientId =#{patient} AND date < CURRENT_TIMESTAMP()
-            """)
-    int getPastAppointmentAmount(@Param("patient") UUID patient);
-
 
     @ResultMap("PhysicianResultMap")
     @Select("""
@@ -93,7 +52,7 @@ public interface UserRepository {
             ORDER BY name
             LIMIT 7 OFFSET #{offset}
             """)
-    List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId, @Param("offset") Number offset);
+    List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId, @Param("offset") int offset);
 
     @Select("""
             SELECT COUNT(*)
@@ -115,7 +74,7 @@ public interface UserRepository {
                 LEFT JOIN occupations o
                     ON i.occupation_id = o.id
                 WHERE type='physician'
-                 ORDER BY name LIMIT 7
+                 ORDER BY name LIMIT 12
             """)
     List<Physician> getPhysicians();
 
@@ -138,14 +97,8 @@ public interface UserRepository {
             """)
     List<Physician> getLimitedPhysicians(@Param("offset") Number offset);
 
-    @Select("SELECT COUNT(*) FROM users WHERE type='patient' ")
-    Long getAmountOfPatients();
-
-    @Select("SELECT COUNT(*) FROM users WHERE type='admin' ")
-    Long getAmountOfAdmins();
-
-    @Select("SELECT COUNT(*) FROM users WHERE type='physician' ")
-    Long getAmountOfPhysicians();
+    @Select("SELECT COUNT(*) FROM USERS WHERE type=#{type}")
+    int getUserCount(String type);
 
     @Select("SELECT id, type FROM users WHERE email=#{user.email} AND password=#{user.password} ")
     Optional<LoginDto> checkLogIn(@Param("user") Login user);
@@ -174,9 +127,6 @@ public interface UserRepository {
 
     @Update("UPDATE users SET name=#{user.name}, email=#{user.email} WHERE id=#{uuid}")
     void updateUserById(@Param("user") User user, @Param("uuid") UUID id);
-
-    @Update("UPDATE users SET name=#{user.name}, email=#{user.email} WHERE id=#{id} ")
-    void updatePhysicianDtoUserById(@Param("user") PhysicianDto user, @Param("id") UUID id);
 
     @Update("UPDATE users SET password=#{password} WHERE id=#{id} ")
     void updatePassword(@Param("password") String password, @Param("id") UUID id);

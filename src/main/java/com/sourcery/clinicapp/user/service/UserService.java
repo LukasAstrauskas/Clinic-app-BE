@@ -2,17 +2,13 @@ package com.sourcery.clinicapp.user.service;
 
 
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
-import com.sourcery.clinicapp.physicianInfo.model.PhysicianDto;
-import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsDto;
-import com.sourcery.clinicapp.patientInfo.model.TimeslotForPatient;
-import com.sourcery.clinicapp.patientInfo.model.PatientAppointmentsPage;
 import com.sourcery.clinicapp.physicianInfo.repository.PhysicianInfoRepository;
 import com.sourcery.clinicapp.physicianInfo.service.PhysicianInfoService;
 import com.sourcery.clinicapp.user.model.CreateUserDTO;
 import com.sourcery.clinicapp.user.model.Type;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
-import com.sourcery.clinicapp.user.repository.UserRepository;
+import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.utils.UserFieldHelper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,14 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     private final UserFieldHelper userFieldHelper;
 
@@ -37,59 +34,32 @@ public class UserService {
 
     private final PhysicianInfoService physicianInfoService;
 
-    public Long getAmountOfPatients() {
-        return userRepository.getAmountOfPatients();
+    public int getUsersCount(String type) {
+        return userMapper.getUserCount(type);
     }
 
     public Short getPatientsByPhysicianIdAmount(UUID uuid) {
-        return userRepository.getPatientsByPhysicianIdAmount(uuid);
+        return userMapper.getPatientsByPhysicianIdAmount(uuid);
     }
-
-    public Long getAmountOfAdmins() {
-        return userRepository.getAmountOfAdmins();
-    }
-
-    public Long getAmountOfPhysician() {
-        return userRepository.getAmountOfPhysicians();
-    }
-
 
     public List<UserDTO> getPatientsLimited(Number offset) {
-        return userRepository.getLimitedPatients(offset);
+        return userMapper.getLimitedPatients(offset);
     }
 
     public List<UserDTO> getAdminsLimited(Number offset) {
-        return userRepository.getLimitedAdmins(offset);
-    }
-
-
-    public List<PatientAppointmentsDto> getUpcomingPatientAppointments(UUID id) {
-        List<PatientAppointmentsDto> sortedAppointments = userRepository.getUpcomingPatientAppointments(id).stream()
-                .sorted(Comparator.comparing(PatientAppointmentsDto::getTimeslot, Comparator.comparing(TimeslotForPatient::getDate)))
-                .collect(Collectors.toList());
-        return sortedAppointments;
-    }
-
-
-    public PatientAppointmentsPage<PatientAppointmentsDto> getMorePastPatientAppointments(UUID id, Number offset) {
-        List<PatientAppointmentsDto> data = userRepository.getMorePastPatientAppointments(id, offset);
-        int size = userRepository.getPastAppointmentAmount(id);
-        PatientAppointmentsPage<PatientAppointmentsDto> patientAppointmentsPage = new PatientAppointmentsPage<>();
-        patientAppointmentsPage.setData(data);
-        patientAppointmentsPage.setTotal(size);
-        return patientAppointmentsPage;
+        return userMapper.getLimitedAdmins(offset);
     }
 
     public List<UserDTO> getPatients() {
-        return userRepository.getPatients();
+        return userMapper.getPatients();
     }
 
-    public List<UserDTO> getPatientsWithAppointments(UUID uuid, Number offset) {
-        return userRepository.getPatientsByPhysicianId(uuid, offset);
+    public List<UserDTO> getPatientsWithAppointments(UUID uuid, int offset) {
+        return userMapper.getPatientsByPhysicianId(uuid, offset);
     }
 
     public List<UserDTO> getAdmins() {
-        return userRepository.getAdmins();
+        return userMapper.getAdmins();
     }
 
     public ResponseEntity<String> deleteUserById(UUID uuid) {
@@ -97,7 +67,7 @@ public class UserService {
         if (userById.getType().equals(Type.PHYSICIAN.type())) {
             physicianInfoService.deletePhysicianInfo(userById.getId());
         }
-        if (userRepository.deleteUserById(userById.getId())) {
+        if (userMapper.deleteUserById(userById.getId())) {
             return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("The user with the provided ID not found: " + userById.getId(), HttpStatus.NOT_FOUND);
@@ -105,23 +75,23 @@ public class UserService {
     }
 
     public UserDTO getUserById(UUID id) {
-        return userRepository.getUserById(id).orElseThrow(() -> new NoSuchElementException("No user with id: " + id));
+        return userMapper.getUserById(id).orElseThrow(() -> new NoSuchElementException("No user with id: " + id));
     }
 
     public List<UserDTO> handlePatientSearch(String search) {
         String formattedSearch = search.toLowerCase();
-        return userRepository.getPatientSearch(formattedSearch);
+        return userMapper.getPatientSearch(formattedSearch);
     }
 
     public List<UserDTO> handleAdminSearch(String search) {
         String formattedSearch = search.toLowerCase();
-        return userRepository.getAdminSearch(formattedSearch);
+        return userMapper.getAdminSearch(formattedSearch);
     }
 
     public List<Physician> handlePhysicianSearch(String search, String occupation) {
         String formattedSearch = search.toLowerCase();
         String formattedOccupation = occupation.toLowerCase();
-        return userRepository.getPhysicianSearch(formattedSearch, formattedOccupation);
+        return userMapper.getPhysicianSearch(formattedSearch, formattedOccupation);
     }
 
 
@@ -135,10 +105,10 @@ public class UserService {
                 .email(updateUser.getEmail())
                 .build();
 
-        userRepository.updateUserById(userToUpdate, uuid);
+        userMapper.updateUserById(userToUpdate, uuid);
         if (updateUser.getPassword().length() != 0) {
             String encodedPassword = encoder.encode(updateUser.getPassword());
-            userRepository.updatePassword(encodedPassword, uuid);
+            userMapper.updatePassword(encodedPassword, uuid);
         }
         if (updateUser.getInfoID() != null && updateUser.getType().equals(Type.PHYSICIAN.type())) {
             physicianInfoService.updatePhysicianById(updateUser.getInfoID(), uuid);
@@ -157,7 +127,7 @@ public class UserService {
                 .password(encoder.encode(newUser.getPassword()))
                 .type(newUser.getType())
                 .build();
-        boolean saved = userRepository.saveUser(userToSave);
+        boolean saved = userMapper.saveUser(userToSave);
         if (newUser.getInfoID() != null && newUser.getType().equals(Type.PHYSICIAN.type())) {
             physicianInfoService.insertInfo(userToSave.getId(), newUser.getInfoID());
         }

@@ -35,6 +35,18 @@ public class TimeslotService {
         return new ResponseEntity<>(timeslotsDTOs, HttpStatus.OK);
     }
 
+    public Collection<AppointmentDTO> getPatientUpcomingAppointments(UUID id) {
+        return timeslotMapper.getPatientUpcomingAppointments(id);
+    }
+
+    public Collection<AppointmentDTO> getPatientPastAppointments(UUID patientID, int offset) {
+        return timeslotMapper.getPatientPastAppointments(patientID, offset);
+    }
+
+    public int getPastAppointmentAmount(UUID patientID){
+        return timeslotMapper.getPastAppointmentAmount(patientID);
+    }
+
     public boolean addTimeslot(TimeslotDto timeslotDto) {
         LocalDateTime localDateTime = DateTimeHelper.toDateTime(timeslotDto.date(), timeslotDto.time());
         Timeslot timeslot = new Timeslot(timeslotDto.physicianId(), localDateTime);
