@@ -32,9 +32,19 @@ public class UserController {
         return userService.getPatientsWithAppointments(physicianId, offset);
     }
 
-    @GetMapping("count/{type}")
-    public int getUsersCount(@PathVariable String type) {
-        return userService.getUsersCount(type);
+    @GetMapping("patientCount")
+    public int getPatientCount() {
+        return userService.getPatientCount();
+    }
+
+    @GetMapping("physicianCount")
+    public int getPhysicianCount() {
+        return userService.getPhysicianCount();
+    }
+
+    @GetMapping("adminCount")
+    public int getAdminCount() {
+        return userService.getAdmninCount();
     }
 
     @GetMapping("patientsByPhysicianIdSize/{uuid}")
