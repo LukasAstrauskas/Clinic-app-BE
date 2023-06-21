@@ -3,9 +3,8 @@ package com.sourcery.clinicapp.physicianInfo.service;
 import com.sourcery.clinicapp.physicianInfo.model.PhysicianInfo;
 import com.sourcery.clinicapp.physicianInfo.model.PhyNameOccupationDto;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
-import com.sourcery.clinicapp.physicianInfo.model.PhysicianDto;
 import com.sourcery.clinicapp.physicianInfo.repository.PhysicianInfoRepository;
-import com.sourcery.clinicapp.user.repository.UserRepository;
+import com.sourcery.clinicapp.user.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 public class PhysicianInfoService {
 
     private final PhysicianInfoRepository physicianInfoRepository;
-    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public void insertInfo(UUID userId, UUID occupationId) {
         PhysicianInfo physicianInfo = new PhysicianInfo(userId, occupationId);
@@ -31,15 +30,15 @@ public class PhysicianInfoService {
     }
 
     public List<Physician> getPhysiciansWithAdditionalInfo() {
-        return userRepository.getPhysicians();
+        return userMapper.getPhysicians();
     }
 
     public List<Physician> getLimitedPhysiciansWithAdditionalInfo(Number offset) {
-        return userRepository.getLimitedPhysicians(offset);
+        return userMapper.getLimitedPhysicians(offset);
     }
 
     public Physician getPhysicianById(UUID id) {
-        return userRepository.getPhysician(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
+        return userMapper.getPhysician(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
     }
 
     public ResponseEntity<String> updatePhysicianById(UUID occupationID, UUID physicianID) {
@@ -52,7 +51,7 @@ public class PhysicianInfoService {
     }
 
     public Collection<PhyNameOccupationDto> getPhysiciansNamesOccupations() {
-        return userRepository.getPhysicians().stream().map(physician ->
+        return userMapper.getPhysicians().stream().map(physician ->
                         new PhyNameOccupationDto(
                                 physician.getId(),
                                 physician.getName(),

@@ -693,21 +693,33 @@ INSERT INTO timeslot (physicianid, date, patientid)
            ('698e415e-ca7c-11ed-afa1-0242ac120002', '2023-05-25 17:00', 'b6c7d1e9-0123-4567-89ab-cdef66214567'),
 
 
-
+--Graham Chapman past appointments
            ('c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-02-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-            ('f8a8e135-cc11-11ed-8f53-0242ac131313', '2023-02-10 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-            ('f8a8e135-cc11-11ed-8f53-0242ac666666', '2023-06-28 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac131313', '2023-02-10 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac666666', '2023-06-28 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('f8a8e135-cc11-11ed-8f53-0242ac112345', '2023-04-01 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('f8a8e135-cc11-11ed-8f53-0242ac123666', '2023-04-23 07:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
            ('f8a8e135-cc11-11ed-8f53-0242ac333333', '2023-04-29 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
-            ('60867f57-9fb1-45e4-9a34-0715ec32f476', '2023-05-01 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
+           ('60867f57-9fb1-45e4-9a34-0715ec32f476', '2023-05-01 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-23 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-22 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-21 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-20 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-19 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-18 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-17 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-16 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-15 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-14 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-13 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+           ('f8a8e135-cc11-11ed-8f53-0242ac345445', '2023-01-12 09:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3');
 
 --additional Info
 INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street, city, postal_code,
                                      country, emergency_name, emergency_last_name, emergency_phone,
                                      emergency_relation)
-    VALUES ('f5e843ba-ce74-11ed-afa1-0242ac120002', 'male', '1990-09-09', 37062345678, 'Zalgiris g. 112',
+    VALUES
+        ('f5e843ba-ce74-11ed-afa1-0242ac120002', 'male', '1990-09-09', 37062345678, 'Zalgiris g. 112',
         'Vilnius', '09300', 'Lithuania', 'Vardenis', 'Pavardenis', 37068765432, 'Father'),
         ('b6c7d8e9-0123-4567-89ab-cdef66234567', 'male', '1982-01-09', 37062345678, 'Zalgiris g. 123',
         'Vilnius', '08216', 'Lithuania', 'Vardenis', 'Pavardenis', 37068765432, 'Father'),
@@ -722,7 +734,10 @@ INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street,
         ('b6c7d6e9-0123-4567-89ab-cfef66234551', 'male', '1978-12-01', 37062345678, 'Zalgiris g. 112',
         'Vilnius', '09300', 'Lithuania', 'Nicolas', 'Brown', 37068765432, 'Father'),
         ('81fe6628-7f9f-4f2e-be41-a190aa369831', 'female', '1977-12-01', 37062345678, 'Zalgiris g. 111',
-        'Vilnius', '09300', 'Lithuania', 'Frida', 'Herbert', 37068765432, 'Mother');
+        'Vilnius', '09300', 'Lithuania', 'Frida', 'Herbert', 37068765432, 'Mother'),
+        --Graham Chapman
+        ('52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3', 'male', '1941-01-08', 37064405353, 'Actors st. 98',
+                'Vilnius', '09300', 'Lithuania', 'David', 'Sherlock', 37064405842, 'Partner');
 
 
 

@@ -1,6 +1,7 @@
 package com.sourcery.clinicapp.timeslot.mapper;
 
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
+import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,16 @@ public interface TimeslotMapper {
 
     @Select("SELECT COUNT(*) FROM timeslot WHERE patientid = #{patientId} AND physicianid = #{physicianId} AND date >= now()")
     Short countUpcomingTimeslotsWithPhysician(@Param("physicianId") UUID physicianId, @Param("patientId") UUID patientId);
+
+    @Select("SELECT id, date, name FROM TIMESLOT LEFT JOIN Users ON Timeslot.PHYSICIANID = Users.ID" +
+            " WHERE patientid = #{id} and date > CURRENT_TIMESTAMP ORDER BY date desc")
+    Collection<AppointmentDTO> getPatientUpcomingAppointments(@Param("id") UUID patientID);
+    @Select("SELECT id, date, name FROM TIMESLOT LEFT JOIN Users ON Timeslot.PHYSICIANID = Users.ID" +
+            " WHERE patientid = #{id} and date < CURRENT_TIMESTAMP ORDER BY date desc limit 5 offset #{offset}")
+    Collection<AppointmentDTO> getPatientPastAppointments(@Param("id") UUID patientID, @Param("offset") int offset);
+
+    @Select("SELECT COUNT(*) FROM timeslot WHERE patientId =#{patientID} AND date < CURRENT_TIMESTAMP")
+    int getPastAppointmentAmount(@Param("patientID") UUID patientID);
 
     @Insert("INSERT INTO timeslot (physicianId, date) VALUES(#{physicianId}, #{date})")
     boolean addTimeslot(Timeslot timeslot);

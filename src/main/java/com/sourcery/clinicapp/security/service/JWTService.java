@@ -1,7 +1,7 @@
 package com.sourcery.clinicapp.security.service;
 
 import com.sourcery.clinicapp.user.model.User;
-import com.sourcery.clinicapp.user.repository.UserRepository;
+import com.sourcery.clinicapp.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,12 +21,12 @@ public class JWTService {
     private JwtEncoder encoder;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserMapper userMapper;
 
 
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
-        User user = userRepository.findByEmail(authentication.getName()).orElseThrow();
+        User user = userMapper.findByEmail(authentication.getName()).orElseThrow();
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
         String type = scope.toLowerCase();

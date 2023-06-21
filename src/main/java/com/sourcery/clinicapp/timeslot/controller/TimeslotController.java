@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.timeslot.controller;
 
+import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotDto;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotFullDto;
@@ -36,6 +37,22 @@ public class TimeslotController {
     @GetMapping("getPhyTimeslots/{physicianId}")
     public ResponseEntity<List<TimeslotsDto>> getPhyTimeslots(@PathVariable UUID physicianId, @RequestParam Optional<String> date) {
         return timeslotService.getPhyTimeslots(physicianId, date.orElseGet(() -> LocalDate.now().toString()));
+    }
+
+
+    @GetMapping("patientUpcomingAppointments/{id}")
+    public Collection<AppointmentDTO> getPatientUpcomingAppointments(@PathVariable("id") UUID id) {
+        return timeslotService.getPatientUpcomingAppointments(id);
+    }
+
+    @GetMapping("patientPastAppointments/{id}/{offset}")
+    public Collection<AppointmentDTO> getPatientPastAppointments(@PathVariable("id") UUID id, @PathVariable("offset") int offset) {
+        return timeslotService.getPatientPastAppointments(id, offset);
+    }
+
+    @GetMapping("getPatientPastAppointmentAmount/{patientID}")
+    public int getPastAppointmentAmount(@PathVariable("patientID") UUID patientID){
+        return timeslotService.getPastAppointmentAmount(patientID);
     }
 
     @PostMapping
