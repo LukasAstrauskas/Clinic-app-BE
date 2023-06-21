@@ -97,8 +97,14 @@ public interface UserMapper {
             """)
     List<Physician> getLimitedPhysicians(@Param("offset") Number offset);
 
-    @Select("SELECT COUNT(*) FROM USERS WHERE type=#{type}")
-    int getUserCount(String type);
+    @Select("SELECT COUNT(*) FROM USERS WHERE type='patient'")
+    int getPatientCount();
+
+    @Select("SELECT COUNT(*) FROM USERS WHERE type='physician'")
+    int getPhysicianCount();
+
+    @Select("SELECT COUNT(*) FROM USERS WHERE type='admin'")
+    int getAdminCount();
 
     @Select("SELECT id, type FROM users WHERE email=#{user.email} AND password=#{user.password} ")
     Optional<LoginDto> checkLogIn(@Param("user") Login user);
