@@ -20,6 +20,11 @@ public interface TimeslotMapper {
                                                @Param("begin") LocalDateTime begin,
                                                @Param("end") LocalDateTime end);
 
+    @Select("SELECT * FROM timeslot WHERE physicianid = #{physicianId} AND date BETWEEN #{begin} AND #{end} ORDER BY date ASC")
+    Collection<Timeslot> getMonthsTimeslots(@Param("physicianId") UUID physicianId,
+                                               @Param("begin") LocalDateTime begin,
+                                               @Param("end") LocalDateTime end);
+
     @Select("SELECT * FROM timeslot WHERE physicianid = #{physicianId} AND date = #{dateTime}")
     Optional<Timeslot> getTimeslot(UUID physicianId, LocalDateTime dateTime);
 
