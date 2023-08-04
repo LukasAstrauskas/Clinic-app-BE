@@ -10,8 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 @Service
 public class TimeslotService {
@@ -28,11 +32,28 @@ public class TimeslotService {
     }
 
     public ResponseEntity<List<TimeslotsDto>> getPhyTimeslots(UUID physicianId, String startDate) {
+        System.out.println("Timeslots, start date: " + startDate);
         LocalDateTime begin = DateTimeHelper.fromDateString(startDate);
         LocalDateTime end = DateTimeHelper.nextMonthFirstDay(begin);
         Collection<Timeslot> physicianTimeslots = timeslotMapper.getPhysicianTimeslots(physicianId, begin, end);
         List<TimeslotsDto> timeslotsDTOs = timeslotDataHelper.groupTimeslotsByDate(physicianTimeslots, physicianId);
         return new ResponseEntity<>(timeslotsDTOs, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<TimeslotByDate>> getMonthsTimeslots(UUID physicianId, String startDate) {
+        List<TimeslotByDate> timeslotByDateList = new ArrayList<>();
+        LocalDateTime begin = DateTimeHelper.fromDateString(startDate);
+        LocalDateTime end = DateTimeHelper.nextMonthFirstDay(begin);
+        Map<LocalDate, List<Timeslot>> groupByDate = timeslotMapper.getMonthsTimeslots(physicianId, begin, end)
+                .stream().collect(Collectors.groupingBy(timeslot ->
+                        timeslot.getDate().toLocalDate()
+                ));
+        groupByDate.forEach(((localDate, timeslots) -> {
+            TimeslotByDate timeslotByDate = new TimeslotByDate(localDate, timeslots);
+            timeslotByDateList.add(timeslotByDate);
+        }));
+        timeslotByDateList.sort(Comparator.comparing(TimeslotByDate::getLocalDate));
+        return new ResponseEntity<>(timeslotByDateList, HttpStatus.OK);
     }
 
     public Collection<AppointmentDTO> getPatientUpcomingAppointments(UUID id) {
@@ -43,7 +64,7 @@ public class TimeslotService {
         return timeslotMapper.getPatientPastAppointments(patientID, offset);
     }
 
-    public int getPastAppointmentAmount(UUID patientID){
+    public int getPastAppointmentAmount(UUID patientID) {
         return timeslotMapper.getPastAppointmentAmount(patientID);
     }
 
@@ -103,7 +124,7 @@ public class TimeslotService {
     public ResponseEntity<Void> removePatientFromUpcomingTimeslot(UUID physicianId, UUID patientId) {
         boolean isDeleted = timeslotMapper.removePatientFromUpcomingTimeslot(physicianId, patientId);
 
-        if (isDeleted == true) {
+        if (isDeleted) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
@@ -119,7 +140,7 @@ public class TimeslotService {
         timeslot.setPatientId(timeslotfullDto.patientId());
         boolean isDeleted = timeslotMapper.removePatientFromTimeslot(timeslot);
 
-        if (isDeleted == true) {
+        if (isDeleted) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
