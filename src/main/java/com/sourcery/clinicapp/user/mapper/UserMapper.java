@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.user.mapper;
 import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.login.model.LoginDto;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
+import com.sourcery.clinicapp.physicianInfo.model.PhysicianTest;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;
@@ -120,6 +121,10 @@ public interface UserMapper {
                 WHERE type='physician' AND u.id=#{id}
             """)
     Optional<Physician> getPhysician(UUID id);
+
+    @ResultMap("PhysicianTestMap")
+    @Select("SELECT * FROM users WHERE id=#{id}")
+    Optional<PhysicianTest> getPhysicianTest(UUID id);
 
     @Delete("DELETE FROM users WHERE id=#{uuid}")
     boolean deleteUserById(@Param("uuid") UUID uuid);

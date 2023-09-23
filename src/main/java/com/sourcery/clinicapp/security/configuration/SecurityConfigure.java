@@ -68,7 +68,7 @@ public class SecurityConfigure {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(  "/login").permitAll()
+                        .requestMatchers("/login", "/test/**").permitAll()
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                         .anyRequest().authenticated()
                 )

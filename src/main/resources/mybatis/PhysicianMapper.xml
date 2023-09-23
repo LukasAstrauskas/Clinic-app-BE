@@ -1,6 +1,7 @@
 <?xml version= "1.0" encoding= "UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sourcery.clinicapp.user.mapper.UserMapper">
+<!--<mapper namespace="mybatis.PhysicianMapper">-->
     <resultMap id="PhysicianResultMap" type="com.sourcery.clinicapp.physicianInfo.model.Physician">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
@@ -9,5 +10,12 @@
             <id property="id" column="occupation_id"/>
             <result property="name" column="occupation_name"/>
         </association>
+    </resultMap>
+
+    <resultMap id="PhysicianTestMap" type="com.sourcery.clinicapp.physicianInfo.model.PhysicianTest">
+<!--    <resultMap id="PhysicianTestMap" type="PhysicianTest">-->
+        <id property="phyID" column="id"/>
+        <result property="phyName" column="name"/>
+        <result property="phyEmail" column="email"/>
     </resultMap>
 </mapper>
