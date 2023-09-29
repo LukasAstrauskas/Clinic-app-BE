@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class AppointmentDTO {
     private String id;
     private String name;
+    private String surname;
     private LocalDateTime date;
     private String occupation;
 }

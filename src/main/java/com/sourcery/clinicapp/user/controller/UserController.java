@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.user.controller;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
 import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import com.sourcery.clinicapp.user.model.CreateUserDTO;
+import com.sourcery.clinicapp.user.model.LoggedUser;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,11 @@ import java.util.UUID;
 public class UserController {
 
     public UserService userService;
+
+    @GetMapping("loggedUser")
+    public LoggedUser getLoggedUser(@RequestParam String email){
+        return userService.getLoggedUser(email);
+    }
 
     @GetMapping("patients")
     public List<UserDTO> getPatients() {

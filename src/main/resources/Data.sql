@@ -18,8 +18,8 @@ INSERT INTO users (id, name, surname, email, password, type) VALUES
 
     --physicians
 INSERT INTO users (id, name, surname, email, password, type, occupation_id) VALUES
-('c4d695d2-cc18-11ed-afa1-0242ac120002', 'Jane' ,'Patrick', 'Jane@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'physician', '8d33cd28-e35a-4f50-8162-4af412f0ae8a'),
-('698e415e-ca7c-11ed-afa1-0242ac120002', 'Yen','Vengerberg', 'aen@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'physician', '3e7e0766-65e8-4196-8346-d1271f59b2e3');
+('c4d695d2-cc18-11ed-afa1-0242ac120002', 'Jane' ,'Patrick', 'jane@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'physician', '8d33cd28-e35a-4f50-8162-4af412f0ae8a'),
+('698e415e-ca7c-11ed-afa1-0242ac120002', 'Yen','Vengerberg', 'yen@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'physician', '3e7e0766-65e8-4196-8346-d1271f59b2e3');
 
 
     --additional Info
@@ -37,6 +37,11 @@ country, emergency_name, emergency_last_name, emergency_phone, emergency_relatio
 
     --booked timeslots
 INSERT INTO timeslot (id, physician_id, date, patient_id) VALUES
+--Graham Chapman upcoming appointments
+('ca1ab2bb-a71a-4a51-8f69-1ad6bd9b0ec6', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-11-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+('957570db-0726-4165-a181-248d4e53c08f', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-10-08 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+('1729c497-347d-4d0c-a4fd-30383e23a4d0', '698e415e-ca7c-11ed-afa1-0242ac120002', '2023-10-10 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+
     --Graham Chapman past appointments
 ('848055e2-fb9e-4ff9-901f-b870af05aee2', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-08-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
 ('54cd004a-8455-434a-89b9-cd48cc2738b2', '698e415e-ca7c-11ed-afa1-0242ac120002', '2023-08-10 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),

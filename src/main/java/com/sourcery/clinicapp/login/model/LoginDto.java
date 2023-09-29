@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.login.model;
 
+import com.sourcery.clinicapp.user.model.LoggedUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +13,7 @@ import java.util.UUID;
 @Data
 @Builder
 public class LoginDto {
-    private UUID id;
-    private String type;
+    private LoggedUser loggedUser;
     private String token;
 }
 

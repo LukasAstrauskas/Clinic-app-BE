@@ -4,10 +4,7 @@ package com.sourcery.clinicapp.user.service;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
 import com.sourcery.clinicapp.physicianInfo.repository.PhysicianInfoRepository;
 import com.sourcery.clinicapp.physicianInfo.service.PhysicianInfoService;
-import com.sourcery.clinicapp.user.model.CreateUserDTO;
-import com.sourcery.clinicapp.user.model.Type;
-import com.sourcery.clinicapp.user.model.User;
-import com.sourcery.clinicapp.user.model.UserDTO;
+import com.sourcery.clinicapp.user.model.*;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.utils.UserFieldHelper;
 import lombok.AllArgsConstructor;
@@ -140,6 +137,16 @@ public class UserService {
             physicianInfoService.insertInfo(userToSave.getId(), newUser.getInfoID());
         }
         return new ResponseEntity<>(saved ? "User saved." : "Some error.", HttpStatus.OK);
+    }
+
+    public LoggedUser getLoggedUser(String email) {
+        LoggedUser loggedUser = userMapper.getLoggedUser(email);
+        loggedUser.setInitials(
+                loggedUser.getName().substring(0, 1).concat(
+                        loggedUser.getSurname().substring(0, 1)
+                )
+        );
+        return loggedUser;
     }
 }
 

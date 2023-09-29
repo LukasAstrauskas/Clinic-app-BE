@@ -4,6 +4,7 @@ import com.sourcery.clinicapp.login.model.Login;
 import com.sourcery.clinicapp.login.model.LoginDto;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.user.model.User;
+import com.sourcery.clinicapp.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +23,7 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Autowired
     private JWTService jwtService;
@@ -34,17 +35,11 @@ public class AuthenticationService {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User user = userMapper.findByEmail(authentication.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("User with email: " + authentication.getName() + " not found."));
-
-        String type = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
-
         return LoginDto.builder()
-                .id(user.getId())
-                .type(type.toLowerCase())
+                .loggedUser(userService.getLoggedUser(authentication.getName()))
                 .token(jwtService.generateToken(authentication))
                 .build();
     }

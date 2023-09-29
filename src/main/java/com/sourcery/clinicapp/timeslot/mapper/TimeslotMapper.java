@@ -22,8 +22,8 @@ public interface TimeslotMapper {
 
     @Select("SELECT * FROM timeslot WHERE physicianid = #{physicianId} AND date BETWEEN #{begin} AND #{end} ORDER BY date ASC")
     Collection<Timeslot> getMonthsTimeslots(@Param("physicianId") UUID physicianId,
-                                               @Param("begin") LocalDateTime begin,
-                                               @Param("end") LocalDateTime end);
+                                            @Param("begin") LocalDateTime begin,
+                                            @Param("end") LocalDateTime end);
 
     @Select("SELECT * FROM timeslot WHERE physicianid = #{physicianId} AND date = #{dateTime}")
     Optional<Timeslot> getTimeslot(UUID physicianId, LocalDateTime dateTime);
@@ -31,11 +31,16 @@ public interface TimeslotMapper {
     @Select("SELECT COUNT(*) FROM timeslot WHERE patientid = #{patientId} AND physicianid = #{physicianId} AND date >= now()")
     Short countUpcomingTimeslotsWithPhysician(@Param("physicianId") UUID physicianId, @Param("patientId") UUID patientId);
 
-    @Select("SELECT id, date, name FROM TIMESLOT LEFT JOIN Users ON Timeslot.PHYSICIANID = Users.ID" +
-            " WHERE patientid = #{id} and date > CURRENT_TIMESTAMP ORDER BY date desc")
+    @Select("SELECT timeslot.id, date, users.name as name, occupations.name as occupation FROM TIMESLOT " +
+            "LEFT JOIN Users ON timeslot.physician_id = users.id " +
+            "LEFT JOIN Occupations ON users.occupation_id = occupations.id " +
+            "WHERE patient_id = #{id} and date > CURRENT_TIMESTAMP ORDER BY date asc")
     Collection<AppointmentDTO> getPatientUpcomingAppointments(@Param("id") UUID patientID);
-    @Select("SELECT id, date, name FROM TIMESLOT LEFT JOIN Users ON Timeslot.PHYSICIANID = Users.ID" +
-            " WHERE patientid = #{id} and date < CURRENT_TIMESTAMP ORDER BY date desc limit 5 offset #{offset}")
+
+    @Select("SELECT timeslot.id, date, users.name, users.surname, occupations.name as occupation FROM timeslot" +
+            " LEFT JOIN users ON timeslot.physician_id = users.id" +
+            " LEFT JOIN occupations ON users.occupation_id = occupations.id" +
+            " WHERE patient_id = #{id} and date < CURRENT_TIMESTAMP ORDER BY date desc limit 5 offset #{offset}")
     Collection<AppointmentDTO> getPatientPastAppointments(@Param("id") UUID patientID, @Param("offset") int offset);
 
     @Select("SELECT COUNT(*) FROM timeslot WHERE patientId =#{patientID} AND date < CURRENT_TIMESTAMP")
@@ -55,7 +60,6 @@ public interface TimeslotMapper {
 
     @Delete("DELETE FROM timeslot WHERE physicianid = #{physicianId} AND date=#{date} AND patientid IS NULL")
     boolean deleteTimeslot(Timeslot timeslot);
-
 
 
 }
