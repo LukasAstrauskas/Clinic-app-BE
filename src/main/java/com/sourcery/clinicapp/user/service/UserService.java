@@ -10,6 +10,8 @@ import com.sourcery.clinicapp.utils.UserFieldHelper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -139,8 +141,9 @@ public class UserService {
         return new ResponseEntity<>(saved ? "User saved." : "Some error.", HttpStatus.OK);
     }
 
-    public LoggedUser getLoggedUser(String email) {
-        LoggedUser loggedUser = userMapper.getLoggedUser(email);
+    public LoggedUser getLoggedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        LoggedUser loggedUser = userMapper.getLoggedUser(auth.getName());
         loggedUser.setInitials(
                 loggedUser.getName().substring(0, 1).concat(
                         loggedUser.getSurname().substring(0, 1)

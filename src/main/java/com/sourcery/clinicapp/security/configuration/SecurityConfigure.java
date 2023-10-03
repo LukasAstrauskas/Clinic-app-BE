@@ -7,6 +7,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import com.sourcery.clinicapp.security.model.UserRole;
 import com.sourcery.clinicapp.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,9 +70,17 @@ public class SecurityConfigure {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers(antMatcher("/h2-console/**")).permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers("/login").permitAll()
+                                .requestMatchers( "/public").permitAll()
+                                .requestMatchers(antMatcher("/h2-console/**")).permitAll()
+                                .requestMatchers("/patientInfo/patient").hasAnyAuthority(UserRole.PATIENT.value(), UserRole.ADMIN.value())
+//                                .requestMatchers("/patientInfo/patient").hasRole("SCOPE_PATIENT")
+                                .requestMatchers("/patientInfo/admin").hasAuthority(UserRole.ADMIN.value())
+                                .requestMatchers("/user/getLoggedUser").hasAnyAuthority(
+                                        UserRole.PATIENT.value(),
+                                        UserRole.PHYSICIAN.value(),
+                                        UserRole.ADMIN.value())
+                                .anyRequest().authenticated()
                 )
                 .userDetailsService(customUserDetailsService)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -113,5 +123,9 @@ public class SecurityConfigure {
         return source;
     }
 
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("");
+    }
 
 }

@@ -24,8 +24,8 @@ public class UserController {
     public UserService userService;
 
     @GetMapping("loggedUser")
-    public LoggedUser getLoggedUser(@RequestParam String email){
-        return userService.getLoggedUser(email);
+    public LoggedUser getLoggedUser(){
+        return userService.getLoggedUser();
     }
 
     @GetMapping("patients")

@@ -6,8 +6,12 @@ import com.sourcery.clinicapp.timeslot.service.TimeslotService;
 import com.sourcery.clinicapp.utils.DateTimeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -51,6 +55,7 @@ public class TimeslotController {
 
     @GetMapping("getPatientPastAppointmentAmount/{patientID}")
     public int getPastAppointmentAmount(@PathVariable("patientID") UUID patientID) {
+
         return timeslotService.getPastAppointmentAmount(patientID);
     }
 

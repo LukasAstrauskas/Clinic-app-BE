@@ -39,7 +39,7 @@ public class AuthenticationService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return LoginDto.builder()
-                .loggedUser(userService.getLoggedUser(authentication.getName()))
+                .loggedUser(userService.getLoggedUser())
                 .token(jwtService.generateToken(authentication))
                 .build();
     }

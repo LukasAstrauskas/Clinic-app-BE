@@ -1,6 +1,9 @@
 package com.sourcery.clinicapp.timeslot.service;
 
 import com.sourcery.clinicapp.notifications.EmailSenderService;
+import com.sourcery.clinicapp.user.mapper.UserMapper;
+import com.sourcery.clinicapp.user.model.User;
+import com.sourcery.clinicapp.user.service.UserService;
 import com.sourcery.clinicapp.utils.DateTimeHelper;
 import com.sourcery.clinicapp.timeslot.mapper.TimeslotMapper;
 import com.sourcery.clinicapp.timeslot.model.dto.*;
@@ -8,6 +11,7 @@ import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,6 +30,9 @@ public class TimeslotService {
     private TimeslotDataHelper timeslotDataHelper;
     @Autowired
     private EmailSenderService emailSenderService;
+
+    @Autowired
+    private UserMapper userMapper;
 
     public Collection<Timeslot> getAllTimeslots() {
         return timeslotMapper.getAltTimeslots();
@@ -61,7 +68,11 @@ public class TimeslotService {
     }
 
     public Collection<AppointmentDTO> getPatientPastAppointments(UUID patientID, int offset) {
-        return timeslotMapper.getPatientPastAppointments(patientID, offset);
+        System.out.println("Path variable id unused: " + patientID.toString());
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userMapper.findByEmail(email).orElseThrow();
+        System.out.println("Gor id from sec context holder! " + user.getId());
+        return timeslotMapper.getPatientPastAppointments(user.getId(), offset);
     }
 
     public int getPastAppointmentAmount(UUID patientID) {
