@@ -7,7 +7,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
-import com.sourcery.clinicapp.security.model.UserRole;
+import com.sourcery.clinicapp.security.model.User;
 import com.sourcery.clinicapp.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -73,13 +73,13 @@ public class SecurityConfigure {
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers( "/public").permitAll()
                                 .requestMatchers(antMatcher("/h2-console/**")).permitAll()
-                                .requestMatchers("/patientInfo/patient").hasAnyAuthority(UserRole.PATIENT.value(), UserRole.ADMIN.value())
+                                .requestMatchers("/patientInfo/patient").hasAnyAuthority(User.PATIENT.authority(), User.ADMIN.authority())
 //                                .requestMatchers("/patientInfo/patient").hasRole("SCOPE_PATIENT")
-                                .requestMatchers("/patientInfo/admin").hasAuthority(UserRole.ADMIN.value())
+                                .requestMatchers("/patientInfo/admin").hasAuthority(User.ADMIN.authority())
                                 .requestMatchers("/user/getLoggedUser").hasAnyAuthority(
-                                        UserRole.PATIENT.value(),
-                                        UserRole.PHYSICIAN.value(),
-                                        UserRole.ADMIN.value())
+                                        User.PATIENT.authority(),
+                                        User.PHYSICIAN.authority(),
+                                        User.ADMIN.authority())
                                 .anyRequest().authenticated()
                 )
                 .userDetailsService(customUserDetailsService)

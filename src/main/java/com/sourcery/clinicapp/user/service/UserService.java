@@ -1,6 +1,7 @@
 package com.sourcery.clinicapp.user.service;
 
 
+import com.sourcery.clinicapp.loggedUser.model.LoggedUser;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
 import com.sourcery.clinicapp.physicianInfo.repository.PhysicianInfoRepository;
 import com.sourcery.clinicapp.physicianInfo.service.PhysicianInfoService;
@@ -43,6 +44,10 @@ public class UserService {
 
     public int getAdmninCount() {
         return userMapper.getAdminCount();
+    }
+
+    public int getUserCount() {
+        return  userMapper.getUserCount();
     }
 
     public Short getPatientsByPhysicianIdAmount(UUID uuid) {
@@ -141,16 +146,8 @@ public class UserService {
         return new ResponseEntity<>(saved ? "User saved." : "Some error.", HttpStatus.OK);
     }
 
-    public LoggedUser getLoggedUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        LoggedUser loggedUser = userMapper.getLoggedUser(auth.getName());
-        loggedUser.setInitials(
-                loggedUser.getName().substring(0, 1).concat(
-                        loggedUser.getSurname().substring(0, 1)
-                )
-        );
-        return loggedUser;
-    }
+
+
 }
 
 

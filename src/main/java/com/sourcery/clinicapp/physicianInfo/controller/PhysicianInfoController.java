@@ -2,11 +2,12 @@ package com.sourcery.clinicapp.physicianInfo.controller;
 
 import com.sourcery.clinicapp.physicianInfo.model.PhyNameOccupationDto;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
-import com.sourcery.clinicapp.physicianInfo.model.PhysicianDto;
 import com.sourcery.clinicapp.physicianInfo.service.PhysicianInfoService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.List;

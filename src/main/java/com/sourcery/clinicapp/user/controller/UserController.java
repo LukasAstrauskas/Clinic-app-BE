@@ -1,9 +1,8 @@
 package com.sourcery.clinicapp.user.controller;
 
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
-import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import com.sourcery.clinicapp.user.model.CreateUserDTO;
-import com.sourcery.clinicapp.user.model.LoggedUser;
+import com.sourcery.clinicapp.loggedUser.model.LoggedUser;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,10 +21,7 @@ public class UserController {
 
     public UserService userService;
 
-    @GetMapping("loggedUser")
-    public LoggedUser getLoggedUser(){
-        return userService.getLoggedUser();
-    }
+
 
     @GetMapping("patients")
     public List<UserDTO> getPatients() {
@@ -53,8 +48,13 @@ public class UserController {
         return userService.getAdmninCount();
     }
 
+    @GetMapping("userCount")
+    public int getUserCount() {
+        return userService.getUserCount();
+    }
+
     @GetMapping("patientsByPhysicianIdSize/{uuid}")
-    public Short getPatientsByPhysicianIdAmount(@PathVariable("uuid") UUID uuid) {
+    public int getPatientsByPhysicianIdAmount(@PathVariable("uuid") UUID uuid) {
         return userService.getPatientsByPhysicianIdAmount(uuid);
     }
 

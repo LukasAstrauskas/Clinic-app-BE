@@ -1,17 +1,17 @@
 package com.sourcery.clinicapp.security.model;
 
-public enum UserRole {
+public enum User {
     PATIENT("SCOPE_PATIENT"),
     PHYSICIAN("SCOPE_PHYSICIAN"),
     ADMIN("SCOPE_ADMIN");
 
     private final String authority;
 
-    private UserRole(String authority) {
+    private User(String authority) {
         this.authority = authority;
     }
 
-    public String value() {
+    public String authority() {
         return authority;
     }
 }

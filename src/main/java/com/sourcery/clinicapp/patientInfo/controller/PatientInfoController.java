@@ -2,7 +2,7 @@ package com.sourcery.clinicapp.patientInfo.controller;
 
 import com.sourcery.clinicapp.patientInfo.model.AdditionalPatientInfo;
 import com.sourcery.clinicapp.patientInfo.service.PatientInfoService;
-import com.sourcery.clinicapp.security.model.UserRole;
+import com.sourcery.clinicapp.security.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -40,9 +40,9 @@ public class PatientInfoController {
         String role = "";
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         role = authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
-        System.out.println("name(): " + UserRole.PATIENT.name());
-        System.out.println("Plain enum: " + UserRole.PATIENT);
-        System.out.println("value(): " + UserRole.PATIENT.value());
+        System.out.println("name(): " + User.PATIENT.name());
+        System.out.println("Plain enum: " + User.PATIENT);
+        System.out.println("value(): " + User.PATIENT.authority());
         return "Your role: " + role;
     }
 

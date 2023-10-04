@@ -17,14 +17,6 @@ CREATE TABLE users (
     ON DELETE SET NULL
 );
 
---CREATE TABLE additional_physician_info (
---    user_id UUID,
---    occupation_id UUID,
---    CONSTRAINT fk_occupation_id FOREIGN KEY (occupation_id) REFERENCES occupations(id),
---    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id)
---);
---
---
 CREATE TABLE additional_patient_info (
     user_id UUID PRIMARY KEY,
     gender VARCHAR(255),
