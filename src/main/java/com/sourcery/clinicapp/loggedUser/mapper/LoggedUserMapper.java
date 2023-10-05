@@ -2,7 +2,7 @@ package com.sourcery.clinicapp.loggedUser.mapper;
 
 import com.sourcery.clinicapp.loggedUser.model.LoggedUser;
 import com.sourcery.clinicapp.occupation.model.Occupation;
-import com.sourcery.clinicapp.patientInfo.model.AdditionalPatientInfo;
+import com.sourcery.clinicapp.patientInfo.model.PatientInfo;
 import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import org.apache.ibatis.annotations.*;
 
@@ -21,7 +21,7 @@ public interface LoggedUserMapper {
             "emergency_last_name as emergencyLastName, emergency_phone as emergencyPhone, " +
             "emergency_relation as emergencyRelation FROM additional_patient_info " +
             "WHERE user_id=#{id}")
-    AdditionalPatientInfo getPatientInfo(@Param("id") UUID id);
+    PatientInfo getPatientInfo(@Param("id") UUID id);
 
     @Select("SELECT timeslot.id, date, users.name, users.surname, occupations.name as occupation FROM TIMESLOT " +
             "LEFT JOIN Users ON timeslot.physician_id = users.id " +

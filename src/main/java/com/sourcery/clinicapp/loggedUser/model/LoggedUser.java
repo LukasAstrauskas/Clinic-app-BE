@@ -2,7 +2,7 @@ package com.sourcery.clinicapp.loggedUser.model;
 
 
 import com.sourcery.clinicapp.occupation.model.Occupation;
-import com.sourcery.clinicapp.patientInfo.model.AdditionalPatientInfo;
+import com.sourcery.clinicapp.patientInfo.model.PatientInfo;
 import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +24,6 @@ public class LoggedUser {
     private String email;
     private String type;
     private Occupation occupation;
-    private AdditionalPatientInfo patientInfo;
+    private PatientInfo patientInfo;
     private Collection<AppointmentDTO> upcomingAppointment;
 }

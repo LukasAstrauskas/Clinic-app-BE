@@ -1,6 +1,6 @@
 package com.sourcery.clinicapp.patientInfo.repository;
 
-import com.sourcery.clinicapp.patientInfo.model.AdditionalPatientInfo;
+import com.sourcery.clinicapp.patientInfo.model.PatientInfo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -15,20 +15,21 @@ public interface PatientInfoRepository {
             "emergency_last_name as emergencyLastName, emergency_phone as emergencyPhone, " +
             "emergency_relation as emergencyRelation FROM additional_patient_info " +
             "WHERE user_id=#{id}")
-    Optional<AdditionalPatientInfo> getPatientInfo(@Param("id") UUID id);
-    @Update("UPDATE additional_patient_info SET gender=#{patient.gender}, birth_date=#{patient.birthDate}, " +
-            "phone=#{patient.phone}, street=#{patient.street}, city=#{patient.city}, " +
-            "postal_code=#{patient.postalCode}, country=#{patient.country}, " +
-            "emergency_name=#{patient.emergencyName}, emergency_last_name=#{patient.emergencyLastName}, " +
-            "emergency_phone=#{patient.emergencyPhone}, emergency_relation=#{patient.emergencyRelation} " +
+    Optional<PatientInfo> getPatientInfo(@Param("id") UUID id);
+
+    @Update("UPDATE additional_patient_info SET gender=#{info.gender}, birth_date=#{info.birthDate}, " +
+            "phone=#{info.phone}, street=#{info.street}, city=#{info.city}, " +
+            "postal_code=#{info.postalCode}, country=#{info.country}, " +
+            "emergency_name=#{info.emergencyName}, emergency_last_name=#{info.emergencyLastName}, " +
+            "emergency_phone=#{info.emergencyPhone}, emergency_relation=#{info.emergencyRelation} " +
             "WHERE user_id=#{id}")
-    boolean updatePatientInfo(@Param("id") UUID id, @Param("patient") AdditionalPatientInfo patient );
+    boolean updatePatientInfo(@Param("id") UUID id, @Param("info") PatientInfo info);
+
     @Insert("INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street, city, " +
-            "postal_code, country, emergency_name, emergency_last_name, emergency_phone, emergency_relation) " +
-            "VALUES " +
-            "(#{patient.userId}, #{patient.gender}, #{patient.birthDate}, #{patient.phone}, " +
-            "#{patient.street}, #{patient.city}, #{patient.postalCode}, #{patient.country}, " +
-            "#{patient.emergencyName}, #{patient.emergencyLastName}, #{patient.emergencyPhone}, " +
-            "#{patient.emergencyRelation})")
-    boolean createPatientInfo(@Param("patient") AdditionalPatientInfo patient);
+            "postal_code, country, emergency_name, emergency_last_name, emergency_phone, emergency_relation) VALUES " +
+            "(#{info.userId}, #{info.gender}, #{info.birthDate}, #{info.phone}, " +
+            "#{info.street}, #{info.city}, #{info.postalCode}, #{info.country}, " +
+            "#{info.emergencyName}, #{info.emergencyLastName}, #{info.emergencyPhone}, " +
+            "#{info.emergencyRelation})")
+    boolean createPatientInfo(@Param("info") PatientInfo info);
 }

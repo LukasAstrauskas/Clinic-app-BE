@@ -71,7 +71,7 @@ public class SecurityConfigure {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/login").permitAll()
-                                .requestMatchers( "/public").permitAll()
+                                .requestMatchers( "/public", "/user/userCount/**").permitAll()
                                 .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                                 .requestMatchers("/patientInfo/patient").hasAnyAuthority(User.PATIENT.authority(), User.ADMIN.authority())
 //                                .requestMatchers("/patientInfo/patient").hasRole("SCOPE_PATIENT")

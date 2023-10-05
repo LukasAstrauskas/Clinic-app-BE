@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Data
-public class AdditionalPatientInfo {
+public class PatientInfo {
     private UUID userId;
     private String gender;
     private Date birthDate;

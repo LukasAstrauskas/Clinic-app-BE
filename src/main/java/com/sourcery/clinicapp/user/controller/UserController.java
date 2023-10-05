@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.user.controller;
 import com.sourcery.clinicapp.physicianInfo.model.Physician;
 import com.sourcery.clinicapp.user.model.CreateUserDTO;
 import com.sourcery.clinicapp.loggedUser.model.LoggedUser;
+import com.sourcery.clinicapp.user.model.Type;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,6 @@ import java.util.UUID;
 public class UserController {
 
     public UserService userService;
-
 
 
     @GetMapping("patients")
@@ -49,8 +49,12 @@ public class UserController {
     }
 
     @GetMapping("userCount")
-    public int getUserCount() {
-        return userService.getUserCount();
+    public int getUserCount(@RequestParam(required = false) String userType) {
+        if (userType == null){
+            userType = "Is null";
+        }
+        System.out.println(userType);
+        return userService.getUserCount(userType);
     }
 
     @GetMapping("patientsByPhysicianIdSize/{uuid}")

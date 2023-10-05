@@ -1,6 +1,6 @@
 package com.sourcery.clinicapp.patientInfo.service;
 
-import com.sourcery.clinicapp.patientInfo.model.AdditionalPatientInfo;
+import com.sourcery.clinicapp.patientInfo.model.PatientInfo;
 import com.sourcery.clinicapp.patientInfo.repository.PatientInfoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,39 +17,39 @@ public class PatientInfoService {
 
     private final PatientInfoRepository patientInfoRepository;
 
-    public AdditionalPatientInfo getPatientInfo(UUID id) {
+    public PatientInfo getPatientInfo(UUID id) {
         try {
-            AdditionalPatientInfo additionalPatientInfo = patientInfoRepository.getPatientInfo(id).orElseThrow(
+            PatientInfo patientInfo = patientInfoRepository.getPatientInfo(id).orElseThrow(
                     () -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
-            return additionalPatientInfo;
+            return patientInfo;
         } catch (HttpServerErrorException e) {
-            return new AdditionalPatientInfo();
+            return new PatientInfo();
         }
     }
 
-    public ResponseEntity<AdditionalPatientInfo> updatePatientInfo(UUID id, AdditionalPatientInfo additionalPatientInfo) {
+    public ResponseEntity<PatientInfo> updatePatientInfo(UUID id, PatientInfo patientInfo) {
         try {
-            if (!patientInfoRepository.updatePatientInfo(id, additionalPatientInfo)) {
-                return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+            if (!patientInfoRepository.updatePatientInfo(id, patientInfo)) {
+                return new ResponseEntity<>(patientInfo, HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);
+            return new ResponseEntity<>(patientInfo, HttpStatus.OK);
         } catch (NoSuchElementException exception) {
-            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(patientInfo, HttpStatus.NOT_FOUND);
         } catch (Exception exception) {
-            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(patientInfo, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity<AdditionalPatientInfo> createPatientInfo(AdditionalPatientInfo additionalPatientInfo) {
+    public ResponseEntity<PatientInfo> createPatientInfo(PatientInfo patientInfo) {
         try {
-            if (!patientInfoRepository.createPatientInfo(additionalPatientInfo)) {
-                return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+            if (!patientInfoRepository.createPatientInfo(patientInfo)) {
+                return new ResponseEntity<>(patientInfo, HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.OK);
+            return new ResponseEntity<>(patientInfo, HttpStatus.OK);
         } catch (NoSuchElementException exception) {
-            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(patientInfo, HttpStatus.NOT_FOUND);
         } catch (Exception exception) {
-            return new ResponseEntity<>(additionalPatientInfo, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(patientInfo, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

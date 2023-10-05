@@ -106,8 +106,8 @@ public interface UserMapper {
     @Select("SELECT COUNT(*) FROM USERS WHERE type='admin'")
     int getAdminCount();
 
-    @Select("SELECT COUNT(*) FROM USERS")
-    int getUserCount();
+    @Select("SELECT COUNT(*) FROM USERS WHERE TYPE = #{type}")
+    int getUserCount( String type);
 
     @Select("SELECT id, type FROM users WHERE email=#{user.email} AND password=#{user.password} ")
     Optional<LoginDto> checkLogIn(@Param("user") Login user);

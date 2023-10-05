@@ -46,8 +46,8 @@ public class UserService {
         return userMapper.getAdminCount();
     }
 
-    public int getUserCount() {
-        return  userMapper.getUserCount();
+    public int getUserCount(String userType) {
+        return  userMapper.getUserCount( userType);
     }
 
     public Short getPatientsByPhysicianIdAmount(UUID uuid) {
