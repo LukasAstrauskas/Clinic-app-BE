@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -30,24 +31,16 @@ public class UserService {
 
     private final PasswordEncoder encoder;
 
-    private final PhysicianInfoRepository physicianInfoRepository;
 
     private final PhysicianInfoService physicianInfoService;
 
-    public int getPatientCount() {
-        return userMapper.getPatientCount();
-    }
-
-    public int getPhysicianCount() {
-        return userMapper.getPhysicianCount();
-    }
-
-    public int getAdmninCount() {
-        return userMapper.getAdminCount();
-    }
 
     public int getUserCount(String userType) {
-        return  userMapper.getUserCount( userType);
+        return userMapper.getUserCount(userType);
+    }
+
+    public Collection<UserDTO> getUsers(int offset, String userType) {
+        return userMapper.getUsers(offset, userType);
     }
 
     public Short getPatientsByPhysicianIdAmount(UUID uuid) {
@@ -145,9 +138,6 @@ public class UserService {
         }
         return new ResponseEntity<>(saved ? "User saved." : "Some error.", HttpStatus.OK);
     }
-
-
-
 }
 
 

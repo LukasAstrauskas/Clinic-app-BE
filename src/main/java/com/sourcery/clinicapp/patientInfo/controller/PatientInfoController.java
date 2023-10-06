@@ -28,8 +28,8 @@ public class PatientInfoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<PatientInfo> updatePatientInfo(@PathVariable UUID id, @RequestBody PatientInfo patientInfo) {
-        return patientInfoService.updatePatientInfo(id, patientInfo);
+    public ResponseEntity<PatientInfo> updatePatientInfo(@RequestBody PatientInfo patientInfo) {
+        return patientInfoService.updatePatientInfo(patientInfo);
     }
 
     @PostMapping("/")

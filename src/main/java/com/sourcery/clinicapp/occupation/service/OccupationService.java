@@ -10,6 +10,7 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -23,6 +24,6 @@ public class OccupationService {
     }
 
     public Occupation getOccupationById(UUID id) {
-        return occupationMapper.findById(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
+        return occupationMapper.getOccupationById(id).orElseThrow(() -> new NoSuchElementException("No occupation with id: " + id));
     }
 }

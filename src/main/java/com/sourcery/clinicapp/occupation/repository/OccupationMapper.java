@@ -15,10 +15,6 @@ public interface OccupationMapper {
     Collection<Occupation> getAllOccupations();
 
     @Select("SELECT * FROM occupations WHERE id=#{id} ")
-    Optional<Occupation> findById(@Param("id") UUID id);
-
-    @ResultType(Occupation.class)
-    @Select("SELECT * FROM occupations WHERE id=#{id} ")
-    Occupation selectOccupation(@Param("id") UUID occupation_id);
+    Optional<Occupation> getOccupationById(@Param("id") UUID id);
 
 }

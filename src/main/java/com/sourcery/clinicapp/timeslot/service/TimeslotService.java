@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.timeslot.service;
 
+import com.sourcery.clinicapp.loggedUser.service.LoggedUserService;
 import com.sourcery.clinicapp.notifications.EmailSenderService;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.user.model.User;
@@ -32,7 +33,11 @@ public class TimeslotService {
     private EmailSenderService emailSenderService;
 
     @Autowired
+    private LoggedUserService loggedUserService;
+
+    @Autowired
     private UserMapper userMapper;
+
 
     public Collection<Timeslot> getAllTimeslots() {
         return timeslotMapper.getAltTimeslots();
@@ -67,16 +72,12 @@ public class TimeslotService {
         return timeslotMapper.getPatientUpcomingAppointments(id);
     }
 
-    public Collection<AppointmentDTO> getPatientPastAppointments(UUID patientID, int offset) {
-        System.out.println("Path variable id unused: " + patientID.toString());
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userMapper.findByEmail(email).orElseThrow();
-        System.out.println("Gor id from sec context holder! " + user.getId());
-        return timeslotMapper.getPatientPastAppointments(user.getId(), offset);
+    public Collection<AppointmentDTO> getPatientPastAppointments(int offset) {
+        return timeslotMapper.getPatientPastAppointments(loggedUserService.getId(), offset);
     }
 
-    public int getPastAppointmentAmount(UUID patientID) {
-        return timeslotMapper.getPastAppointmentAmount(patientID);
+    public int getPastAppointmentAmount() {
+        return timeslotMapper.getPastAppointmentAmount(loggedUserService.getId());
     }
 
     public boolean addTimeslot(TimeslotDto timeslotDto) {

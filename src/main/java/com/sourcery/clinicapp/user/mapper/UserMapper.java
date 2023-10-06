@@ -7,12 +7,19 @@ import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Mapper
 public interface UserMapper {
+
+    @Select("SELECT COUNT(*) FROM USERS WHERE TYPE = #{type}")
+    int getUserCount( String type);
+
+    @Select("SELECT * FROM users WHERE TYPE = #{userType} LIMIT 5 OFFSET #{offset}")
+    Collection<UserDTO> getUsers(int offset, String userType);
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")
     List<UserDTO> getPatientSearch(@Param("search") String search);
@@ -97,18 +104,6 @@ public interface UserMapper {
             """)
     List<Physician> getLimitedPhysicians(@Param("offset") Number offset);
 
-    @Select("SELECT COUNT(*) FROM USERS WHERE type='patient'")
-    int getPatientCount();
-
-    @Select("SELECT COUNT(*) FROM USERS WHERE type='physician'")
-    int getPhysicianCount();
-
-    @Select("SELECT COUNT(*) FROM USERS WHERE type='admin'")
-    int getAdminCount();
-
-    @Select("SELECT COUNT(*) FROM USERS WHERE TYPE = #{type}")
-    int getUserCount( String type);
-
     @Select("SELECT id, type FROM users WHERE email=#{user.email} AND password=#{user.password} ")
     Optional<LoginDto> checkLogIn(@Param("user") Login user);
 
@@ -142,6 +137,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM users WHERE email=#{email}")
     Optional<User> findByEmail(@Param("email") String email);
+
 
 
 }

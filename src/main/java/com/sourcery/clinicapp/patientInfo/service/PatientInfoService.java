@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.patientInfo.service;
 
+import com.sourcery.clinicapp.loggedUser.service.LoggedUserService;
 import com.sourcery.clinicapp.patientInfo.model.PatientInfo;
 import com.sourcery.clinicapp.patientInfo.repository.PatientInfoRepository;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,9 @@ public class PatientInfoService {
     @Autowired
     private PatientInfoRepository patientInfoRepository;
 
+    @Autowired
+    private LoggedUserService loggedUserService;
+
     public PatientInfo getPatientInfo(UUID id) {
         try {
             return patientInfoRepository.getPatientInfo(id).orElseThrow(
@@ -27,9 +31,9 @@ public class PatientInfoService {
         }
     }
 
-    public ResponseEntity<PatientInfo> updatePatientInfo(UUID id, PatientInfo patientInfo) {
+    public ResponseEntity<PatientInfo> updatePatientInfo(PatientInfo patientInfo) {
         try {
-            if (!patientInfoRepository.updatePatientInfo(id, patientInfo)) {
+            if (!patientInfoRepository.updatePatientInfo(loggedUserService.getId(), patientInfo)) {
                 return new ResponseEntity<>(patientInfo, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(patientInfo, HttpStatus.OK);

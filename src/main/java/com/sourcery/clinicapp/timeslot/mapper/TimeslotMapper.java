@@ -43,7 +43,7 @@ public interface TimeslotMapper {
             " WHERE patient_id = #{id} and date < CURRENT_TIMESTAMP ORDER BY date desc limit 5 offset #{offset}")
     Collection<AppointmentDTO> getPatientPastAppointments(@Param("id") UUID patientID, @Param("offset") int offset);
 
-    @Select("SELECT COUNT(*) FROM timeslot WHERE patientId =#{patientID} AND date < CURRENT_TIMESTAMP")
+    @Select("SELECT COUNT(*) FROM timeslot WHERE patient_id =#{patientID} AND date < CURRENT_TIMESTAMP")
     int getPastAppointmentAmount(@Param("patientID") UUID patientID);
 
     @Insert("INSERT INTO timeslot (physicianId, date) VALUES(#{physicianId}, #{date})")

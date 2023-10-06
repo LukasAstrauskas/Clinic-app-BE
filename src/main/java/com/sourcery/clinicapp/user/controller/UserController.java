@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,58 +24,25 @@ public class UserController {
     public UserService userService;
 
 
-    @GetMapping("patients")
-    public List<UserDTO> getPatients() {
-        return userService.getPatients();
+    @GetMapping("userCount")
+    public int getUserCount(@RequestParam(required = false) String userType) {
+        return userService.getUserCount(userType);
     }
+
+    @GetMapping
+    public Collection<UserDTO> getUsers(@RequestParam(required = false, defaultValue = "0") int offset, @RequestParam String userType) {
+        return userService.getUsers(offset, userType);
+    }
+
 
     @GetMapping("patients/{physicianId}/{offset}")
     public List<UserDTO> getPatientsByPhysicianId(@PathVariable UUID physicianId, @PathVariable int offset) {
         return userService.getPatientsWithAppointments(physicianId, offset);
     }
 
-    @GetMapping("patientCount")
-    public int getPatientCount() {
-        return userService.getPatientCount();
-    }
-
-    @GetMapping("physicianCount")
-    public int getPhysicianCount() {
-        return userService.getPhysicianCount();
-    }
-
-    @GetMapping("adminCount")
-    public int getAdminCount() {
-        return userService.getAdmninCount();
-    }
-
-    @GetMapping("userCount")
-    public int getUserCount(@RequestParam(required = false) String userType) {
-        if (userType == null){
-            userType = "Is null";
-        }
-        System.out.println(userType);
-        return userService.getUserCount(userType);
-    }
-
     @GetMapping("patientsByPhysicianIdSize/{uuid}")
     public int getPatientsByPhysicianIdAmount(@PathVariable("uuid") UUID uuid) {
         return userService.getPatientsByPhysicianIdAmount(uuid);
-    }
-
-    @GetMapping("patients/offset/{offset}")
-    public List<UserDTO> getLimitedPatients(@PathVariable("offset") Number offset) {
-        return userService.getPatientsLimited(offset);
-    }
-
-    @GetMapping("admins/offset/{offset}")
-    public List<UserDTO> getLimitedAdmins(@PathVariable("offset") Number offset) {
-        return userService.getAdminsLimited(offset);
-    }
-
-    @GetMapping("admins")
-    public List<UserDTO> getAdmins() {
-        return userService.getAdmins();
     }
 
     @GetMapping("patientSearch/{search}")

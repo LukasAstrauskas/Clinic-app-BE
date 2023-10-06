@@ -48,15 +48,14 @@ public class TimeslotController {
         return timeslotService.getPatientUpcomingAppointments(id);
     }
 
-    @GetMapping("patientPastAppointments/{id}/{offset}")
-    public Collection<AppointmentDTO> getPatientPastAppointments(@PathVariable("id") UUID id, @PathVariable("offset") int offset) {
-        return timeslotService.getPatientPastAppointments(id, offset);
+    @GetMapping("patientPastAppointments/{offset}")
+    public Collection<AppointmentDTO> getPatientPastAppointments(@PathVariable("offset") int offset) {
+        return timeslotService.getPatientPastAppointments(offset);
     }
 
-    @GetMapping("getPatientPastAppointmentAmount/{patientID}")
-    public int getPastAppointmentAmount(@PathVariable("patientID") UUID patientID) {
-
-        return timeslotService.getPastAppointmentAmount(patientID);
+    @GetMapping("patientPastAppointmentsAmount")
+    public int getPastAppointmentAmount() {
+        return timeslotService.getPastAppointmentAmount();
     }
 
     @PostMapping
