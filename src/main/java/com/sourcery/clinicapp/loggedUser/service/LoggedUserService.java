@@ -7,20 +7,30 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class LoggedUserService {
     @Autowired
     private LoggedUserMapper loggedUserMapper;
 
     public LoggedUser getLoggedUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        LoggedUser loggedUser = loggedUserMapper.getLoggedUser(auth.getName());
+        LoggedUser loggedUser = loggedUserMapper.getLoggedUser(getEmail());
         loggedUser.setInitials(
                 loggedUser.getName().substring(0, 1).concat(
                         loggedUser.getSurname().substring(0, 1)
                 )
         );
         return loggedUser;
+    }
+
+    public UUID getId() {
+        return loggedUserMapper.getId(getEmail());
+    }
+
+    public String getEmail() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
     }
 
 }

@@ -3,6 +3,7 @@ package com.sourcery.clinicapp.patientInfo.service;
 import com.sourcery.clinicapp.patientInfo.model.PatientInfo;
 import com.sourcery.clinicapp.patientInfo.repository.PatientInfoRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,16 +13,15 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 public class PatientInfoService {
 
-    private final PatientInfoRepository patientInfoRepository;
+    @Autowired
+    private PatientInfoRepository patientInfoRepository;
 
     public PatientInfo getPatientInfo(UUID id) {
         try {
-            PatientInfo patientInfo = patientInfoRepository.getPatientInfo(id).orElseThrow(
+            return patientInfoRepository.getPatientInfo(id).orElseThrow(
                     () -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
-            return patientInfo;
         } catch (HttpServerErrorException e) {
             return new PatientInfo();
         }

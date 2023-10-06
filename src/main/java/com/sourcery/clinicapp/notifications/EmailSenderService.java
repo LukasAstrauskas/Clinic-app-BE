@@ -17,7 +17,8 @@ public class EmailSenderService {
 
     public void getEmailMessage(TimeslotFullDto timeslotFullDto) {
 
-    String toEmail = userService.getUserById(timeslotFullDto.patientId()).getEmail();
+//    String toEmail = userService.getUserById(timeslotFullDto.patientId()).getEmail();
+    String toEmail = "medclinicMock@gmail.com";
     String emailSubject = "Appointment confirmation " + LocalDate.now();
     String physicianName = userService.getUserById(timeslotFullDto.physicianId()).getName();
     String patientName =  userService.getUserById(timeslotFullDto.patientId()).getName();

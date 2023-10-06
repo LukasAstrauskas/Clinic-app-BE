@@ -15,7 +15,7 @@ public class EmailNotificationConfig {
     public String sendEmail(String toEmail, String subject, String body) {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("clinicgunit2023@gmail.com");
+        message.setFrom("medclinicMock@gmail.com");
         message.setTo(toEmail);
         message.setSubject(subject);
         message.setText(body);
