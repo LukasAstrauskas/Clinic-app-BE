@@ -21,7 +21,8 @@ public class TimeslotDataHelper {
             String date = DateTimeHelper.toDateString(timeslot.getDate());
             String time = DateTimeHelper.toTimeString(timeslot.getDate());
             UUID patientId = timeslot.getPatientId();
-            return new TimeslotFullDto(physicianId, date, time, patientId);
+            UUID timeslotId = timeslot.getId();
+            return new TimeslotFullDto(timeslotId, physicianId, date, time, patientId);
         }).collect(groupingBy(TimeslotFullDto::date));
         groupedByDate.forEach((date, timeslotDTOs) -> {
             List<TimePatientDto> collect = timeslotDTOs.stream()

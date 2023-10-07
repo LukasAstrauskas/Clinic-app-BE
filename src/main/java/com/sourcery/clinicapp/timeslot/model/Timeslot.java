@@ -12,6 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Timeslot {
 
+    private UUID id;
+
     private UUID physicianId;
 
     private LocalDateTime date;
@@ -21,5 +23,11 @@ public class Timeslot {
     public Timeslot(UUID physicianId, LocalDateTime date) {
         this.physicianId = physicianId;
         this.date = date;
+    }
+
+    public Timeslot(UUID physicianId, LocalDateTime date, UUID patientId) {
+        this.physicianId = physicianId;
+        this.date = date;
+        this.patientId = patientId;
     }
 }

@@ -2,24 +2,20 @@ package com.sourcery.clinicapp.timeslot.service;
 
 import com.sourcery.clinicapp.loggedUser.service.LoggedUserService;
 import com.sourcery.clinicapp.notifications.EmailSenderService;
-import com.sourcery.clinicapp.user.mapper.UserMapper;
-import com.sourcery.clinicapp.user.model.User;
-import com.sourcery.clinicapp.user.service.UserService;
-import com.sourcery.clinicapp.utils.DateTimeHelper;
 import com.sourcery.clinicapp.timeslot.mapper.TimeslotMapper;
-import com.sourcery.clinicapp.timeslot.model.dto.*;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
+import com.sourcery.clinicapp.timeslot.model.dto.*;
+import com.sourcery.clinicapp.user.mapper.UserMapper;
+import com.sourcery.clinicapp.utils.DateTimeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Service
@@ -86,8 +82,8 @@ public class TimeslotService {
         return timeslotMapper.addTimeslot(timeslot);
     }
 
-    public Optional<Timeslot> getTimeslot(UUID physicianId, LocalDateTime dateTime) {
-        return timeslotMapper.getTimeslot(physicianId, dateTime);
+    public Timeslot getTimeslot(UUID timeslotId) {
+        return timeslotMapper.getTimeslot(timeslotId).orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
     }
 
     public ResponseEntity<Timeslot> bookAppointment(TimeslotFullDto timeslotDto) {
@@ -100,11 +96,7 @@ public class TimeslotService {
             return ResponseEntity.badRequest().body(null);
         }
 
-        Optional<Timeslot> optional = getTimeslot(
-                timeslotDto.physicianId(),
-                DateTimeHelper.toDateTime(timeslotDto.date(), timeslotDto.time())
-        );
-        Timeslot timeslot = optional.orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
+        Timeslot timeslot = getTimeslot(timeslotDto.physicianId());
         timeslot.setPatientId(timeslotDto.patientId());
         boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslot);
 
@@ -118,44 +110,15 @@ public class TimeslotService {
         return new ResponseEntity<>(timeslot, status);
     }
 
-    public ResponseEntity<Timeslot> deleteTimeslot(TimeslotDto timeslotDto) {
-        Optional<Timeslot> optional = getTimeslot(
-                timeslotDto.physicianId(),
-                DateTimeHelper.toDateTime(timeslotDto.date(), timeslotDto.time())
-        );
-        Timeslot timeslot = optional.orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
-        boolean deleted = timeslotMapper.deleteTimeslot(timeslot);
-        HttpStatus status = deleted
-                ? HttpStatus.OK
-                : HttpStatus.BAD_REQUEST;
-        new ResponseEntity<>(timeslot, status);
-        return new ResponseEntity<>(timeslot, status);
+    public ResponseEntity<Boolean> deleteTimeslot(UUID timeslotId) {
+        boolean deleted = timeslotMapper.deleteTimeslot(timeslotId);
+        HttpStatus status = HttpStatus.OK;
+        return new ResponseEntity<>(deleted, status);
     }
 
-
-    public ResponseEntity<Void> removePatientFromUpcomingTimeslot(UUID physicianId, UUID patientId) {
-        boolean isDeleted = timeslotMapper.removePatientFromUpcomingTimeslot(physicianId, patientId);
-
-        if (isDeleted) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Boolean> cancelAppointment(UUID timeslotId) {
+        boolean cancelled = timeslotMapper.cancelAppointment(timeslotId);
+        return ResponseEntity.status(HttpStatus.OK).body(cancelled);
     }
 
-    public ResponseEntity<Void> removePatientFromTimeslot(TimeslotFullDto timeslotfullDto) {
-        Optional<Timeslot> optional = getTimeslot(
-                timeslotfullDto.physicianId(),
-                DateTimeHelper.toDateTime(timeslotfullDto.date(), timeslotfullDto.time())
-        );
-        Timeslot timeslot = optional.orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
-        timeslot.setPatientId(timeslotfullDto.patientId());
-        boolean isDeleted = timeslotMapper.removePatientFromTimeslot(timeslot);
-
-        if (isDeleted) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }
