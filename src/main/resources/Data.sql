@@ -8,7 +8,7 @@ INSERT INTO occupations (id, name) VALUES
 
     --patients
 INSERT INTO users (id, name, surname, email, password, type) VALUES
-('81fe6628-7f9f-4f2e-be41-a190aa369831', 'Hilda' ,'Herbert', 'clinicgunit2023@gmail.com','$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
+('81fe6628-7f9f-4f2e-be41-a190aa369831', 'Hilda' ,'Herbert', 'hilda@gmail.com','$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
 ('52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3', 'Graham' ,'Chapman', 'gra@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
 ('a2246d5b-c433-48c8-a82b-d338976417a0', 'John' ,'Cleese', 'john@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient' );
 
@@ -41,6 +41,16 @@ INSERT INTO timeslot (id, physician_id, date, patient_id) VALUES
 ('ca1ab2bb-a71a-4a51-8f69-1ad6bd9b0ec6', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-11-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
 ('957570db-0726-4165-a181-248d4e53c08f', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-10-08 06:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
 ('1729c497-347d-4d0c-a4fd-30383e23a4d0', '698e415e-ca7c-11ed-afa1-0242ac120002', '2023-10-10 11:30', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),
+
+--John Cleese upcoming appointments
+('12e6f3b8-5ba0-4cf7-b8f8-16d8ebb72bf7', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-11-05 08:30', 'a2246d5b-c433-48c8-a82b-d338976417a0'),
+('79a0ff9f-9b82-4175-ada5-83bd05726ede', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-11-08 08:30', 'a2246d5b-c433-48c8-a82b-d338976417a0'),
+('78d6cfbd-4a61-4367-ad76-988602449d31', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-11-02 12:00', 'a2246d5b-c433-48c8-a82b-d338976417a0'),
+
+--Hilda Herbert past appointments
+('e57b9848-937c-4d3d-aa5d-6d9c52ed318a', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-10-05 10:00', '81fe6628-7f9f-4f2e-be41-a190aa369831'),
+('17eef1e3-0a82-4b71-b83a-dccb02de2983', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-10-06 06:30', '81fe6628-7f9f-4f2e-be41-a190aa369831'),
+('b9a50116-adf5-4cc2-b9d6-c71ec274c6d5', '698e415e-ca7c-11ed-afa1-0242ac120002', '2023-10-01 11:30', '81fe6628-7f9f-4f2e-be41-a190aa369831'),
 
     --Graham Chapman past appointments
 ('848055e2-fb9e-4ff9-901f-b870af05aee2', 'c4d695d2-cc18-11ed-afa1-0242ac120002', '2023-08-25 10:00', '52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3'),

@@ -1,9 +1,7 @@
 package com.sourcery.clinicapp.user.controller;
 
-import com.sourcery.clinicapp.physicianInfo.model.Physician;
+import com.sourcery.clinicapp.user.model.Physician;
 import com.sourcery.clinicapp.user.model.CreateUserDTO;
-import com.sourcery.clinicapp.loggedUser.model.LoggedUser;
-import com.sourcery.clinicapp.user.model.Type;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -34,15 +32,15 @@ public class UserController {
         return userService.getUsers(offset, userType);
     }
 
-
-    @GetMapping("patients/{physicianId}/{offset}")
-    public List<UserDTO> getPatientsByPhysicianId(@PathVariable UUID physicianId, @PathVariable int offset) {
-        return userService.getPatientsWithAppointments(physicianId, offset);
+    //    only for physician
+    @GetMapping("physicianPatients")
+    public List<UserDTO> getPhysicianPatients(@RequestParam(required = false, defaultValue = "0") int offset) {
+        return userService.getPhysicianPatients(offset);
     }
-
-    @GetMapping("patientsByPhysicianIdSize/{uuid}")
-    public int getPatientsByPhysicianIdAmount(@PathVariable("uuid") UUID uuid) {
-        return userService.getPatientsByPhysicianIdAmount(uuid);
+    //    only for physician
+    @GetMapping("amountOfPhysicianPatients")
+    public int amountOfPhysicianPatients() {
+        return userService.amountOfPhysicianPatients();
     }
 
     @GetMapping("patientSearch/{search}")

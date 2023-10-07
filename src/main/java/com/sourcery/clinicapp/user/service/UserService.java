@@ -1,18 +1,14 @@
 package com.sourcery.clinicapp.user.service;
 
 
-import com.sourcery.clinicapp.loggedUser.model.LoggedUser;
-import com.sourcery.clinicapp.physicianInfo.model.Physician;
-import com.sourcery.clinicapp.physicianInfo.repository.PhysicianInfoRepository;
-import com.sourcery.clinicapp.physicianInfo.service.PhysicianInfoService;
+import com.sourcery.clinicapp.loggedUser.service.LoggedUserService;
+import com.sourcery.clinicapp.user.model.Physician;
 import com.sourcery.clinicapp.user.model.*;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.utils.UserFieldHelper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +27,7 @@ public class UserService {
 
     private final PasswordEncoder encoder;
 
-
-    private final PhysicianInfoService physicianInfoService;
+    private final LoggedUserService loggedUserService;
 
 
     public int getUserCount(String userType) {
@@ -43,35 +38,21 @@ public class UserService {
         return userMapper.getUsers(offset, userType);
     }
 
-    public Short getPatientsByPhysicianIdAmount(UUID uuid) {
-        return userMapper.getPatientsByPhysicianIdAmount(uuid);
+    public int amountOfPhysicianPatients() {
+        UUID physicianId = loggedUserService.getId();
+        return userMapper.amountOfPhysicianPatients(physicianId);
     }
 
-    public List<UserDTO> getPatientsLimited(Number offset) {
-        return userMapper.getLimitedPatients(offset);
+
+    public List<UserDTO> getPhysicianPatients( int offset) {
+        UUID physicianId = loggedUserService.getId();
+        return userMapper.getPhysicianPatients(physicianId, offset);
     }
 
-    public List<UserDTO> getAdminsLimited(Number offset) {
-        return userMapper.getLimitedAdmins(offset);
-    }
-
-    public List<UserDTO> getPatients() {
-        return userMapper.getPatients();
-    }
-
-    public List<UserDTO> getPatientsWithAppointments(UUID uuid, int offset) {
-        return userMapper.getPatientsByPhysicianId(uuid, offset);
-    }
-
-    public List<UserDTO> getAdmins() {
-        return userMapper.getAdmins();
-    }
 
     public ResponseEntity<String> deleteUserById(UUID uuid) {
         UserDTO userById = getUserById(uuid);
-        if (userById.getType().equals(Type.PHYSICIAN.type())) {
-            physicianInfoService.deletePhysicianInfo(userById.getId());
-        }
+
         if (userMapper.deleteUserById(userById.getId())) {
             return new ResponseEntity<>("The user was deleted successfully.", HttpStatus.OK);
         } else {
@@ -115,9 +96,7 @@ public class UserService {
             String encodedPassword = encoder.encode(updateUser.getPassword());
             userMapper.updatePassword(encodedPassword, uuid);
         }
-        if (updateUser.getInfoID() != null && updateUser.getType().equals(Type.PHYSICIAN.type())) {
-            physicianInfoService.updatePhysicianById(updateUser.getInfoID(), uuid);
-        }
+
         return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
     }
 
@@ -133,9 +112,7 @@ public class UserService {
                 .type(newUser.getType())
                 .build();
         boolean saved = userMapper.saveUser(userToSave);
-        if (newUser.getInfoID() != null && newUser.getType().equals(Type.PHYSICIAN.type())) {
-            physicianInfoService.insertInfo(userToSave.getId(), newUser.getInfoID());
-        }
+
         return new ResponseEntity<>(saved ? "User saved." : "Some error.", HttpStatus.OK);
     }
 }

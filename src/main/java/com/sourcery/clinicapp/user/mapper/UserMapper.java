@@ -1,8 +1,6 @@
 package com.sourcery.clinicapp.user.mapper;
 
-import com.sourcery.clinicapp.login.model.Login;
-import com.sourcery.clinicapp.login.model.LoginDto;
-import com.sourcery.clinicapp.physicianInfo.model.Physician;
+import com.sourcery.clinicapp.user.model.Physician;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;
@@ -16,9 +14,10 @@ import java.util.UUID;
 public interface UserMapper {
 
     @Select("SELECT COUNT(*) FROM USERS WHERE TYPE = #{type}")
-    int getUserCount( String type);
+    int getUserCount(String type);
 
-    @Select("SELECT * FROM users WHERE TYPE = #{userType} LIMIT 5 OFFSET #{offset}")
+    @Select("SELECT users.id as id, users.name as name, surname, email, type, occupations.name as occupation" +
+            "  FROM users LEFT JOIN occupations ON occupation_id = occupations.id WHERE TYPE = #{userType} LIMIT 5 OFFSET #{offset}")
     Collection<UserDTO> getUsers(int offset, String userType);
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")
@@ -48,76 +47,13 @@ public interface UserMapper {
     List<Physician> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
 
 
-    @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 7")
-    List<UserDTO> getPatients();
+    @Select(" SELECT DISTINCT users.id, users.name, users.surname, users.email, users.type FROM timeslot " +
+            "LEFT JOIN users ON users.id = timeslot.patient_id WHERE timeslot.physician_id = #{physicianId}" +
+            " ORDER BY surname LIMIT 7 OFFSET #{offset}")
+    List<UserDTO> getPhysicianPatients(@Param("physicianId") UUID physicianId, @Param("offset") int offset);
 
-    @Select("""
-            SELECT DISTINCT u.id, u.name, u.email
-            FROM users u
-            INNER JOIN timeslot t ON u.id = t.patientId
-            WHERE t.physicianId = #{physicianId}
-            ORDER BY name
-            LIMIT 7 OFFSET #{offset}
-            """)
-    List<UserDTO> getPatientsByPhysicianId(@Param("physicianId") UUID physicianId, @Param("offset") int offset);
-
-    @Select("""
-            SELECT COUNT(*)
-            FROM users u
-            INNER JOIN timeslot t ON u.id = t.patientId
-            WHERE t.physicianId = #{physicianId}
-            """)
-    Short getPatientsByPhysicianIdAmount(@Param("physicianId") UUID physicianId);
-
-    @Select("SELECT * FROM users WHERE type='admin' ORDER BY name LIMIT 7 ")
-    List<UserDTO> getAdmins();
-
-    @ResultMap("PhysicianResultMap")
-    @Select("""
-            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
-            FROM users u
-                LEFT JOIN additional_physician_info i
-                    ON u.id = i.user_id
-                LEFT JOIN occupations o
-                    ON i.occupation_id = o.id
-                WHERE type='physician'
-                 ORDER BY name LIMIT 12
-            """)
-    List<Physician> getPhysicians();
-
-    @Select("SELECT * FROM users WHERE type='patient' ORDER BY name LIMIT 5 OFFSET #{offset}")
-    List<UserDTO> getLimitedPatients(@Param("offset") Number offset);
-
-    @Select("SELECT * FROM users WHERE type='admin' ORDER BY name LIMIT 5 OFFSET #{offset}")
-    List<UserDTO> getLimitedAdmins(@Param("offset") Number offset);
-
-    @ResultMap("PhysicianResultMap")
-    @Select("""
-            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
-            FROM users u
-                LEFT JOIN additional_physician_info i
-                    ON u.id = i.user_id
-                LEFT JOIN occupations o
-                    ON i.occupation_id = o.id
-                WHERE type='physician'
-                ORDER BY name LIMIT 5 OFFSET #{offset}
-            """)
-    List<Physician> getLimitedPhysicians(@Param("offset") Number offset);
-
-    @Select("SELECT id, type FROM users WHERE email=#{user.email} AND password=#{user.password} ")
-    Optional<LoginDto> checkLogIn(@Param("user") Login user);
-
-    @ResultMap("PhysicianResultMap")
-    @Select("""
-            SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
-            FROM users u
-                LEFT JOIN additional_physician_info i
-                    ON u.id = i.user_id
-                LEFT JOIN occupations o
-                    ON i.occupation_id = o.id
-                WHERE type='physician' AND u.id=#{id}
-            """)
-    Optional<Physician> getPhysician(UUID id);
+    @Select("SELECT COUNT(DISTINCT patient_id ) FROM timeslot WHERE physician_id = #{physicianId}")
+    int amountOfPhysicianPatients(@Param("physicianId") UUID physicianId);
 
     @Delete("DELETE FROM users WHERE id=#{uuid}")
     boolean deleteUserById(@Param("uuid") UUID uuid);
@@ -137,7 +73,6 @@ public interface UserMapper {
 
     @Select("SELECT * FROM users WHERE email=#{email}")
     Optional<User> findByEmail(@Param("email") String email);
-
 
 
 }

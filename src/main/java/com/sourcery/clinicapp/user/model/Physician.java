@@ -1,4 +1,4 @@
-package com.sourcery.clinicapp.physicianInfo.model;
+package com.sourcery.clinicapp.user.model;
 
 import com.sourcery.clinicapp.occupation.model.Occupation;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+//TODO Replace with Users model
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
