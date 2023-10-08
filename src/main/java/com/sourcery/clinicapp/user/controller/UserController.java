@@ -2,6 +2,7 @@ package com.sourcery.clinicapp.user.controller;
 
 import com.sourcery.clinicapp.user.model.Physician;
 import com.sourcery.clinicapp.user.model.CreateUserDTO;
+import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -67,8 +68,8 @@ public class UserController {
     }
 
     @PostMapping("admin")
-    public ResponseEntity<String> createUser(@RequestBody CreateUserDTO newUser) {
-        return userService.createUser(newUser);
+    public ResponseEntity<String> insertUser(@RequestBody CreateUserDTO newUser) {
+        return userService.insertUser(newUser);
     }
 
     @DeleteMapping("admin/{uuid}")
@@ -76,9 +77,9 @@ public class UserController {
         return userService.deleteUserById(uuid);
     }
 
-    @PutMapping("admin/{uuid}")
-    public ResponseEntity<String> updateUserById(@PathVariable("uuid") UUID uuid, @RequestBody CreateUserDTO createUserDTO) {
-        log.debug("User with id: " + uuid + " successfully updated");
-        return userService.updateUserById(uuid, createUserDTO);
+    @PutMapping("admin")
+    public ResponseEntity<String> updateUser(@RequestBody User userToUpdate) {
+        log.debug("User with id: " + userToUpdate.getId() + " successfully updated");
+        return userService.updateUser(userToUpdate);
     }
 }

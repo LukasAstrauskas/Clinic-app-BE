@@ -12,24 +12,33 @@ import java.util.UUID;
 @Mapper
 public interface TimeslotMapper {
 
+    @Results(id = "timeslot", value = {
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "physicianId", column = "physician_id"),
+            @Result(property = "date", column = "date"),
+            @Result(property = "patientId", column = "patient_id")
+    })
     @Select("SELECT * FROM timeslot")
     Collection<Timeslot> getAltTimeslots();
 
+    @ResultMap("timeslot")
     @Select("SELECT * FROM timeslot WHERE physician_id = #{physicianId} AND date BETWEEN #{begin} AND #{end}")
     Collection<Timeslot> getPhysicianTimeslots(@Param("physicianId") UUID physicianId,
                                                @Param("begin") LocalDateTime begin,
                                                @Param("end") LocalDateTime end);
 
+    @ResultMap("timeslot")
     @Select("SELECT * FROM timeslot WHERE physician_id = #{physicianId} AND date BETWEEN #{begin} AND #{end} ORDER BY date ASC")
     Collection<Timeslot> getMonthsTimeslots(@Param("physicianId") UUID physicianId,
                                             @Param("begin") LocalDateTime begin,
                                             @Param("end") LocalDateTime end);
 
+    @ResultMap("timeslot")
     @Select("SELECT * FROM timeslot WHERE id = #{timeslotId}")
     Optional<Timeslot> getTimeslot(UUID timeslotId);
 
     @Select("SELECT COUNT(*) FROM timeslot WHERE patient_id = #{patientId} AND physician_id = #{physicianId} AND date >= now()")
-    Short countUpcomingTimeslotsWithPhysician(@Param("physicianId") UUID physicianId, @Param("patientId") UUID patientId);
+    int countUpcomingTimeslotsWithPhysician(@Param("physicianId") UUID physicianId, @Param("patientId") UUID patientId);
 
     @Select("SELECT timeslot.id, date, users.name as name, occupations.name as occupation FROM TIMESLOT " +
             "LEFT JOIN Users ON timeslot.physician_id = users.id " +

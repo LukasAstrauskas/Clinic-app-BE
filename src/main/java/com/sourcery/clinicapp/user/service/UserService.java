@@ -2,7 +2,6 @@ package com.sourcery.clinicapp.user.service;
 
 
 import com.sourcery.clinicapp.loggedUser.service.LoggedUserService;
-import com.sourcery.clinicapp.user.model.Physician;
 import com.sourcery.clinicapp.user.model.*;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.utils.UserFieldHelper;
@@ -44,7 +43,7 @@ public class UserService {
     }
 
 
-    public List<UserDTO> getPhysicianPatients( int offset) {
+    public List<UserDTO> getPhysicianPatients(int offset) {
         UUID physicianId = loggedUserService.getId();
         return userMapper.getPhysicianPatients(physicianId, offset);
     }
@@ -81,42 +80,34 @@ public class UserService {
     }
 
 
-    public ResponseEntity<String> updateUserById(UUID uuid, CreateUserDTO updateUser) {
-        String name = userFieldHelper.capitalizeFirstLetter(updateUser.getName());
-        String surname = userFieldHelper.capitalizeFirstLetter(updateUser.getSurname());
-        String fullName = name.concat(" ").concat(surname);
+    public ResponseEntity<String> updateUser(User userToUpdate) {
+        userToUpdate.setName(userFieldHelper.capitalizeFirstLetter(userToUpdate.getName()));
+        userToUpdate.setSurname(userFieldHelper.capitalizeFirstLetter(userToUpdate.getSurname()));
 
-        User userToUpdate = User.builder()
-                .name(fullName)
-                .email(updateUser.getEmail())
-                .build();
+        userMapper.updateUser(userToUpdate);
 
-        userMapper.updateUserById(userToUpdate, uuid);
-        if (updateUser.getPassword().length() != 0) {
-            String encodedPassword = encoder.encode(updateUser.getPassword());
-            userMapper.updatePassword(encodedPassword, uuid);
+        if (userToUpdate.getPassword().length() != 0) {
+            String encodedPassword = encoder.encode(userToUpdate.getPassword());
+            userMapper.updatePassword(encodedPassword, userToUpdate.getId());
         }
 
-        return new ResponseEntity<>("The user, with id " + uuid + " was updated successfully.", HttpStatus.OK);
+        return new ResponseEntity<>("The user, with id " + userToUpdate.getId() + " was updated successfully.", HttpStatus.OK);
     }
 
-    public ResponseEntity<String> createUser(CreateUserDTO newUser) {
+    public ResponseEntity<String> insertUser(CreateUserDTO newUser) {
         String name = userFieldHelper.capitalizeFirstLetter(newUser.getName());
         String surname = userFieldHelper.capitalizeFirstLetter(newUser.getSurname());
-        String fullName = name.concat(" ").concat(surname);
         User userToSave = User.builder()
                 .id(UUID.randomUUID())
-                .name(fullName)
+                .name(name)
+                .surname(surname)
                 .email(newUser.getEmail())
                 .password(encoder.encode(newUser.getPassword()))
                 .type(newUser.getType())
+                .occupationId(newUser.getOccupationId())
                 .build();
-        boolean saved = userMapper.saveUser(userToSave);
+        boolean saved = userMapper.insertUser(userToSave);
 
         return new ResponseEntity<>(saved ? "User saved." : "Some error.", HttpStatus.OK);
     }
 }
-
-
-
-

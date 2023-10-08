@@ -15,5 +15,5 @@ public class CreateUserDTO {
     private String email;
     private String password;
     private String type;
-    private UUID infoID;
+    private UUID occupationId;
 }

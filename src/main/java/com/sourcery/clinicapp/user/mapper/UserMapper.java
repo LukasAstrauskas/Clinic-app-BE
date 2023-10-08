@@ -61,12 +61,13 @@ public interface UserMapper {
     @Select("SELECT * FROM users WHERE id=#{id}")
     Optional<UserDTO> getUserById(@Param("id") UUID id);
 
-    @Insert("INSERT INTO users (id, name, email, password, type) VALUES" +
-            " (#{user.id}, #{user.name}, #{user.email}, #{user.password}, #{user.type})")
-    boolean saveUser(@Param("user") User user);
+    @Insert("INSERT INTO users (id, name, surname, email, password, type, occupation_id) VALUES" +
+            " (#{user.id}, #{user.name}, #{user.surname}, #{user.email}, #{user.password}, #{user.type}, #{user.occupationId})")
+    boolean insertUser(@Param("user") User user);
 
-    @Update("UPDATE users SET name=#{user.name}, email=#{user.email} WHERE id=#{uuid}")
-    void updateUserById(@Param("user") User user, @Param("uuid") UUID id);
+    @Update("UPDATE users SET name=#{user.name}, surname=#{user.surname}, email=#{user.email}," +
+            " occupation_id=#{occupationId} WHERE id=#{user.id}")
+    void updateUser(@Param("user") User user);
 
     @Update("UPDATE users SET password=#{password} WHERE id=#{id} ")
     void updatePassword(@Param("password") String password, @Param("id") UUID id);

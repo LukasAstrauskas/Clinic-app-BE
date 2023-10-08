@@ -88,7 +88,7 @@ public class TimeslotService {
 
     public ResponseEntity<Timeslot> bookAppointment(TimeslotFullDto timeslotDto) {
 
-        Short upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
+        int upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
                 timeslotDto.physicianId(),
                 timeslotDto.patientId()
         );
