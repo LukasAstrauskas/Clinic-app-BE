@@ -13,4 +13,8 @@
             <result property="date" column="date"/>
         </association>
     </resultMap>
+
+    <select id="selectCount" resultType="int">
+        select COUNT(*) from users
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.user.mapper;
 
+import com.sourcery.clinicapp.occupation.model.Occupation;
 import com.sourcery.clinicapp.user.model.Physician;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
@@ -13,11 +14,25 @@ import java.util.UUID;
 @Mapper
 public interface UserMapper {
 
-    @Select("SELECT COUNT(*) FROM USERS WHERE TYPE = #{type}")
-    int getUserCount(String type);
+    String userCount = "<script>SELECT COUNT(*) FROM USERS <if test='type!=null'> WHERE type=#{type}</if></script>";
 
-    @Select("SELECT users.id as id, users.name as name, surname, email, type, occupations.name as occupation" +
-            "  FROM users LEFT JOIN occupations ON occupation_id = occupations.id WHERE TYPE = #{userType} LIMIT 5 OFFSET #{offset}")
+    @Select(userCount)
+    int getUserCount(@Param("type") String type);
+
+    @Results(id = "userResult", value = {
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "name", column = "name"),
+            @Result(property = "surname", column = "surname"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "type", column = "type"),
+            @Result(property = "occupation", column = "occupation_id",
+                    one = @One(select ="com.sourcery.clinicapp.occupation.repository.OccupationMapper.getOccupationById"))
+    })
+    @Select("SELECT * FROM users WHERE users.id=#{id}")
+    Optional<UserDTO> getUserById(@Param("id") UUID id);
+
+    @ResultMap("userResult")
+    @Select("SELECT * FROM users WHERE TYPE = #{userType} LIMIT 5 OFFSET #{offset}")
     Collection<UserDTO> getUsers(int offset, String userType);
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")
@@ -58,15 +73,12 @@ public interface UserMapper {
     @Delete("DELETE FROM users WHERE id=#{uuid}")
     boolean deleteUserById(@Param("uuid") UUID uuid);
 
-    @Select("SELECT * FROM users WHERE id=#{id}")
-    Optional<UserDTO> getUserById(@Param("id") UUID id);
-
     @Insert("INSERT INTO users (id, name, surname, email, password, type, occupation_id) VALUES" +
             " (#{user.id}, #{user.name}, #{user.surname}, #{user.email}, #{user.password}, #{user.type}, #{user.occupationId})")
     boolean insertUser(@Param("user") User user);
 
     @Update("UPDATE users SET name=#{user.name}, surname=#{user.surname}, email=#{user.email}," +
-            " occupation_id=#{occupationId} WHERE id=#{user.id}")
+            " occupation_id=#{user.occupationId} WHERE id=#{user.id}")
     void updateUser(@Param("user") User user);
 
     @Update("UPDATE users SET password=#{password} WHERE id=#{id} ")

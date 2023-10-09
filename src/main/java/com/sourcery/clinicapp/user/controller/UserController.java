@@ -79,6 +79,7 @@ public class UserController {
 
     @PutMapping("admin")
     public ResponseEntity<String> updateUser(@RequestBody User userToUpdate) {
+        System.out.println(userToUpdate.toString());
         log.debug("User with id: " + userToUpdate.getId() + " successfully updated");
         return userService.updateUser(userToUpdate);
     }

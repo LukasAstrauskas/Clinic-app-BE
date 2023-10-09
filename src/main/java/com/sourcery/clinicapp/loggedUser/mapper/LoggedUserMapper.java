@@ -35,9 +35,12 @@ public interface LoggedUserMapper {
             @Result(property = "surname", column = "surname"),
             @Result(property = "email", column = "email"),
             @Result(property = "type", column = "type"),
-            @Result(property = "occupation", column = "occupation_id", one = @One(select = "getOccupation")),
-            @Result(property = "patientInfo", column = "id", one = @One(select = "getPatientInfo")),
-            @Result(property = "upcomingAppointment", column = "id", many = @Many(select = "getUpcomingAppointments"))
+            @Result(property = "occupation", column = "occupation_id", one = @One(select =
+                    "com.sourcery.clinicapp.occupation.repository.OccupationMapper.getOccupationById")),
+            @Result(property = "patientInfo", column = "id", one = @One(select =
+                    "com.sourcery.clinicapp.patientInfo.repository.PatientInfoRepository.getPatientInfo")),
+            @Result(property = "upcomingAppointment", column = "id", many = @Many(select =
+                    "com.sourcery.clinicapp.timeslot.mapper.TimeslotMapper.getPatientUpcomingAppointments"))
     })
     @Select("SELECT id, name, surname, email, type, occupation_id FROM users WHERE email=#{email}")
     LoggedUser getLoggedUser(String email);

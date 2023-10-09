@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.user.model;
 
+import com.sourcery.clinicapp.occupation.model.Occupation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,6 @@ public class UserDTO {
     private String surname;
     private String email;
     private String type;
-    private String occupation;
+//    private String occupation;
+    private Occupation occupation;
 }
