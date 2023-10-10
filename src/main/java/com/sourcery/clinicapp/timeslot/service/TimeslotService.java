@@ -4,6 +4,7 @@ import com.sourcery.clinicapp.loggedUser.service.LoggedUserService;
 import com.sourcery.clinicapp.notifications.EmailSenderService;
 import com.sourcery.clinicapp.timeslot.mapper.TimeslotMapper;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
+import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
 import com.sourcery.clinicapp.timeslot.model.dto.*;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.utils.DateTimeHelper;
@@ -39,17 +40,17 @@ public class TimeslotService {
         return timeslotMapper.getAltTimeslots();
     }
 
-    public ResponseEntity<List<TimeslotsDto>> getPhyTimeslots(UUID physicianId, String startDate) {
-        System.out.println("Timeslots, start date: " + startDate);
-        LocalDateTime begin = DateTimeHelper.fromDateString(startDate);
-        LocalDateTime end = DateTimeHelper.nextMonthFirstDay(begin);
-        Collection<Timeslot> physicianTimeslots = timeslotMapper.getPhysicianTimeslots(physicianId, begin, end);
-        List<TimeslotsDto> timeslotsDTOs = timeslotDataHelper.groupTimeslotsByDate(physicianTimeslots, physicianId);
-        return new ResponseEntity<>(timeslotsDTOs, HttpStatus.OK);
-    }
+//    public ResponseEntity<List<TimeslotsDto>> getPhyTimeslots(UUID physicianId, String startDate) {
+//        System.out.println("Timeslots, start date: " + startDate);
+//        LocalDateTime begin = DateTimeHelper.fromDateString(startDate);
+//        LocalDateTime end = DateTimeHelper.nextMonthFirstDay(begin);
+//        Collection<Timeslot> physicianTimeslots = timeslotMapper.getPhysicianTimeslots(physicianId, begin, end);
+//        List<TimeslotsDto> timeslotsDTOs = timeslotDataHelper.groupTimeslotsByDate(physicianTimeslots, physicianId);
+//        return new ResponseEntity<>(timeslotsDTOs, HttpStatus.OK);
+//    }
 
-    public ResponseEntity<List<TimeslotByDate>> getMonthsTimeslots(UUID physicianId, String startDate) {
-        List<TimeslotByDate> timeslotByDateList = new ArrayList<>();
+    public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(UUID physicianId, String startDate) {
+        List<TimeslotList> groupedTimeslotList = new ArrayList<>();
         LocalDateTime begin = DateTimeHelper.fromDateString(startDate);
         LocalDateTime end = DateTimeHelper.nextMonthFirstDay(begin);
         Map<LocalDate, List<Timeslot>> groupByDate = timeslotMapper.getMonthsTimeslots(physicianId, begin, end)
@@ -57,11 +58,11 @@ public class TimeslotService {
                         timeslot.getDate().toLocalDate()
                 ));
         groupByDate.forEach(((localDate, timeslots) -> {
-            TimeslotByDate timeslotByDate = new TimeslotByDate(localDate, timeslots);
-            timeslotByDateList.add(timeslotByDate);
+            TimeslotList timeslotList = new TimeslotList(localDate, timeslots);
+            groupedTimeslotList.add(timeslotList);
         }));
-        timeslotByDateList.sort(Comparator.comparing(TimeslotByDate::getLocalDate));
-        return new ResponseEntity<>(timeslotByDateList, HttpStatus.OK);
+        groupedTimeslotList.sort(Comparator.comparing(TimeslotList::getDate));
+        return new ResponseEntity<>(groupedTimeslotList, HttpStatus.OK);
     }
 
     public Collection<AppointmentDTO> getPatientUpcomingAppointments(UUID id) {
@@ -76,9 +77,13 @@ public class TimeslotService {
         return timeslotMapper.getPastAppointmentAmount(loggedUserService.getId());
     }
 
-    public boolean addTimeslot(TimeslotDto timeslotDto) {
-        LocalDateTime localDateTime = DateTimeHelper.toDateTime(timeslotDto.date(), timeslotDto.time());
-        Timeslot timeslot = new Timeslot(timeslotDto.physicianId(), localDateTime);
+    public boolean addTimeslot(TimeslotDTO timeslotDto) {
+        LocalDateTime localDateTime = DateTimeHelper.toDateTime(timeslotDto.getDate(), timeslotDto.getTime());
+        Timeslot timeslot = Timeslot.builder()
+                .id(UUID.randomUUID())
+                .physicianId(timeslotDto.getPhysicianId())
+                .date(localDateTime)
+                .build();
         return timeslotMapper.addTimeslot(timeslot);
     }
 
@@ -86,19 +91,18 @@ public class TimeslotService {
         return timeslotMapper.getTimeslot(timeslotId).orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
     }
 
-    public ResponseEntity<Timeslot> bookAppointment(TimeslotFullDto timeslotDto) {
-
+    public ResponseEntity<Boolean> bookAppointment(TimeslotDTO timeslotDto) {
+        UUID physicianId = timeslotDto.getPhysicianId();
+        UUID patientId = timeslotDto.getPatientId();
         int upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
-                timeslotDto.physicianId(),
-                timeslotDto.patientId()
+                physicianId,
+                patientId
         );
         if (upcomingTimeslotsCount > 0) {
             return ResponseEntity.badRequest().body(null);
         }
 
-        Timeslot timeslot = getTimeslot(timeslotDto.physicianId());
-        timeslot.setPatientId(timeslotDto.patientId());
-        boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslot);
+        boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslotDto.getId(), patientId);
 
         if (updated) {
             emailSenderService.getEmailMessage(timeslotDto);
@@ -107,7 +111,7 @@ public class TimeslotService {
         HttpStatus status = updated
                 ? HttpStatus.OK
                 : HttpStatus.NOT_MODIFIED;
-        return new ResponseEntity<>(timeslot, status);
+        return new ResponseEntity<>(updated, status);
     }
 
     public ResponseEntity<Boolean> deleteTimeslot(UUID timeslotId) {

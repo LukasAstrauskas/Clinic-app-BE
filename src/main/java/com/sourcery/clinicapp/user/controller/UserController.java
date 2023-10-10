@@ -1,6 +1,5 @@
 package com.sourcery.clinicapp.user.controller;
 
-import com.sourcery.clinicapp.user.model.Physician;
 import com.sourcery.clinicapp.user.model.CreateUserDTO;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
@@ -50,7 +49,7 @@ public class UserController {
     }
 
     @GetMapping("physicianSearch/")
-    public List<Physician> handlePhysicianSearch(
+    public List<UserDTO> handlePhysicianSearch(
             @RequestParam(name = "search", required = false, defaultValue = "") String search,
             @RequestParam(name = "occupation", required = false, defaultValue = "") String occupation) {
         return userService.handlePhysicianSearch(search, occupation);

@@ -73,7 +73,7 @@ public class UserService {
         return userMapper.getAdminSearch(formattedSearch);
     }
 
-    public List<Physician> handlePhysicianSearch(String search, String occupation) {
+    public List<UserDTO> handlePhysicianSearch(String search, String occupation) {
         String formattedSearch = search.toLowerCase();
         String formattedOccupation = occupation.toLowerCase();
         return userMapper.getPhysicianSearch(formattedSearch, formattedOccupation);

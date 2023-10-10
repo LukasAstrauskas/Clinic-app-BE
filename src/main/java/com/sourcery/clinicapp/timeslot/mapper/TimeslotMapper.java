@@ -21,11 +21,11 @@ public interface TimeslotMapper {
     @Select("SELECT * FROM timeslot")
     Collection<Timeslot> getAltTimeslots();
 
-    @ResultMap("timeslot")
-    @Select("SELECT * FROM timeslot WHERE physician_id = #{physicianId} AND date BETWEEN #{begin} AND #{end}")
-    Collection<Timeslot> getPhysicianTimeslots(@Param("physicianId") UUID physicianId,
-                                               @Param("begin") LocalDateTime begin,
-                                               @Param("end") LocalDateTime end);
+//    @ResultMap("timeslot")
+//    @Select("SELECT * FROM timeslot WHERE physician_id = #{physicianId} AND date BETWEEN #{begin} AND #{end}")
+//    Collection<Timeslot> getPhysicianTimeslots(@Param("physicianId") UUID physicianId,
+//                                               @Param("begin") LocalDateTime begin,
+//                                               @Param("end") LocalDateTime end);
 
     @ResultMap("timeslot")
     @Select("SELECT * FROM timeslot WHERE physician_id = #{physicianId} AND date BETWEEN #{begin} AND #{end} ORDER BY date ASC")
@@ -55,11 +55,11 @@ public interface TimeslotMapper {
     @Select("SELECT COUNT(*) FROM timeslot WHERE patient_id =#{patientID} AND date < CURRENT_TIMESTAMP")
     int getPastAppointmentAmount(@Param("patientID") UUID patientID);
 
-    @Insert("INSERT INTO timeslot (physician_id, date) VALUES(#{physicianId}, #{date})")
+    @Insert("INSERT INTO timeslot (id, physician_id, date) VALUES(#{id}, #{physicianId}, #{date})")
     boolean addTimeslot(Timeslot timeslot);
 
-    @Update("UPDATE timeslot SET patientid = #{patientId}" + " WHERE physician_id = #{physicianId} AND date = #{date} AND patient_id IS NULL")
-    boolean updateTimeslotSetPatientID(Timeslot timeslot);
+    @Update("UPDATE timeslot SET patient_id = #{patientId} WHERE id = #{timeslotId} AND patient_id IS NULL")
+    boolean updateTimeslotSetPatientID(UUID timeslotId, UUID patientId);
 
     @Update("UPDATE timeslot SET patientid = NULL WHERE id = #{id} AND date >= now()")
     boolean cancelAppointment(UUID id);

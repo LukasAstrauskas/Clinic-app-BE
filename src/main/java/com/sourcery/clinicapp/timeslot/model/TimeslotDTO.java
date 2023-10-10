@@ -1,0 +1,24 @@
+package com.sourcery.clinicapp.timeslot.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class TimeslotDTO {
+    private UUID id;
+
+    private UUID physicianId;
+
+    private String date;
+
+    private String time;
+
+    private UUID patientId;
+}

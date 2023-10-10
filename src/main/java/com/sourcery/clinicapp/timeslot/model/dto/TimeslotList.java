@@ -9,8 +9,8 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class TimeslotByDate {
+public class TimeslotList {
 
-    private LocalDate localDate;
-    private List<Timeslot> timeslotList;
+    private LocalDate date;
+    private List<Timeslot> list;
 }

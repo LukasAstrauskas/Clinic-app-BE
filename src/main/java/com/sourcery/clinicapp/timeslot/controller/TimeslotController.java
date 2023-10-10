@@ -1,6 +1,7 @@
 package com.sourcery.clinicapp.timeslot.controller;
 
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
+import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
 import com.sourcery.clinicapp.timeslot.model.dto.*;
 import com.sourcery.clinicapp.timeslot.service.TimeslotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,13 @@ public class TimeslotController {
         return timeslotService.getAllTimeslots();
     }
 
-    @GetMapping("getPhyTimeslots/{physicianId}")
-    public ResponseEntity<List<TimeslotsDto>> getPhyTimeslots(@PathVariable UUID physicianId, @RequestParam Optional<String> date) {
-        return timeslotService.getPhyTimeslots(physicianId, date.orElseGet(() -> LocalDate.now().toString()));
-    }
+//    @GetMapping("getPhyTimeslots/{physicianId}")
+//    public ResponseEntity<List<TimeslotsDto>> getPhyTimeslots(@PathVariable UUID physicianId, @RequestParam Optional<String> date) {
+//        return timeslotService.getPhyTimeslots(physicianId, date.orElseGet(() -> LocalDate.now().toString()));
+//    }
 
     @GetMapping("getMonthsTimeslots/{physicianId}")
-    public ResponseEntity<List<TimeslotByDate>> getMonthsTimeslots(
+    public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(
             @PathVariable UUID physicianId, @RequestParam Optional<String> date) {
         return timeslotService.getMonthsTimeslots(physicianId, date.orElseGet(() -> LocalDate.now().toString()));
     }
@@ -57,13 +58,13 @@ public class TimeslotController {
     }
 
     @PostMapping
-    public boolean addTimeslot(@RequestBody TimeslotDto timeslotDto) {
+    public boolean addTimeslot(@RequestBody TimeslotDTO timeslotDto) {
         return timeslotService.addTimeslot(timeslotDto);
     }
 
     @PatchMapping("bookAppointment")
-    public ResponseEntity<Timeslot> bookAppointment(@RequestBody TimeslotFullDto timeslotFullDto) {
-        return timeslotService.bookAppointment(timeslotFullDto);
+    public ResponseEntity<Boolean> bookAppointment(@RequestBody TimeslotDTO timeslotDTO) {
+        return timeslotService.bookAppointment(timeslotDTO);
     }
 
     @DeleteMapping

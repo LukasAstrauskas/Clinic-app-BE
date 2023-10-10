@@ -1,7 +1,5 @@
 package com.sourcery.clinicapp.user.mapper;
 
-import com.sourcery.clinicapp.occupation.model.Occupation;
-import com.sourcery.clinicapp.user.model.Physician;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;
@@ -59,7 +57,7 @@ public interface UserMapper {
                 AND (#{occupation} IS NULL OR #{occupation} = '' OR LOWER(o.name) LIKE CONCAT('%', #{occupation}, '%'))
                 ORDER BY name
             """)
-    List<Physician> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
+    List<UserDTO> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
 
 
     @Select(" SELECT DISTINCT users.id, users.name, users.surname, users.email, users.type FROM timeslot " +

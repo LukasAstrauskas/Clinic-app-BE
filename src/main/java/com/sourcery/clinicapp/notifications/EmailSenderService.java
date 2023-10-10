@@ -1,6 +1,7 @@
 package com.sourcery.clinicapp.notifications;
 
-import com.sourcery.clinicapp.timeslot.model.dto.TimeslotFullDto;
+
+import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,14 @@ public class EmailSenderService {
     @Autowired
     private UserService userService;
 
-    public void getEmailMessage(TimeslotFullDto timeslotFullDto) {
+    public void getEmailMessage(TimeslotDTO timeslotFullDto) {
 
 //    String toEmail = userService.getUserById(timeslotFullDto.patientId()).getEmail();
     String toEmail = "medclinicMock@gmail.com";
     String emailSubject = "Appointment confirmation " + LocalDate.now();
-    String physicianName = userService.getUserById(timeslotFullDto.physicianId()).getName();
-    String patientName =  userService.getUserById(timeslotFullDto.patientId()).getName();
-    String appointmentDate = timeslotFullDto.date() + ", " + timeslotFullDto.time();
+    String physicianName = userService.getUserById(timeslotFullDto.getPhysicianId()).getName();
+    String patientName =  userService.getUserById(timeslotFullDto.getPatientId()).getName();
+    String appointmentDate = timeslotFullDto.getDate() + ", " + timeslotFullDto.getTime();
     String emailMessage = "Hello, " + patientName + ",\n" +
             "\nYour appointment successfully confirmed!\n" +
             "\nPhysician name: " +physicianName + ";" +
