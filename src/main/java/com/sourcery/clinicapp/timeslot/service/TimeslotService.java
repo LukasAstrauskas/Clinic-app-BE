@@ -24,8 +24,7 @@ public class TimeslotService {
 
     @Autowired
     private TimeslotMapper timeslotMapper;
-    @Autowired
-    private TimeslotDataHelper timeslotDataHelper;
+
     @Autowired
     private EmailSenderService emailSenderService;
 
@@ -39,15 +38,6 @@ public class TimeslotService {
     public Collection<Timeslot> getAllTimeslots() {
         return timeslotMapper.getAltTimeslots();
     }
-
-//    public ResponseEntity<List<TimeslotsDto>> getPhyTimeslots(UUID physicianId, String startDate) {
-//        System.out.println("Timeslots, start date: " + startDate);
-//        LocalDateTime begin = DateTimeHelper.fromDateString(startDate);
-//        LocalDateTime end = DateTimeHelper.nextMonthFirstDay(begin);
-//        Collection<Timeslot> physicianTimeslots = timeslotMapper.getPhysicianTimeslots(physicianId, begin, end);
-//        List<TimeslotsDto> timeslotsDTOs = timeslotDataHelper.groupTimeslotsByDate(physicianTimeslots, physicianId);
-//        return new ResponseEntity<>(timeslotsDTOs, HttpStatus.OK);
-//    }
 
     public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(UUID physicianId, String startDate) {
         List<TimeslotList> groupedTimeslotList = new ArrayList<>();

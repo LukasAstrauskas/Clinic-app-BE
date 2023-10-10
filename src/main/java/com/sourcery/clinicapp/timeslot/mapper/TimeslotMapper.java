@@ -21,12 +21,6 @@ public interface TimeslotMapper {
     @Select("SELECT * FROM timeslot")
     Collection<Timeslot> getAltTimeslots();
 
-//    @ResultMap("timeslot")
-//    @Select("SELECT * FROM timeslot WHERE physician_id = #{physicianId} AND date BETWEEN #{begin} AND #{end}")
-//    Collection<Timeslot> getPhysicianTimeslots(@Param("physicianId") UUID physicianId,
-//                                               @Param("begin") LocalDateTime begin,
-//                                               @Param("end") LocalDateTime end);
-
     @ResultMap("timeslot")
     @Select("SELECT * FROM timeslot WHERE physician_id = #{physicianId} AND date BETWEEN #{begin} AND #{end} ORDER BY date ASC")
     Collection<Timeslot> getMonthsTimeslots(@Param("physicianId") UUID physicianId,

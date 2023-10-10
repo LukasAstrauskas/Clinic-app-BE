@@ -31,11 +31,6 @@ public class TimeslotController {
         return timeslotService.getAllTimeslots();
     }
 
-//    @GetMapping("getPhyTimeslots/{physicianId}")
-//    public ResponseEntity<List<TimeslotsDto>> getPhyTimeslots(@PathVariable UUID physicianId, @RequestParam Optional<String> date) {
-//        return timeslotService.getPhyTimeslots(physicianId, date.orElseGet(() -> LocalDate.now().toString()));
-//    }
-
     @GetMapping("getMonthsTimeslots/{physicianId}")
     public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(
             @PathVariable UUID physicianId, @RequestParam Optional<String> date) {
