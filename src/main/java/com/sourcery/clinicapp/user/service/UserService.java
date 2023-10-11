@@ -63,6 +63,10 @@ public class UserService {
         return userMapper.getUserById(id).orElseThrow(() -> new NoSuchElementException("No user with id: " + id));
     }
 
+    public Collection<UserDTO> userSearch(String search) {
+        return userMapper.userSearch(search.toLowerCase());
+    }
+
     public List<UserDTO> handlePatientSearch(String search) {
         String formattedSearch = search.toLowerCase();
         return userMapper.getPatientSearch(formattedSearch);

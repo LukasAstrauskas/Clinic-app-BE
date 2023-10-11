@@ -43,6 +43,11 @@ public class UserController {
         return userService.amountOfPhysicianPatients();
     }
 
+    @GetMapping("search")
+    public Collection<UserDTO> userSearch(@RequestParam String search){
+        return userService.userSearch(search);
+    }
+
     @GetMapping("patientSearch/{search}")
     public List<UserDTO> handlePatientSearch(@PathVariable("search") String search) {
         return userService.handlePatientSearch(search);

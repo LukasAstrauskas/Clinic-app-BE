@@ -1,5 +1,6 @@
 package com.sourcery.clinicapp.user.mapper;
 
+import com.sourcery.clinicapp.user.mapper.sqlProvider.UserSqlProvider;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;
@@ -24,7 +25,7 @@ public interface UserMapper {
             @Result(property = "email", column = "email"),
             @Result(property = "type", column = "type"),
             @Result(property = "occupation", column = "occupation_id",
-                    one = @One(select ="com.sourcery.clinicapp.occupation.repository.OccupationMapper.getOccupationById"))
+                    one = @One(select = "com.sourcery.clinicapp.occupation.repository.OccupationMapper.getOccupationById"))
     })
     @Select("SELECT * FROM users WHERE users.id=#{id}")
     Optional<UserDTO> getUserById(@Param("id") UUID id);
@@ -33,13 +34,18 @@ public interface UserMapper {
     @Select("SELECT * FROM users WHERE TYPE = #{userType} LIMIT 5 OFFSET #{offset}")
     Collection<UserDTO> getUsers(int offset, String userType);
 
+
+    @ResultMap("userResult")
+    @SelectProvider(type = UserSqlProvider.class, method = "userSearch")
+    Collection<UserDTO> userSearch(@Param("search") String search);
+
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")
     List<UserDTO> getPatientSearch(@Param("search") String search);
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='admin' ORDER BY name")
     List<UserDTO> getAdminSearch(@Param("search") String search);
 
-    @ResultMap("PhysicianResultMap")
+
     @Select("""
                 SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
                 FROM users u

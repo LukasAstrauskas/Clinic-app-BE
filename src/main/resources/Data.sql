@@ -10,6 +10,7 @@ INSERT INTO occupations (id, name) VALUES
 INSERT INTO users (id, name, surname, email, password, type) VALUES
 ('81fe6628-7f9f-4f2e-be41-a190aa369831', 'Hilda' ,'Herbert', 'hilda@gmail.com','$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
 ('52e2fc8e-d5b1-43e0-bde6-5dca5f96ced3', 'Graham' ,'Chapman', 'gra@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
+('7c0e706c-e82f-407f-8e94-6aef55d775a2', 'Terry' ,'Jones', 'terry@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient'),
 ('a2246d5b-c433-48c8-a82b-d338976417a0', 'John' ,'Cleese', 'john@gmail.com', '$2y$10$wEzx1MK4T9EP/AsBZwGAOuELBhsLHH.zlNY7tsocCxTBi/qkprm7e', 'patient' );
 
     --admins
