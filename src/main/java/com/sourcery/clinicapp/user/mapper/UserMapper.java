@@ -37,7 +37,7 @@ public interface UserMapper {
 
     @ResultMap("userResult")
     @SelectProvider(type = UserSqlProvider.class, method = "userSearch")
-    Collection<UserDTO> userSearch(@Param("search") String search);
+    Collection<UserDTO> userSearch(@Param("search") String search, @Param("occupationId") UUID occupationId, @Param("type") String type);
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")
     List<UserDTO> getPatientSearch(@Param("search") String search);

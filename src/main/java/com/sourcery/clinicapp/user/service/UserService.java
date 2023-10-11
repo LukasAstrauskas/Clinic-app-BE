@@ -6,6 +6,7 @@ import com.sourcery.clinicapp.user.model.*;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.utils.UserFieldHelper;
 import lombok.AllArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -63,8 +64,8 @@ public class UserService {
         return userMapper.getUserById(id).orElseThrow(() -> new NoSuchElementException("No user with id: " + id));
     }
 
-    public Collection<UserDTO> userSearch(String search) {
-        return userMapper.userSearch(search.toLowerCase());
+    public Collection<UserDTO> userSearch(String search, UUID occupationId, String type) {
+        return userMapper.userSearch(search.toLowerCase(), occupationId, type);
     }
 
     public List<UserDTO> handlePatientSearch(String search) {

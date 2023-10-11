@@ -6,6 +6,7 @@ import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,7 @@ public class UserController {
     public List<UserDTO> getPhysicianPatients(@RequestParam(required = false, defaultValue = "0") int offset) {
         return userService.getPhysicianPatients(offset);
     }
+
     //    only for physician
     @GetMapping("amountOfPhysicianPatients")
     public int amountOfPhysicianPatients() {
@@ -44,8 +46,11 @@ public class UserController {
     }
 
     @GetMapping("search")
-    public Collection<UserDTO> userSearch(@RequestParam String search){
-        return userService.userSearch(search);
+    public Collection<UserDTO> userSearch(
+            @RequestParam(required = false, defaultValue = "") String search,
+            @RequestParam(required = false) UUID occupationId,
+            @RequestParam(required = false) String type) {
+        return userService.userSearch(search, occupationId, type);
     }
 
     @GetMapping("patientSearch/{search}")
