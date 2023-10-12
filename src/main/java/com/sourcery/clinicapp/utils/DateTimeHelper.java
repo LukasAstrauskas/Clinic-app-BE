@@ -11,7 +11,11 @@ public class DateTimeHelper {
     }
 
     public static LocalDateTime fromDateString(String date) {
-        return LocalDate.parse(date).atStartOfDay();
+        if (date.equals("")) {
+            return LocalDate.now().atStartOfDay();
+        } else {
+            return LocalDate.parse(date).atStartOfDay();
+        }
     }
 
     public static LocalDateTime nextMonthFirstDay(LocalDateTime dateTime) {

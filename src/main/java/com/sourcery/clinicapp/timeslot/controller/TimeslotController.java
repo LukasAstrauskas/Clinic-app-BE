@@ -2,16 +2,15 @@ package com.sourcery.clinicapp.timeslot.controller;
 
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
-import com.sourcery.clinicapp.timeslot.model.dto.*;
+import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotList;
 import com.sourcery.clinicapp.timeslot.service.TimeslotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -33,8 +32,8 @@ public class TimeslotController {
 
     @GetMapping("getMonthsTimeslots/{physicianId}")
     public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(
-            @PathVariable UUID physicianId, @RequestParam Optional<String> date) {
-        return timeslotService.getMonthsTimeslots(physicianId, date.orElseGet(() -> LocalDate.now().toString()));
+            @PathVariable UUID physicianId, @RequestParam(required = false, defaultValue = "") String date) {
+        return timeslotService.getMonthsTimeslots(physicianId, date);
     }
 
     @GetMapping("patientUpcomingAppointments/{id}")
