@@ -15,7 +15,8 @@ public interface UserMapper {
 
     String userCount = "<script>SELECT COUNT(*) FROM USERS <if test='type!=null'> WHERE type=#{type}</if></script>";
 
-    @Select(userCount)
+//    @Select(userCount)
+    @SelectProvider(type = UserSqlProvider.class, method = "userCountSQL")
     int getUserCount(@Param("type") String type);
 
     @Results(id = "userResult", value = {
@@ -36,7 +37,7 @@ public interface UserMapper {
 
 
     @ResultMap("userResult")
-    @SelectProvider(type = UserSqlProvider.class, method = "userSearch")
+    @SelectProvider(type = UserSqlProvider.class, method = "userSearchSQL")
     Collection<UserDTO> userSearch(@Param("search") String search, @Param("occupationId") UUID occupationId, @Param("type") String type);
 
     @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")

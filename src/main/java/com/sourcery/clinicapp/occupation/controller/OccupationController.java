@@ -20,7 +20,7 @@ public class OccupationController {
     @Autowired
     private OccupationService occupationService;
 
-    @GetMapping()
+    @GetMapping("/all")
     public Collection<Occupation> getAllOccupations() {
         return occupationService.getAllOccupations();
     }
@@ -30,4 +30,8 @@ public class OccupationController {
         return occupationService.getOccupationById(id);
     }
 
+    @GetMapping("add/{name}")
+    public String addOccupationMock(@PathVariable String name) {
+        return String.format("Added new occupation: %s", name);
+    }
 }
