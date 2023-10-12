@@ -2,11 +2,12 @@ package com.sourcery.clinicapp.user.service;
 
 
 import com.sourcery.clinicapp.loggedUser.service.LoggedUserService;
+import com.sourcery.clinicapp.patientInfo.model.PatientInfo;
+import com.sourcery.clinicapp.patientInfo.service.PatientInfoService;
 import com.sourcery.clinicapp.user.model.*;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.utils.UserFieldHelper;
 import lombok.AllArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +29,8 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     private final LoggedUserService loggedUserService;
+
+    private final PatientInfoService infoService;
 
 
     public int getUserCount(String userType) {
@@ -68,23 +71,6 @@ public class UserService {
         return userMapper.userSearch(search.toLowerCase(), occupationId, type);
     }
 
-    public List<UserDTO> handlePatientSearch(String search) {
-        String formattedSearch = search.toLowerCase();
-        return userMapper.getPatientSearch(formattedSearch);
-    }
-
-    public List<UserDTO> handleAdminSearch(String search) {
-        String formattedSearch = search.toLowerCase();
-        return userMapper.getAdminSearch(formattedSearch);
-    }
-
-    public List<UserDTO> handlePhysicianSearch(String search, String occupation) {
-        String formattedSearch = search.toLowerCase();
-        String formattedOccupation = occupation.toLowerCase();
-        return userMapper.getPhysicianSearch(formattedSearch, formattedOccupation);
-    }
-
-
     public ResponseEntity<String> updateUser(User userToUpdate) {
         userToUpdate.setName(userFieldHelper.capitalizeFirstLetter(userToUpdate.getName()));
         userToUpdate.setSurname(userFieldHelper.capitalizeFirstLetter(userToUpdate.getSurname()));
@@ -99,11 +85,12 @@ public class UserService {
         return new ResponseEntity<>("The user, with id " + userToUpdate.getId() + " was updated successfully.", HttpStatus.OK);
     }
 
-    public ResponseEntity<String> insertUser(CreateUserDTO newUser) {
+    public ResponseEntity<String> insertUser(User newUser) {
         String name = userFieldHelper.capitalizeFirstLetter(newUser.getName());
         String surname = userFieldHelper.capitalizeFirstLetter(newUser.getSurname());
+        UUID userId = UUID.randomUUID();
         User userToSave = User.builder()
-                .id(UUID.randomUUID())
+                .id(userId)
                 .name(name)
                 .surname(surname)
                 .email(newUser.getEmail())
@@ -112,6 +99,15 @@ public class UserService {
                 .occupationId(newUser.getOccupationId())
                 .build();
         boolean saved = userMapper.insertUser(userToSave);
+        if (userToSave.getType().equals(Type.PATIENT.type())){
+            PatientInfo patientInfo = PatientInfo.builder()
+                    .userId(userId)
+                    .country("Lituanica")
+                    .gender("Nonbinary")
+                    .city("Zion")
+                    .build();
+            infoService.createPatientInfo(patientInfo);
+        }
 
         return new ResponseEntity<>(saved ? "User saved." : "Some error.", HttpStatus.OK);
     }

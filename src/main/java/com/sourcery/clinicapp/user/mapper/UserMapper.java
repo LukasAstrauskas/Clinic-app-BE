@@ -13,9 +13,6 @@ import java.util.UUID;
 @Mapper
 public interface UserMapper {
 
-    String userCount = "<script>SELECT COUNT(*) FROM USERS <if test='type!=null'> WHERE type=#{type}</if></script>";
-
-//    @Select(userCount)
     @SelectProvider(type = UserSqlProvider.class, method = "userCountSQL")
     int getUserCount(@Param("type") String type);
 
@@ -39,32 +36,6 @@ public interface UserMapper {
     @ResultMap("userResult")
     @SelectProvider(type = UserSqlProvider.class, method = "userSearchSQL")
     Collection<UserDTO> userSearch(@Param("search") String search, @Param("occupationId") UUID occupationId, @Param("type") String type);
-
-    @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='patient' ORDER BY name")
-    List<UserDTO> getPatientSearch(@Param("search") String search);
-
-    @Select("SELECT * FROM users WHERE( LOWER(name) LIKE '%${search}%' OR LOWER(email) LIKE '%${search}%' )AND type='admin' ORDER BY name")
-    List<UserDTO> getAdminSearch(@Param("search") String search);
-
-
-    @Select("""
-                SELECT u.id id, u.name name, u.email email, o.id occupation_id, o.name occupation_name
-                FROM users u
-                LEFT JOIN additional_physician_info i ON u.id = i.user_id
-                LEFT JOIN occupations o ON i.occupation_id = o.id
-                WHERE type = 'physician'
-                AND (
-                    #{search} IS NULL OR 
-                    #{search} = '' OR 
-                    (
-                        LOWER(u.name) LIKE CONCAT('%', #{search}, '%') OR 
-                        LOWER(o.name) LIKE CONCAT('%', #{search}, '%')
-                    )
-                ) 
-                AND (#{occupation} IS NULL OR #{occupation} = '' OR LOWER(o.name) LIKE CONCAT('%', #{occupation}, '%'))
-                ORDER BY name
-            """)
-    List<UserDTO> getPhysicianSearch(@Param("search") String search, @Param("occupation") String occupation);
 
 
     @Select(" SELECT DISTINCT users.id, users.name, users.surname, users.email, users.type FROM timeslot " +
@@ -91,6 +62,4 @@ public interface UserMapper {
 
     @Select("SELECT * FROM users WHERE email=#{email}")
     Optional<User> findByEmail(@Param("email") String email);
-
-
 }

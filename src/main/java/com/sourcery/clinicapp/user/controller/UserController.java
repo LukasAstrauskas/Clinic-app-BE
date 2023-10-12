@@ -1,12 +1,10 @@
 package com.sourcery.clinicapp.user.controller;
 
-import com.sourcery.clinicapp.user.model.CreateUserDTO;
 import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,23 +51,6 @@ public class UserController {
         return userService.userSearch(search, occupationId, type);
     }
 
-    @GetMapping("patientSearch/{search}")
-    public List<UserDTO> handlePatientSearch(@PathVariable("search") String search) {
-        return userService.handlePatientSearch(search);
-    }
-
-    @GetMapping("physicianSearch/")
-    public List<UserDTO> handlePhysicianSearch(
-            @RequestParam(name = "search", required = false, defaultValue = "") String search,
-            @RequestParam(name = "occupation", required = false, defaultValue = "") String occupation) {
-        return userService.handlePhysicianSearch(search, occupation);
-    }
-
-    @GetMapping("adminSearch/{search}")
-    public List<UserDTO> handleAdminSearch(@PathVariable("search") String search) {
-        return userService.handleAdminSearch(search);
-    }
-
     //    CRUD OPERATIONS
     @GetMapping("{id}")
     public UserDTO getUserById(@PathVariable("id") UUID id) {
@@ -77,7 +58,7 @@ public class UserController {
     }
 
     @PostMapping("admin")
-    public ResponseEntity<String> insertUser(@RequestBody CreateUserDTO newUser) {
+    public ResponseEntity<String> insertUser(@RequestBody User newUser) {
         return userService.insertUser(newUser);
     }
 
