@@ -25,8 +25,8 @@ public class OccupationController {
         return occupationService.getAllOccupations();
     }
 
-    @GetMapping("{id}")
-    public Occupation getOccupationById(@PathVariable("id") UUID id) {
+    @GetMapping("/{id}")
+    public Occupation getOccupationById(@PathVariable("id") String id) {
         return occupationService.getOccupationById(id);
     }
 

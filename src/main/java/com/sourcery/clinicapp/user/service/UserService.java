@@ -89,6 +89,7 @@ public class UserService {
         String name = userFieldHelper.capitalizeFirstLetter(newUser.getName());
         String surname = userFieldHelper.capitalizeFirstLetter(newUser.getSurname());
         UUID userId = UUID.randomUUID();
+        long timestamp = userId.timestamp();
         User userToSave = User.builder()
                 .id(userId)
                 .name(name)
