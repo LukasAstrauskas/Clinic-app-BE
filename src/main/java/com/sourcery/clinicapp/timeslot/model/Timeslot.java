@@ -14,22 +14,12 @@ import java.util.UUID;
 @Builder
 public class Timeslot {
 
-    private UUID id;
+    private String id;
 
-    private UUID physicianId;
+    private String physicianId;
 
     private LocalDateTime date;
 
-    private UUID patientId;
+    private String  patientId;
 
-    public Timeslot(UUID physicianId, LocalDateTime date) {
-        this.physicianId = physicianId;
-        this.date = date;
-    }
-
-    public Timeslot(UUID physicianId, LocalDateTime date, UUID patientId) {
-        this.physicianId = physicianId;
-        this.date = date;
-        this.patientId = patientId;
-    }
 }

@@ -42,18 +42,18 @@ public class UserService {
     }
 
     public int amountOfPhysicianPatients() {
-        UUID physicianId = loggedUserService.getId();
+        String physicianId = loggedUserService.getId();
         return userMapper.amountOfPhysicianPatients(physicianId);
     }
 
 
     public List<UserDTO> getPhysicianPatients(int offset) {
-        UUID physicianId = loggedUserService.getId();
+        String physicianId = loggedUserService.getId();
         return userMapper.getPhysicianPatients(physicianId, offset);
     }
 
 
-    public ResponseEntity<String> deleteUserById(UUID uuid) {
+    public ResponseEntity<String> deleteUserById(String uuid) {
         UserDTO userById = getUserById(uuid);
 
         if (userMapper.deleteUserById(userById.getId())) {
@@ -63,11 +63,11 @@ public class UserService {
         }
     }
 
-    public UserDTO getUserById(UUID id) {
+    public UserDTO getUserById(String id) {
         return userMapper.getUserById(id).orElseThrow(() -> new NoSuchElementException("No user with id: " + id));
     }
 
-    public Collection<UserDTO> userSearch(String search, UUID occupationId, String type) {
+    public Collection<UserDTO> userSearch(String search, String occupationId, String type) {
         return userMapper.userSearch(search.toLowerCase(), occupationId, type);
     }
 
@@ -88,8 +88,7 @@ public class UserService {
     public ResponseEntity<String> insertUser(User newUser) {
         String name = userFieldHelper.capitalizeFirstLetter(newUser.getName());
         String surname = userFieldHelper.capitalizeFirstLetter(newUser.getSurname());
-        UUID userId = UUID.randomUUID();
-        long timestamp = userId.timestamp();
+        String userId = UUID.randomUUID().toString();
         User userToSave = User.builder()
                 .id(userId)
                 .name(name)

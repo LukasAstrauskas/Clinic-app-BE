@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @Data
 public class PatientInfo {
-    private UUID userId;
+    private String userId;
     private String gender;
     private Date birthDate;
     private long phone;

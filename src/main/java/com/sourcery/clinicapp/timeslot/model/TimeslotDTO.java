@@ -12,13 +12,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TimeslotDTO {
-    private UUID id;
+    private String id;
 
-    private UUID physicianId;
+    private String physicianId;
 
     private String date;
 
     private String time;
 
-    private UUID patientId;
+    private String patientId;
 }

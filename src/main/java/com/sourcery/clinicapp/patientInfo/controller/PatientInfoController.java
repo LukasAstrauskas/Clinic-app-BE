@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -23,7 +22,7 @@ public class PatientInfoController {
     private PatientInfoService patientInfoService;
 
     @GetMapping("{id}")
-    public PatientInfo getPatientInfo(@PathVariable("id") UUID id) {
+    public PatientInfo getPatientInfo(@PathVariable("id") String id) {
         return patientInfoService.getPatientInfo(id);
     }
 

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("timeslot")
@@ -21,7 +20,7 @@ public class TimeslotController {
     private TimeslotService timeslotService;
 
     @GetMapping()
-    public Timeslot getTimeslot(@RequestParam UUID timeslotId) {
+    public Timeslot getTimeslot(@RequestParam String timeslotId) {
         return timeslotService.getTimeslot(timeslotId);
     }
 
@@ -32,12 +31,12 @@ public class TimeslotController {
 
     @GetMapping("getMonthsTimeslots/{physicianId}")
     public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(
-            @PathVariable UUID physicianId, @RequestParam(required = false, defaultValue = "") String date) {
+            @PathVariable String physicianId, @RequestParam(required = false, defaultValue = "") String date) {
         return timeslotService.getMonthsTimeslots(physicianId, date);
     }
 
     @GetMapping("patientUpcomingAppointments/{id}")
-    public Collection<AppointmentDTO> getPatientUpcomingAppointments(@PathVariable("id") UUID id) {
+    public Collection<AppointmentDTO> getPatientUpcomingAppointments(@PathVariable("id") String id) {
         return timeslotService.getPatientUpcomingAppointments(id);
     }
 
@@ -62,12 +61,12 @@ public class TimeslotController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Boolean> deleteTimeslot(@RequestParam UUID timeslotId) {
+    public ResponseEntity<Boolean> deleteTimeslot(@RequestParam String timeslotId) {
         return timeslotService.deleteTimeslot(timeslotId);
     }
 
     @PatchMapping("/cancelAppointment")
-    public ResponseEntity<Boolean> cancelAppointment(@RequestParam UUID timeslotId) {
+    public ResponseEntity<Boolean> cancelAppointment(@RequestParam String timeslotId) {
         return timeslotService.cancelAppointment(timeslotId);
     }
 

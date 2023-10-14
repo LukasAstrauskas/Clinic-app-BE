@@ -39,7 +39,7 @@ public class TimeslotService {
         return timeslotMapper.getAltTimeslots();
     }
 
-    public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(UUID physicianId, String startDate) {
+    public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(String physicianId, String startDate) {
         List<TimeslotList> groupedTimeslotList = new ArrayList<>();
         LocalDateTime begin = DateTimeHelper.fromDateString(startDate);
         LocalDateTime end = DateTimeHelper.nextMonthFirstDay(begin);
@@ -55,7 +55,7 @@ public class TimeslotService {
         return new ResponseEntity<>(groupedTimeslotList, HttpStatus.OK);
     }
 
-    public Collection<AppointmentDTO> getPatientUpcomingAppointments(UUID id) {
+    public Collection<AppointmentDTO> getPatientUpcomingAppointments(String id) {
         return timeslotMapper.getPatientUpcomingAppointments(id);
     }
 
@@ -70,20 +70,20 @@ public class TimeslotService {
     public boolean addTimeslot(TimeslotDTO timeslotDto) {
         LocalDateTime localDateTime = DateTimeHelper.toDateTime(timeslotDto.getDate(), timeslotDto.getTime());
         Timeslot timeslot = Timeslot.builder()
-                .id(UUID.randomUUID())
+                .id(UUID.randomUUID().toString())
                 .physicianId(timeslotDto.getPhysicianId())
                 .date(localDateTime)
                 .build();
         return timeslotMapper.addTimeslot(timeslot);
     }
 
-    public Timeslot getTimeslot(UUID timeslotId) {
+    public Timeslot getTimeslot(String timeslotId) {
         return timeslotMapper.getTimeslot(timeslotId).orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
     }
 
     public ResponseEntity<Boolean> bookAppointment(TimeslotDTO timeslotDto) {
-        UUID physicianId = timeslotDto.getPhysicianId();
-        UUID patientId = timeslotDto.getPatientId();
+        String physicianId = timeslotDto.getPhysicianId();
+        String patientId = timeslotDto.getPatientId();
         int upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
                 physicianId,
                 patientId
@@ -104,13 +104,13 @@ public class TimeslotService {
         return new ResponseEntity<>(updated, status);
     }
 
-    public ResponseEntity<Boolean> deleteTimeslot(UUID timeslotId) {
+    public ResponseEntity<Boolean> deleteTimeslot(String timeslotId) {
         boolean deleted = timeslotMapper.deleteTimeslot(timeslotId);
         HttpStatus status = HttpStatus.OK;
         return new ResponseEntity<>(deleted, status);
     }
 
-    public ResponseEntity<Boolean> cancelAppointment(UUID timeslotId) {
+    public ResponseEntity<Boolean> cancelAppointment(String timeslotId) {
         boolean cancelled = timeslotMapper.cancelAppointment(timeslotId);
         return ResponseEntity.status(HttpStatus.OK).body(cancelled);
     }
