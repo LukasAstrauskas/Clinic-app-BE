@@ -12,6 +12,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class Occupation {
-    private UUID id;
+    private String id;
     private String name;
 }

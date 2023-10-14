@@ -23,7 +23,7 @@ public class OccupationService {
         return occupationMapper.getAllOccupations();
     }
 
-    public Occupation getOccupationById(UUID id) {
+    public Occupation getOccupationById(String id) {
         return occupationMapper.getOccupationById(id).orElseThrow(() -> new NoSuchElementException("No occupation with id: " + id));
     }
 }
