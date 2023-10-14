@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @AllArgsConstructor
@@ -46,14 +45,14 @@ public class UserController {
     @GetMapping("search")
     public Collection<UserDTO> userSearch(
             @RequestParam(required = false, defaultValue = "") String search,
-            @RequestParam(required = false) UUID occupationId,
+            @RequestParam(required = false) String occupationId,
             @RequestParam(required = false) String type) {
         return userService.userSearch(search, occupationId, type);
     }
 
     //    CRUD OPERATIONS
     @GetMapping("{id}")
-    public UserDTO getUserById(@PathVariable("id") UUID id) {
+    public UserDTO getUserById(@PathVariable("id") String id) {
         return userService.getUserById(id);
     }
 
@@ -63,7 +62,7 @@ public class UserController {
     }
 
     @DeleteMapping("admin/{uuid}")
-    public ResponseEntity<String> deleteUser(@PathVariable("uuid") UUID uuid) {
+    public ResponseEntity<String> deleteUser(@PathVariable("uuid") String uuid) {
         return userService.deleteUserById(uuid);
     }
 

@@ -26,7 +26,7 @@ public interface UserMapper {
                     one = @One(select = "com.sourcery.clinicapp.occupation.repository.OccupationMapper.getOccupationById"))
     })
     @Select("SELECT * FROM users WHERE users.id=#{id}")
-    Optional<UserDTO> getUserById(@Param("id") UUID id);
+    Optional<UserDTO> getUserById(@Param("id") String id);
 
     @ResultMap("userResult")
     @Select("SELECT * FROM users WHERE TYPE = #{userType} LIMIT 5 OFFSET #{offset}")
@@ -35,19 +35,19 @@ public interface UserMapper {
 
     @ResultMap("userResult")
     @SelectProvider(type = UserSqlProvider.class, method = "userSearchSQL")
-    Collection<UserDTO> userSearch(@Param("search") String search, @Param("occupationId") UUID occupationId, @Param("type") String type);
+    Collection<UserDTO> userSearch(@Param("search") String search, @Param("occupationId") String occupationId, @Param("type") String type);
 
 
     @Select(" SELECT DISTINCT users.id, users.name, users.surname, users.email, users.type FROM timeslot " +
             "LEFT JOIN users ON users.id = timeslot.patient_id WHERE timeslot.physician_id = #{physicianId}" +
             " ORDER BY surname LIMIT 7 OFFSET #{offset}")
-    List<UserDTO> getPhysicianPatients(@Param("physicianId") UUID physicianId, @Param("offset") int offset);
+    List<UserDTO> getPhysicianPatients(@Param("physicianId") String physicianId, @Param("offset") int offset);
 
     @Select("SELECT COUNT(DISTINCT patient_id ) FROM timeslot WHERE physician_id = #{physicianId}")
-    int amountOfPhysicianPatients(@Param("physicianId") UUID physicianId);
+    int amountOfPhysicianPatients(@Param("physicianId") String physicianId);
 
     @Delete("DELETE FROM users WHERE id=#{uuid}")
-    boolean deleteUserById(@Param("uuid") UUID uuid);
+    boolean deleteUserById(@Param("uuid") String uuid);
 
     @Insert("INSERT INTO users (id, name, surname, email, password, type, occupation_id) VALUES" +
             " (#{user.id}, #{user.name}, #{user.surname}, #{user.email}, #{user.password}, #{user.type}, #{user.occupationId})")
@@ -58,7 +58,7 @@ public interface UserMapper {
     void updateUser(@Param("user") User user);
 
     @Update("UPDATE users SET password=#{password} WHERE id=#{id} ")
-    void updatePassword(@Param("password") String password, @Param("id") UUID id);
+    void updatePassword(@Param("password") String password, @Param("id") String id);
 
     @Select("SELECT * FROM users WHERE email=#{email}")
     Optional<User> findByEmail(@Param("email") String email);

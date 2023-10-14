@@ -24,7 +24,7 @@ public class LoggedUserService {
         return loggedUser;
     }
 
-    public UUID getId() {
+    public String getId() {
         return loggedUserMapper.getId(getEmail());
     }
 

@@ -4,13 +4,11 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.util.UUID;
-
 public class UserSqlProvider implements ProviderMethodResolver {
 
     public static String userSearchSQL(
             @Param("search") String search,
-            @Param("occupationId") UUID occupationId,
+            @Param("occupationId") String occupationId,
             @Param("type") String type) {
         SQL sql = new SQL()
                 .SELECT("*")

@@ -17,7 +17,7 @@ import java.util.UUID;
 @Builder
 @Data
 public class LoggedUser {
-    private UUID id;
+    private String id;
     private String name;
     private String surname;
     private String initials;

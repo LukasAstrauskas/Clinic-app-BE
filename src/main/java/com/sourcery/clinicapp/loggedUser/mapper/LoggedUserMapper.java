@@ -14,20 +14,20 @@ public interface LoggedUserMapper {
 
     @ResultType(Occupation.class)
     @Select("SELECT * FROM occupations WHERE id=#{id} ")
-    Occupation getOccupation(@Param("id") UUID occupation_id);
+    Occupation getOccupation(@Param("id") String occupation_id);
 
     @Select("SELECT user_id as userId, gender, birth_date as birthDate, phone, street, city, " +
             "postal_code as postalCode, country, emergency_name as emergencyName, " +
             "emergency_last_name as emergencyLastName, emergency_phone as emergencyPhone, " +
             "emergency_relation as emergencyRelation FROM additional_patient_info " +
             "WHERE user_id=#{id}")
-    PatientInfo getPatientInfo(@Param("id") UUID id);
+    PatientInfo getPatientInfo(@Param("id") String id);
 
     @Select("SELECT timeslot.id, date, users.name, users.surname, occupations.name as occupation FROM TIMESLOT " +
             "LEFT JOIN Users ON timeslot.physician_id = users.id " +
             "LEFT JOIN Occupations ON users.occupation_id = occupations.id " +
             "WHERE patient_id = #{id} and date > CURRENT_TIMESTAMP ORDER BY date asc")
-    Collection<AppointmentDTO> getUpcomingAppointments(@Param("id") UUID patientID);
+    Collection<AppointmentDTO> getUpcomingAppointments(@Param("id") String patientID);
 
     @Results({
             @Result(property = "id", column = "id"),
@@ -46,5 +46,5 @@ public interface LoggedUserMapper {
     LoggedUser getLoggedUser(String email);
 
     @Select("SELECT id FROM users WHERE email = #{email}")
-    UUID getId(String email);
+    String getId(String email);
 }

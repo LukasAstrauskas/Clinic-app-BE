@@ -15,7 +15,7 @@ public interface PatientInfoRepository {
             "emergency_last_name as emergencyLastName, emergency_phone as emergencyPhone, " +
             "emergency_relation as emergencyRelation FROM additional_patient_info " +
             "WHERE user_id=#{id}")
-    Optional<PatientInfo> getPatientInfo(@Param("id") UUID id);
+    Optional<PatientInfo> getPatientInfo(@Param("id") String id);
 
     @Update("UPDATE additional_patient_info SET gender=#{info.gender}, birth_date=#{info.birthDate}, " +
             "phone=#{info.phone}, street=#{info.street}, city=#{info.city}, " +
@@ -23,7 +23,7 @@ public interface PatientInfoRepository {
             "emergency_name=#{info.emergencyName}, emergency_last_name=#{info.emergencyLastName}, " +
             "emergency_phone=#{info.emergencyPhone}, emergency_relation=#{info.emergencyRelation} " +
             "WHERE user_id=#{id}")
-    boolean updatePatientInfo(@Param("id") UUID id, @Param("info") PatientInfo info);
+    boolean updatePatientInfo(@Param("id") String id, @Param("info") PatientInfo info);
 
     @Insert("INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street, city, " +
             "postal_code, country, emergency_name, emergency_last_name, emergency_phone, emergency_relation) VALUES " +
