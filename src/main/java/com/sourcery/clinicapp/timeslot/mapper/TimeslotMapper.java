@@ -33,9 +33,9 @@ public interface TimeslotMapper {
     @Select("SELECT COUNT(*) FROM timeslot WHERE patient_id = #{patientId} AND physician_id = #{physicianId} AND date >= now()")
     int countUpcomingTimeslotsWithPhysician(@Param("physicianId") String physicianId, @Param("patientId") String patientId);
 
-    @Select("SELECT timeslot.id, date, users.name as name, users.surname, occupations.name as occupation FROM TIMESLOT " +
-            "LEFT JOIN Users ON timeslot.physician_id = users.id " +
-            "LEFT JOIN Occupations ON users.occupation_id = occupations.id " +
+    @Select("SELECT timeslot.id, date, users.name as name, users.surname, occupations.name as occupation FROM timeslot " +
+            "LEFT JOIN users ON timeslot.physician_id = users.id " +
+            "LEFT JOIN occupations ON users.occupation_id = occupations.id " +
             "WHERE patient_id = #{id} and date > CURRENT_TIMESTAMP ORDER BY date asc")
     Collection<AppointmentDTO> getPatientUpcomingAppointments(@Param("id") String patientID);
 

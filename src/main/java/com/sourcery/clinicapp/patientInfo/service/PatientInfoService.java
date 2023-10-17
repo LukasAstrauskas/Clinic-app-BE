@@ -31,7 +31,7 @@ public class PatientInfoService {
 
     public ResponseEntity<PatientInfo> updatePatientInfo(PatientInfo patientInfo) {
         try {
-            if (!patientInfoRepository.updatePatientInfo(loggedUserService.getId(), patientInfo)) {
+            if (!patientInfoRepository.updatePatientInfo( patientInfo)) {
                 return new ResponseEntity<>(patientInfo, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(patientInfo, HttpStatus.OK);

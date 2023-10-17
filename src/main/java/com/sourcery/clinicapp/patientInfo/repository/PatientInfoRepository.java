@@ -22,8 +22,8 @@ public interface PatientInfoRepository {
             "postal_code=#{info.postalCode}, country=#{info.country}, " +
             "emergency_name=#{info.emergencyName}, emergency_last_name=#{info.emergencyLastName}, " +
             "emergency_phone=#{info.emergencyPhone}, emergency_relation=#{info.emergencyRelation} " +
-            "WHERE user_id=#{id}")
-    boolean updatePatientInfo(@Param("id") String id, @Param("info") PatientInfo info);
+            "WHERE user_id=#{info.userId}")
+    boolean updatePatientInfo(@Param("info") PatientInfo info);
 
     @Insert("INSERT INTO additional_patient_info (user_id, gender, birth_date, phone, street, city, " +
             "postal_code, country, emergency_name, emergency_last_name, emergency_phone, emergency_relation) VALUES " +
