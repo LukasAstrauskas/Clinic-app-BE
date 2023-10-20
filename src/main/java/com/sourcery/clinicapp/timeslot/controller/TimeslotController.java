@@ -35,9 +35,9 @@ public class TimeslotController {
         return timeslotService.getMonthsTimeslots(physicianId, date);
     }
 
-    @GetMapping("patientUpcomingAppointments/{id}")
-    public Collection<AppointmentDTO> getPatientUpcomingAppointments(@PathVariable("id") String id) {
-        return timeslotService.getPatientUpcomingAppointments(id);
+    @GetMapping("patientUpcomingAppointments")
+    public Collection<AppointmentDTO> getPatientUpcomingAppointments() {
+        return timeslotService.getPatientUpcomingAppointments();
     }
 
     @GetMapping("patientPastAppointments/{offset}")

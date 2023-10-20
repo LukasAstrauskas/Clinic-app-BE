@@ -55,8 +55,8 @@ public class TimeslotService {
         return new ResponseEntity<>(groupedTimeslotList, HttpStatus.OK);
     }
 
-    public Collection<AppointmentDTO> getPatientUpcomingAppointments(String id) {
-        return timeslotMapper.getPatientUpcomingAppointments(id);
+    public Collection<AppointmentDTO> getPatientUpcomingAppointments() {
+        return timeslotMapper.getPatientUpcomingAppointments(loggedUserService.getId());
     }
 
     public Collection<AppointmentDTO> getPatientPastAppointments(int offset) {
@@ -94,9 +94,9 @@ public class TimeslotService {
 
         boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslotDto.getId(), patientId);
 
-        if (updated) {
-            emailSenderService.getEmailMessage(timeslotDto);
-        }
+//        if (updated) {
+//            emailSenderService.getEmailMessage(timeslotDto);
+//        }
 
         HttpStatus status = updated
                 ? HttpStatus.OK

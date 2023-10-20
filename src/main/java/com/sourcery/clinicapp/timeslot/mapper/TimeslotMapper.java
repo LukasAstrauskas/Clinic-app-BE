@@ -17,7 +17,7 @@ public interface TimeslotMapper {
             @Result(property = "date", column = "date"),
             @Result(property = "patientId", column = "patient_id")
     })
-    @Select("SELECT * FROM timeslot")
+    @Select("SELECT * FROM timeslot ORDER BY date ASC")
     Collection<Timeslot> getAltTimeslots();
 
     @ResultMap("timeslot")
