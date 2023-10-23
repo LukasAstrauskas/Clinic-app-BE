@@ -33,7 +33,7 @@ public class JWTService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer(user.getName())
                 .issuedAt(now)
-                .expiresAt(now.plus(600, ChronoUnit.MINUTES))
+                .expiresAt(now.plus(2, ChronoUnit.DAYS))
                 .subject(user.getEmail())
                 .id(user.getId().toString())
                 .claim("scope", scope)

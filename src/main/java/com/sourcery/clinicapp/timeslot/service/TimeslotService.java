@@ -5,6 +5,7 @@ import com.sourcery.clinicapp.notifications.EmailSenderService;
 import com.sourcery.clinicapp.timeslot.mapper.TimeslotMapper;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
+import com.sourcery.clinicapp.timeslot.model.TimeslotId;
 import com.sourcery.clinicapp.timeslot.model.dto.*;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.utils.DateTimeHelper;
@@ -110,9 +111,14 @@ public class TimeslotService {
         return new ResponseEntity<>(deleted, status);
     }
 
-    public ResponseEntity<Boolean> cancelAppointment(String timeslotId) {
-        boolean cancelled = timeslotMapper.cancelAppointment(timeslotId);
-        return ResponseEntity.status(HttpStatus.OK).body(cancelled);
+    public ResponseEntity<Collection<AppointmentDTO>> cancelAppointment(TimeslotId timeslotId) {
+//        boolean cancelled = timeslotMapper.cancelAppointment(timeslotId);
+
+        System.out.println(timeslotId.getTimeslotId());
+        Collection<AppointmentDTO> upcomingAppointments = timeslotMapper
+                .getPatientUpcomingAppointments(loggedUserService.getId());
+        ResponseEntity.ok(upcomingAppointments);
+        return ResponseEntity.ok(upcomingAppointments);
     }
 
 }

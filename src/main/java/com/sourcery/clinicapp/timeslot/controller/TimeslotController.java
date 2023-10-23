@@ -2,6 +2,7 @@ package com.sourcery.clinicapp.timeslot.controller;
 
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
+import com.sourcery.clinicapp.timeslot.model.TimeslotId;
 import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotList;
 import com.sourcery.clinicapp.timeslot.service.TimeslotService;
@@ -65,8 +66,9 @@ public class TimeslotController {
         return timeslotService.deleteTimeslot(timeslotId);
     }
 
-    @PatchMapping("/cancelAppointment")
-    public ResponseEntity<Boolean> cancelAppointment(@RequestParam String timeslotId) {
+//    patient cancel appointment
+    @PatchMapping("/patientCancelAppointment")
+    public ResponseEntity<Collection<AppointmentDTO>> patientCancelAppointment(@RequestBody TimeslotId timeslotId) {
         return timeslotService.cancelAppointment(timeslotId);
     }
 

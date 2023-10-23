@@ -54,7 +54,7 @@ public interface TimeslotMapper {
     @Update("UPDATE timeslot SET patient_id = #{patientId} WHERE id = #{timeslotId} AND patient_id IS NULL")
     boolean updateTimeslotSetPatientID(String timeslotId, String patientId);
 
-    @Update("UPDATE timeslot SET patientid = NULL WHERE id = #{id} AND date >= now()")
+    @Update("UPDATE timeslot SET patient_id = NULL WHERE id = #{id} AND date >= now()")
     boolean cancelAppointment(String id);
 
 
