@@ -17,6 +17,7 @@ import java.util.UUID;
 @Builder
 @Data
 public class LoggedUser {
+
     private String id;
     private String name;
     private String surname;
@@ -26,4 +27,5 @@ public class LoggedUser {
     private Occupation occupation;
     private PatientInfo patientInfo;
     private Collection<AppointmentDTO> upcomingAppointment;
+    private Collection<AppointmentDTO> pastAppointment;
 }

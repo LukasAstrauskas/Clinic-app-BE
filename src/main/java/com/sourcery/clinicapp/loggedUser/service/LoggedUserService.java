@@ -2,11 +2,15 @@ package com.sourcery.clinicapp.loggedUser.service;
 
 import com.sourcery.clinicapp.loggedUser.mapper.LoggedUserMapper;
 import com.sourcery.clinicapp.loggedUser.model.LoggedUser;
+import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +25,7 @@ public class LoggedUserService {
                         loggedUser.getSurname().substring(0, 1)
                 )
         );
+        loggedUser.setPastAppointment(Collections.emptyList());
         return loggedUser;
     }
 

@@ -111,6 +111,7 @@ public class TimeslotService {
         return new ResponseEntity<>(deleted, status);
     }
 
+//    TODO cancel appointment
     public ResponseEntity<Collection<AppointmentDTO>> cancelAppointment(TimeslotId timeslotId) {
 //        boolean cancelled = timeslotMapper.cancelAppointment(timeslotId);
 
