@@ -26,7 +26,7 @@ public class PatientInfoController {
         return patientInfoService.getPatientInfo(id);
     }
 
-    @PutMapping("{id}")
+    @PutMapping()
     public ResponseEntity<PatientInfo> updatePatientInfo(@RequestBody PatientInfo patientInfo) {
         return patientInfoService.updatePatientInfo(patientInfo);
     }

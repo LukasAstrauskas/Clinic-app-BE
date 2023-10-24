@@ -22,15 +22,7 @@ public class LoginController {
 
     @PostMapping("login")
     public LoginDto checkLogIn(@RequestBody Login login) {
-        LoginDto loginDto = authenticationService.authenticateUser(login);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        String email = authentication.getName();
-
-        System.out.println("Email: " + email);
-
-        return loginDto;
+        return authenticationService.authenticateUser(login);
     }
 
     @GetMapping("public")

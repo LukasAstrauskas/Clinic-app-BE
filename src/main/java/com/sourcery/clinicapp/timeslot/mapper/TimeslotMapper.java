@@ -42,7 +42,7 @@ public interface TimeslotMapper {
     @Select("SELECT timeslot.id, date, users.name, users.surname, occupations.name as occupation FROM timeslot" +
             " LEFT JOIN users ON timeslot.physician_id = users.id" +
             " LEFT JOIN occupations ON users.occupation_id = occupations.id" +
-            " WHERE patient_id = #{id} and date < CURRENT_TIMESTAMP ORDER BY date desc limit 5 offset #{offset}")
+            " WHERE patient_id = #{id} and date < CURRENT_TIMESTAMP ORDER BY date desc limit 4 offset #{offset}")
     Collection<AppointmentDTO> getPatientPastAppointments(@Param("id") String patientID, @Param("offset") int offset);
 
     @Select("SELECT COUNT(*) FROM timeslot WHERE patient_id =#{patientID} AND date < CURRENT_TIMESTAMP")

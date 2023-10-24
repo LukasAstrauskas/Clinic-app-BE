@@ -111,11 +111,9 @@ public class TimeslotService {
         return new ResponseEntity<>(deleted, status);
     }
 
-//    TODO cancel appointment
+//    TODO improve cancel appointment logic
     public ResponseEntity<Collection<AppointmentDTO>> cancelAppointment(TimeslotId timeslotId) {
-//        boolean cancelled = timeslotMapper.cancelAppointment(timeslotId);
-
-        System.out.println(timeslotId.getTimeslotId());
+        boolean cancelled = timeslotMapper.cancelAppointment(timeslotId.getTimeslotId());
         Collection<AppointmentDTO> upcomingAppointments = timeslotMapper
                 .getPatientUpcomingAppointments(loggedUserService.getId());
         ResponseEntity.ok(upcomingAppointments);
