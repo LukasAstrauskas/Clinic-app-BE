@@ -40,8 +40,8 @@ public class TimeslotService {
         return timeslotMapper.getAltTimeslots();
     }
 
-    public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(String physicianId, String startDate) {
-        List<TimeslotList> groupedTimeslotList = new ArrayList<>();
+    public ResponseEntity<List<GroupedTimeslots>> getMonthsTimeslots(String physicianId, String startDate) {
+        List<GroupedTimeslots> groupedGroupedTimeslots = new ArrayList<>();
         LocalDateTime begin = DateTimeHelper.fromDateString(startDate);
         LocalDateTime end = DateTimeHelper.nextMonthFirstDay(begin);
         Map<LocalDate, List<Timeslot>> groupByDate = timeslotMapper.getMonthsTimeslots(physicianId, begin, end)
@@ -49,11 +49,11 @@ public class TimeslotService {
                         timeslot.getDate().toLocalDate()
                 ));
         groupByDate.forEach(((localDate, timeslots) -> {
-            TimeslotList timeslotList = new TimeslotList(localDate, timeslots);
-            groupedTimeslotList.add(timeslotList);
+            GroupedTimeslots groupedTimeslots = new GroupedTimeslots(localDate, timeslots);
+            groupedGroupedTimeslots.add(groupedTimeslots);
         }));
-        groupedTimeslotList.sort(Comparator.comparing(TimeslotList::getDate));
-        return new ResponseEntity<>(groupedTimeslotList, HttpStatus.OK);
+        groupedGroupedTimeslots.sort(Comparator.comparing(GroupedTimeslots::getDate));
+        return new ResponseEntity<>(groupedGroupedTimeslots, HttpStatus.OK);
     }
 
     public Collection<AppointmentDTO> getPatientUpcomingAppointments() {

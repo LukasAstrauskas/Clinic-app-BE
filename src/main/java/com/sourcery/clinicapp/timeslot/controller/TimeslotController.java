@@ -4,7 +4,7 @@ import com.sourcery.clinicapp.timeslot.model.Timeslot;
 import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
 import com.sourcery.clinicapp.timeslot.model.TimeslotId;
 import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
-import com.sourcery.clinicapp.timeslot.model.dto.TimeslotList;
+import com.sourcery.clinicapp.timeslot.model.dto.GroupedTimeslots;
 import com.sourcery.clinicapp.timeslot.service.TimeslotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class TimeslotController {
     }
 
     @GetMapping("getMonthsTimeslots/{physicianId}")
-    public ResponseEntity<List<TimeslotList>> getMonthsTimeslots(
+    public ResponseEntity<List<GroupedTimeslots>> getMonthsTimeslots(
             @PathVariable String physicianId, @RequestParam(required = false, defaultValue = "") String date) {
         return timeslotService.getMonthsTimeslots(physicianId, date);
     }
