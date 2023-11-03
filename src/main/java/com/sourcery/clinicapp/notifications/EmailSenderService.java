@@ -1,7 +1,7 @@
 package com.sourcery.clinicapp.notifications;
 
 
-import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotDTO;
 import com.sourcery.clinicapp.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

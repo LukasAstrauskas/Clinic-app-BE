@@ -1,4 +1,4 @@
-package com.sourcery.clinicapp.timeslot.model;
+package com.sourcery.clinicapp.timeslot.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,8 +1,8 @@
 package com.sourcery.clinicapp.timeslot.controller;
 
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
-import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
-import com.sourcery.clinicapp.timeslot.model.TimeslotId;
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotDTO;
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotId;
 import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import com.sourcery.clinicapp.timeslot.model.dto.GroupedTimeslots;
 import com.sourcery.clinicapp.timeslot.service.TimeslotService;
@@ -57,8 +57,8 @@ public class TimeslotController {
     }
 
     @PatchMapping("bookAppointment")
-    public ResponseEntity<Boolean> bookAppointment(@RequestBody TimeslotDTO timeslotDTO) {
-        return timeslotService.bookAppointment(timeslotDTO);
+    public ResponseEntity<Boolean> bookAppointment(@RequestBody Timeslot timeslot) {
+        return timeslotService.bookAppointment(timeslot);
     }
 
     @DeleteMapping

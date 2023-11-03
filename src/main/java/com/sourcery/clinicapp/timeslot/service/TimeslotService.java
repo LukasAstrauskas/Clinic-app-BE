@@ -4,8 +4,8 @@ import com.sourcery.clinicapp.loggedUser.service.LoggedUserService;
 import com.sourcery.clinicapp.notifications.EmailSenderService;
 import com.sourcery.clinicapp.timeslot.mapper.TimeslotMapper;
 import com.sourcery.clinicapp.timeslot.model.Timeslot;
-import com.sourcery.clinicapp.timeslot.model.TimeslotDTO;
-import com.sourcery.clinicapp.timeslot.model.TimeslotId;
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotDTO;
+import com.sourcery.clinicapp.timeslot.model.dto.TimeslotId;
 import com.sourcery.clinicapp.timeslot.model.dto.*;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.utils.DateTimeHelper;
@@ -82,9 +82,9 @@ public class TimeslotService {
         return timeslotMapper.getTimeslot(timeslotId).orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
     }
 
-    public ResponseEntity<Boolean> bookAppointment(TimeslotDTO timeslotDto) {
-        String physicianId = timeslotDto.getPhysicianId();
-        String patientId = timeslotDto.getPatientId();
+    public ResponseEntity<Boolean> bookAppointment(Timeslot timeslot) {
+        String physicianId = timeslot.getPhysicianId();
+        String patientId = timeslot.getPatientId();
         int upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
                 physicianId,
                 patientId
@@ -93,7 +93,7 @@ public class TimeslotService {
             return ResponseEntity.badRequest().body(null);
         }
 
-        boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslotDto.getId(), patientId);
+        boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslot.getId(), patientId);
 
 //        if (updated) {
 //            emailSenderService.getEmailMessage(timeslotDto);
