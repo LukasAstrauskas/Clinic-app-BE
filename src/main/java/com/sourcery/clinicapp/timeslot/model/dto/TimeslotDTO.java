@@ -18,7 +18,5 @@ public class TimeslotDTO {
 
     private String date;
 
-    private String time;
-
     private String patientId;
 }

@@ -23,7 +23,7 @@ public class EmailSenderService {
     String emailSubject = "Appointment confirmation " + LocalDate.now();
     String physicianName = userService.getUserById(timeslotFullDto.getPhysicianId()).getName();
     String patientName =  userService.getUserById(timeslotFullDto.getPatientId()).getName();
-    String appointmentDate = timeslotFullDto.getDate() + ", " + timeslotFullDto.getTime();
+    String appointmentDate = timeslotFullDto.getDate();
     String emailMessage = "Hello, " + patientName + ",\n" +
             "\nYour appointment successfully confirmed!\n" +
             "\nPhysician name: " +physicianName + ";" +

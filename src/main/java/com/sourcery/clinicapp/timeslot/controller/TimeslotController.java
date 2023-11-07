@@ -66,9 +66,9 @@ public class TimeslotController {
         return timeslotService.deleteTimeslot(timeslotId);
     }
 
-//    patient cancel appointment
-    @PatchMapping("/patientCancelAppointment")
-    public ResponseEntity<Collection<AppointmentDTO>> patientCancelAppointment(@RequestBody TimeslotId timeslotId) {
+    //    patient cancel appointment
+    @PatchMapping("/cancelAppointment")
+    public ResponseEntity<String> patientCancelAppointment(@RequestBody TimeslotId timeslotId) {
         return timeslotService.cancelAppointment(timeslotId);
     }
 

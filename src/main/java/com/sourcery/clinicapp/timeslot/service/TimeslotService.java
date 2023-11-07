@@ -69,11 +69,11 @@ public class TimeslotService {
     }
 
     public boolean addTimeslot(TimeslotDTO timeslotDto) {
-        LocalDateTime localDateTime = DateTimeHelper.toDateTime(timeslotDto.getDate(), timeslotDto.getTime());
+        System.out.println(timeslotDto.getDate());
         Timeslot timeslot = Timeslot.builder()
                 .id(UUID.randomUUID().toString())
                 .physicianId(timeslotDto.getPhysicianId())
-                .date(localDateTime)
+                .date(LocalDateTime.parse(timeslotDto.getDate()))
                 .build();
         return timeslotMapper.addTimeslot(timeslot);
     }
@@ -85,23 +85,15 @@ public class TimeslotService {
     public Collection<AppointmentDTO> bookAppointment(Timeslot timeslot) {
         String physicianId = timeslot.getPhysicianId();
         String patientId = timeslot.getPatientId();
-        int upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(
-                physicianId,
-                patientId
-        );
+        int upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(physicianId, patientId);
         if (upcomingTimeslotsCount > 0) {
-            return Collections.EMPTY_LIST;
+            return timeslotMapper.getPatientUpcomingAppointments(patientId);
         }
-
-        boolean updated = timeslotMapper.updateTimeslotSetPatientID(timeslot.getId(), patientId);
-
+        timeslotMapper.updateTimeslotSetPatientID(timeslot.getId(), patientId);
 //        if (updated) {
 //            emailSenderService.getEmailMessage(timeslotDto);
 //        }
-        if(updated){
-           return timeslotMapper.getPatientUpcomingAppointments(patientId);
-        }
-        return Collections.EMPTY_LIST;
+        return timeslotMapper.getPatientUpcomingAppointments(patientId);
     }
 
     public ResponseEntity<Boolean> deleteTimeslot(String timeslotId) {
@@ -110,13 +102,15 @@ public class TimeslotService {
         return new ResponseEntity<>(deleted, status);
     }
 
-//    TODO improve cancel appointment logic
-    public ResponseEntity<Collection<AppointmentDTO>> cancelAppointment(TimeslotId timeslotId) {
-        boolean cancelled = timeslotMapper.cancelAppointment(timeslotId.getTimeslotId());
-        Collection<AppointmentDTO> upcomingAppointments = timeslotMapper
-                .getPatientUpcomingAppointments(loggedUserService.getId());
-        ResponseEntity.ok(upcomingAppointments);
-        return ResponseEntity.ok(upcomingAppointments);
+    //    TODO improve cancel appointment logic
+    public ResponseEntity<String> cancelAppointment(TimeslotId timeslotId) {
+        String id = timeslotId.getTimeslotId();
+        boolean cancelled = timeslotMapper.cancelAppointment(id);
+        if (cancelled) {
+            return ResponseEntity.ok(id);
+        } else {
+            return ResponseEntity.ok("");
+        }
     }
 
 }
