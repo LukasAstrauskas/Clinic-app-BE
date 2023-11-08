@@ -57,7 +57,7 @@ public class TimeslotController {
     }
 
     @PatchMapping("bookAppointment")
-    public Collection<AppointmentDTO> bookAppointment(@RequestBody Timeslot timeslot) {
+    public ResponseEntity<Collection<AppointmentDTO>> bookAppointment(@RequestBody Timeslot timeslot) {
         return timeslotService.bookAppointment(timeslot);
     }
 

@@ -82,18 +82,18 @@ public class TimeslotService {
         return timeslotMapper.getTimeslot(timeslotId).orElseThrow(() -> new NoSuchElementException("Timeslot was not found."));
     }
 
-    public Collection<AppointmentDTO> bookAppointment(Timeslot timeslot) {
+    public ResponseEntity<Collection<AppointmentDTO>> bookAppointment(Timeslot timeslot) {
         String physicianId = timeslot.getPhysicianId();
         String patientId = timeslot.getPatientId();
         int upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(physicianId, patientId);
         if (upcomingTimeslotsCount > 0) {
-            return timeslotMapper.getPatientUpcomingAppointments(patientId);
+            return ResponseEntity.badRequest().body( timeslotMapper.getPatientUpcomingAppointments(patientId));
         }
         timeslotMapper.updateTimeslotSetPatientID(timeslot.getId(), patientId);
 //        if (updated) {
 //            emailSenderService.getEmailMessage(timeslotDto);
 //        }
-        return timeslotMapper.getPatientUpcomingAppointments(patientId);
+        return ResponseEntity.ok( timeslotMapper.getPatientUpcomingAppointments(patientId));
     }
 
     public ResponseEntity<Boolean> deleteTimeslot(String timeslotId) {
