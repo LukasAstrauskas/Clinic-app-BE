@@ -8,6 +8,7 @@ import com.sourcery.clinicapp.timeslot.model.dto.TimeslotDTO;
 import com.sourcery.clinicapp.timeslot.model.dto.TimeslotId;
 import com.sourcery.clinicapp.timeslot.model.dto.*;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
+import com.sourcery.clinicapp.user.model.Type;
 import com.sourcery.clinicapp.utils.DateTimeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -86,14 +87,14 @@ public class TimeslotService {
         String physicianId = timeslot.getPhysicianId();
         String patientId = timeslot.getPatientId();
         int upcomingTimeslotsCount = timeslotMapper.countUpcomingTimeslotsWithPhysician(physicianId, patientId);
-        if (upcomingTimeslotsCount > 0) {
-            return ResponseEntity.badRequest().body( timeslotMapper.getPatientUpcomingAppointments(patientId));
+        if (loggedUserService.getType().equals(Type.PATIENT.type()) && upcomingTimeslotsCount > 0) {
+            return ResponseEntity.badRequest().body(timeslotMapper.getPatientUpcomingAppointments(patientId));
         }
         timeslotMapper.updateTimeslotSetPatientID(timeslot.getId(), patientId);
 //        if (updated) {
 //            emailSenderService.getEmailMessage(timeslotDto);
 //        }
-        return ResponseEntity.ok( timeslotMapper.getPatientUpcomingAppointments(patientId));
+        return ResponseEntity.ok(timeslotMapper.getPatientUpcomingAppointments(patientId));
     }
 
     public ResponseEntity<Boolean> deleteTimeslot(String timeslotId) {

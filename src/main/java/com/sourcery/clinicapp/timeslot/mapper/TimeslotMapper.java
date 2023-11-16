@@ -36,16 +36,16 @@ public interface TimeslotMapper {
     @Select("SELECT timeslot.id, date, users.name as name, users.surname, occupations.name as occupation FROM timeslot " +
             "LEFT JOIN users ON timeslot.physician_id = users.id " +
             "LEFT JOIN occupations ON users.occupation_id = occupations.id " +
-            "WHERE patient_id = #{id} and date > CURRENT_TIMESTAMP ORDER BY date asc")
+            "WHERE patient_id = #{id} and date > ADDTIME(CURRENT_TIMESTAMP(), \"0:54:0\") ORDER BY date asc")
     Collection<AppointmentDTO> getPatientUpcomingAppointments(@Param("id") String patientID);
 
     @Select("SELECT timeslot.id, date, users.name, users.surname, occupations.name as occupation FROM timeslot" +
             " LEFT JOIN users ON timeslot.physician_id = users.id" +
             " LEFT JOIN occupations ON users.occupation_id = occupations.id" +
-            " WHERE patient_id = #{id} and date < CURRENT_TIMESTAMP ORDER BY date desc limit 4 offset #{offset}")
+            " WHERE patient_id = #{id} and date < ADDTIME(CURRENT_TIMESTAMP(), \"0:54:0\") ORDER BY date desc limit 4 offset #{offset}")
     Collection<AppointmentDTO> getPatientPastAppointments(@Param("id") String patientID, @Param("offset") int offset);
 
-    @Select("SELECT COUNT(*) FROM timeslot WHERE patient_id =#{patientID} AND date < CURRENT_TIMESTAMP")
+    @Select("SELECT COUNT(*) FROM timeslot WHERE patient_id =#{patientID} AND date < ADDTIME(CURRENT_TIMESTAMP(), \"0:54:0\")")
     int getPastAppointmentAmount(@Param("patientID") String patientID);
 
     @Insert("INSERT INTO timeslot (id, physician_id, date) VALUES(#{id}, #{physicianId}, #{date})")

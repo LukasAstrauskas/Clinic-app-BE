@@ -47,4 +47,7 @@ public interface LoggedUserMapper {
 
     @Select("SELECT id FROM users WHERE email = #{email}")
     String getId(String email);
+
+    @Select("SELECT type FROM users WHERE email = #{email}")
+    String getType(String email);
 }

@@ -5,13 +5,11 @@ import com.sourcery.clinicapp.loggedUser.model.LoggedUser;
 import com.sourcery.clinicapp.timeslot.model.dto.AppointmentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class LoggedUserService {
@@ -36,6 +34,10 @@ public class LoggedUserService {
     public String getEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName();
+    }
+
+    public String getType() {
+        return loggedUserMapper.getType(getEmail());
     }
 
 }
