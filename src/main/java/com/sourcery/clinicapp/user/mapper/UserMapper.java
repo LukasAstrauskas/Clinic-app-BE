@@ -29,7 +29,7 @@ public interface UserMapper {
     Optional<UserDTO> getUserById(@Param("id") String id);
 
     @ResultMap("userResult")
-    @Select("SELECT * FROM users WHERE TYPE = #{userType} LIMIT 5 OFFSET #{offset}")
+    @Select("SELECT * FROM users WHERE TYPE = #{userType} ORDER BY surname LIMIT 5 OFFSET #{offset}")
     Collection<UserDTO> getUsers(int offset, String userType);
 
 
