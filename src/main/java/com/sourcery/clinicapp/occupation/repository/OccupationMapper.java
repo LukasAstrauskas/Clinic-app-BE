@@ -9,7 +9,7 @@ import java.util.Optional;
 @Mapper
 public interface OccupationMapper {
 
-    @Select("SELECT * FROM occupations")
+    @Select("SELECT * FROM occupations ORDER BY name asc")
     Collection<Occupation> getAllOccupations();
 
     @Select("SELECT * FROM occupations WHERE id=#{id} ")

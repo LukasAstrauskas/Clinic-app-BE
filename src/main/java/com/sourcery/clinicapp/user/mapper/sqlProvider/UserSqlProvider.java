@@ -25,6 +25,30 @@ public class UserSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
+    public static String getUsersSQL(
+            @Param("search") String search,
+            @Param("occupationId") String occupationId,
+            @Param("offset") int offset,
+            @Param("userType") String userType) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("users")
+                .ORDER_BY("surname ASC")
+                .LIMIT(5)
+                .OFFSET(offset);
+        if (search.length() > 0) {
+            sql.AND().WHERE("LOWER(surname) LIKE CONCAT(#{search}, '%') OR LOWER(name) LIKE CONCAT(#{search}, '%')");
+        }
+        if (occupationId != null) {
+            sql.AND().WHERE(" occupation_id=#{occupationId} ");
+        }
+        if (userType != null) {
+            sql.AND().WHERE("type=#{userType}");
+        }
+        System.out.println(sql.toString());
+        return sql.toString();
+    }
+
     public static String userCountSQL() {
         return "<script>SELECT COUNT(*) FROM users <if test='type!=null'> WHERE type=#{type}</if></script>";
     }

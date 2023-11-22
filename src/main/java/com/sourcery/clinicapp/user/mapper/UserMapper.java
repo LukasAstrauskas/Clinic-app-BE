@@ -29,8 +29,9 @@ public interface UserMapper {
     Optional<UserDTO> getUserById(@Param("id") String id);
 
     @ResultMap("userResult")
-    @Select("SELECT * FROM users WHERE TYPE = #{userType} LIMIT 5 OFFSET #{offset}")
-    Collection<UserDTO> getUsers(int offset, String userType);
+//    @Select("SELECT * FROM users WHERE TYPE = #{userType} ORDER BY surname asc LIMIT 5 OFFSET #{offset}")
+    @SelectProvider(type = UserSqlProvider.class, method = "getUsersSQL")
+    Collection<UserDTO> getUsers(String search, String occupationId, int offset, String userType);
 
 
     @ResultMap("userResult")

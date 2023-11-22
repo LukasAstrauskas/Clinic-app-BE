@@ -26,8 +26,12 @@ public class UserController {
     }
 
     @GetMapping
-    public Collection<UserDTO> getUsers(@RequestParam(required = false, defaultValue = "0") int offset, @RequestParam String userType) {
-        return userService.getUsers(offset, userType);
+    public Collection<UserDTO> getUsers(
+            @RequestParam(required = false, defaultValue = "") String search,
+            @RequestParam(required = false) String occupationId,
+            @RequestParam(required = false, defaultValue = "0") int offset,
+            @RequestParam(required = false) String userType) {
+        return userService.getUsers(search, occupationId, offset, userType);
     }
 
     //    only for physician

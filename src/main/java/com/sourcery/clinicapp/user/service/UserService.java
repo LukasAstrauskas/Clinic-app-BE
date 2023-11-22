@@ -37,8 +37,8 @@ public class UserService {
         return userMapper.getUserCount(userType);
     }
 
-    public Collection<UserDTO> getUsers(int offset, String userType) {
-        return userMapper.getUsers(offset, userType);
+    public Collection<UserDTO> getUsers(String search, String occupationId, int offset, String userType) {
+        return userMapper.getUsers(search, occupationId, offset, userType);
     }
 
     public int amountOfPhysicianPatients() {
