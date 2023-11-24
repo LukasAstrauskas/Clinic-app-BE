@@ -5,16 +5,17 @@ import com.sourcery.clinicapp.user.model.User;
 import com.sourcery.clinicapp.user.model.UserDTO;
 import org.apache.ibatis.annotations.*;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Mapper
 public interface UserMapper {
 
     @SelectProvider(type = UserSqlProvider.class, method = "userCountSQL")
     int getUserCount(@Param("type") String type);
+
+    @ResultMap("userResult")
+    @Select("SELECT * FROM users ORDER BY surname")
+    HashSet<UserDTO> getAllUsers();
 
     @Results(id = "userResult", value = {
             @Result(property = "id", column = "id", id = true),

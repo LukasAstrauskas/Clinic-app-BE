@@ -1,10 +1,12 @@
 package com.sourcery.clinicapp.generateData;
 
+import com.sourcery.clinicapp.occupation.model.Occupation;
+import com.sourcery.clinicapp.occupation.repository.OccupationMapper;
 import com.sourcery.clinicapp.user.mapper.UserMapper;
 import com.sourcery.clinicapp.user.model.Type;
 import com.sourcery.clinicapp.user.model.User;
+import com.sourcery.clinicapp.user.model.UserDTO;
 import net.datafaker.Faker;
-import net.datafaker.providers.base.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +19,29 @@ public class DataService {
     @Autowired
     private UserMapper userMapper;
 
-    public int generateData(int count) {
-        if (count > 450) {
-            return count;
+    @Autowired
+    private OccupationMapper occupationMapper;
+
+    private String name;
+    private String surname;
+    private String email;
+    private String type = Type.PHYSICIAN.type();
+    private String funnyName;
+
+    private int addedUsers = 0;
+
+
+    public int generateData(int addCount) {
+        if (addCount > 450) {
+            return addCount;
         }
+//        Occupation[] allOccupations = (Occupation[]) occupationMapper.getAllOccupations().toArray();
+        ArrayList<Occupation> allOccupations = new ArrayList<>(occupationMapper.getAllOccupations());
+        int size = allOccupations.size();
+        Random random = new Random();
 
-        String name;
-        String surname;
-        String email;
-        String type = Type.PATIENT.type();
-        String funnyName;
 
-        int userCount = userMapper.getUserCount(type);
-        for (int i = 0; i < count; i++) {
+        do {
             funnyName = faker.funnyName().name();
             String[] arr = funnyName.split(" ");
             if (arr.length > 2) {
@@ -40,26 +52,63 @@ public class DataService {
                 surname = arr[1];
             }
             email = surname.concat("@gmail.com");
-
             try {
+                int rndInt = random.nextInt(size);
                 Optional<User> byEmail = userMapper.findByEmail(email);
-                byEmail.orElseThrow();
-//                boolean b = userMapper.insertUser(newUser);
-//                System.out.println("Inserted: "+ b);
+//                byEmail.orElseThrow();
+                byEmail.ifPresentOrElse(System.out::println, () -> {
+                    User newUser = User.builder()
+                            .id(UUID.randomUUID().toString())
+                            .name(name)
+                            .surname(surname)
+                            .email(email)
+                            .password(surname)
+                            .type(type)
+                            .occupationId(allOccupations.get(rndInt).getId())
+                            .build();
+                    boolean b = userMapper.insertUser(newUser);
+                    if (b) {
+                        addedUsers++;
+                        System.out.println(newUser);
+                    }
+                });
             } catch (NoSuchElementException ignored) {
-                User newUser = User.builder()
-                        .id(UUID.randomUUID().toString())
-                        .name(name)
-                        .surname(surname)
-                        .email(email)
-                        .password(surname)
-                        .type(type)
-                        .build();
-                userMapper.insertUser(newUser);
             }
-        }
-        userCount = userMapper.getUserCount(type);
-        return userCount;
+        } while (addCount != addedUsers);
+//        for (int i = 0; i < addCount; i++) {
+//            funnyName = faker.funnyName().name();
+//            String[] arr = funnyName.split(" ");
+//            if (arr.length > 2) {
+//                surname = arr[2];
+//                name = arr[0].concat(" ").concat(arr[1]);
+//            } else {
+//                name = arr[0];
+//                surname = arr[1];
+//            }
+//            email = surname.concat("@gmail.com");
+//            try {
+//                Optional<User> byEmail = userMapper.findByEmail(email);
+//                byEmail.orElseThrow();
+//                byEmail.ifPresentOrElse(System.out::println, () -> {
+//
+//                    User newUser = User.builder()
+//                            .id(UUID.randomUUID().toString())
+//                            .name(name)
+//                            .surname(surname)
+//                            .email(email)
+//                            .password(surname)
+//                            .type(type)
+//                            .build();
+//                    boolean b = userMapper.insertUser(newUser);
+//                    if (b) {
+//                        userCount++;
+//                    }
+//                });
+//            } catch (NoSuchElementException ignored) {
+//            }
+//        }
+        addedUsers = 0;
+        return userMapper.getUserCount(type);
     }
 }
 
