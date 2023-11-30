@@ -45,7 +45,7 @@ public class UserSqlProvider implements ProviderMethodResolver {
         if (userType != null) {
             sql.AND().WHERE("type=#{userType}");
         }
-        System.out.println(sql.toString());
+        System.out.println(UserSqlProvider.class + " " + sql.toString());
         return sql.toString();
     }
 
