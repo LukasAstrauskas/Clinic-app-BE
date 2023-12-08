@@ -98,8 +98,9 @@ public class UserService {
                 .type(newUser.getType())
                 .occupationId(newUser.getOccupationId())
                 .build();
+
         boolean saved = userMapper.insertUser(userToSave);
-        if (userToSave.getType().equals(Type.PATIENT.type())){
+        if (userToSave.getType().equals(Type.PATIENT.type())) {
             PatientInfo patientInfo = PatientInfo.builder()
                     .userId(userId)
                     .country("Lituanica")
