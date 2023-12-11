@@ -50,6 +50,12 @@ public interface UserMapper {
     @Delete("DELETE FROM users WHERE id=#{uuid}")
     boolean deleteUserById(@Param("uuid") String uuid);
 
+    @Delete("DELETE FROM users WHERE type='patient'")
+    boolean deletePatients();
+
+    @Delete("DELETE FROM users WHERE type='physician'")
+    boolean deletePhysicians();
+
     @Insert("INSERT INTO users (id, name, surname, email, password, type, occupation_id) VALUES" +
             " (#{user.id}, #{user.name}, #{user.surname}, #{user.email}, #{user.password}, #{user.type}, #{user.occupationId})")
     boolean insertUser(@Param("user") User user);
@@ -63,4 +69,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM users WHERE email=#{email}")
     Optional<User> findByEmail(@Param("email") String email);
+
+    @Select("SELECT EXISTS (SELECT * FROM users WHERE email=#{email})")
+    boolean existsByEmail(@Param("email") String email);
 }

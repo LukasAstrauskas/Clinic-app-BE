@@ -25,6 +25,11 @@ public class UserSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
+//    public static String testSQL() {
+//        SQL sql = new SQL().
+//        return sql.toString();
+//    }
+
     public static String userCountSQL() {
         return "<script>SELECT COUNT(*) FROM users <if test='type!=null'> WHERE type=#{type}</if></script>";
     }
